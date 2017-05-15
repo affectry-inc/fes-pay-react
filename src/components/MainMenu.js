@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Drawer, MenuItem } from 'material-ui'
+import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 
 import classnames from 'classnames';
 
@@ -18,36 +20,35 @@ class MainMenu extends Component {
       <Drawer
         docked={false}
         open={mainMenuOpen}
-        onRequestChange={closeMainMenu}>
+        onRequestChange={closeMainMenu}
+      >
         <MenuItem
-          onTouchTap={closeMainMenu}>
-          購入履歴
-        </MenuItem>
+          primaryText='購入履歴'
+          onTouchTap={closeMainMenu} />
         <MenuItem
-          onTouchTap={closeMainMenu}>
-          登録情報
-        </MenuItem>
+          primaryText='登録情報'
+          onTouchTap={closeMainMenu} />
         <MenuItem
-          onTouchTap={this.toggleAboutSub}>
-          FesPayについて
-        </MenuItem>
+          primaryText='FesPayについて'
+          rightIcon={this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
+          onTouchTap={this.toggleAboutSub} />
         <div className={classnames('about-sub', {'expanded': this.state.aboutSubOpen})}>
           <MenuItem
-            onTouchTap={closeMainMenu}>
-            FesPayの使い方
-          </MenuItem>
+            primaryText='FesPayの使い方'
+            insetChildren={true}
+            onTouchTap={closeMainMenu} />
           <MenuItem
-            onTouchTap={closeMainMenu}>
-            利用規約
-          </MenuItem>
+            primaryText='利用規約'
+            insetChildren={true}
+            onTouchTap={closeMainMenu} />
           <MenuItem
-            onTouchTap={closeMainMenu}>
-            プライバシーポリシー
-          </MenuItem>
+            primaryText='プライバシーポリシー'
+            insetChildren={true}
+            onTouchTap={closeMainMenu} />
           <MenuItem
-            onTouchTap={closeMainMenu}>
-            運営会社
-          </MenuItem>
+            primaryText='運営会社'
+            insetChildren={true}
+            onTouchTap={closeMainMenu} />
         </div>
       </Drawer>
     )

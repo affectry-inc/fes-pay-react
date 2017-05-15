@@ -41,7 +41,6 @@ body {
 
 .about-sub {
   display: none;
-  margin-left: 8%;
 }
 
 .about-sub.expanded {
