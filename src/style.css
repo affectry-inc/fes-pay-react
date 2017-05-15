@@ -1,0 +1,60 @@
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0px;
+}
+
+/*
+ * ./components/App.js
+ */
+
+.app-content {
+  transition: padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100vw;
+}
+
+.app-content.expanded {
+  padding-left: 255px;
+}
+
+/*
+ * ./components/Header.js
+ */
+
+.app-bar {
+  transition: left 218ms cubic-bezier(0.4, 0, 0.2, 1);
+  left: 0;
+  width: 100vw;
+}
+
+.app-bar.expanded {
+  left: 255px;
+}
+
+/*
+ * ./components/MainMenu.js
+ */
+
+.about-sub {
+  display: none;
+  margin-left: 8%;
+}
+
+.about-sub.expanded {
+  display: block;
+}
+
+/*
+ * ./components/AddTodo.js
+ */
+
+/*
+.add-todo button {
+  margin: 10px;
+  height: 50px;
+}
+*/
