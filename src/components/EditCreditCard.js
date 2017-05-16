@@ -4,12 +4,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const styles = {
-  button: {
-    margin: 12
-  }
-};
-
 class EditCreditCard extends Component {
 
   constructor(props) {
@@ -26,7 +20,7 @@ class EditCreditCard extends Component {
 
   submitCreditCard = (e) => {
     e.preventDefault()
-    if (!this.state.cardNo || this.state.cardNoErrorText || !this.state.month|| !this.state.year || !this.state.securityCode) {
+    if (!this.state.cardNo || this.state.cardNoErrorText || !this.state.month || !this.state.year || !this.state.securityCode) {
       return
     }
     alert('Credit saved');
@@ -118,9 +112,9 @@ class EditCreditCard extends Component {
           <br/>
           <RaisedButton label='次へ'
             type='submit'
-            disabled={!this.state.cardNo || this.state.cardNoErrorText || !this.state.month|| !this.state.year || !this.state.securityCode}
-            style={styles.button}
-            primary={true}>
+            disabled={!this.state.cardNo || this.state.cardNoErrorText || !this.state.month || !this.state.year || !this.state.securityCode}
+            primary={true}
+          >
           </RaisedButton>
         </form>
       </div>
