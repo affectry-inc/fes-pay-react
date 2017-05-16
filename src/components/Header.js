@@ -3,8 +3,14 @@ import { AppBar, Drawer, MenuItem } from 'material-ui'
 
 import classnames from 'classnames';
 
-class Header extends Component {
+const styles = {
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold'
+  }
+};
 
+class Header extends Component {
 
   render() {
     const { mainMenuOpen, toggleMainMenu } = this.props;
@@ -13,6 +19,7 @@ class Header extends Component {
         <AppBar
           className={classnames('app-bar', {'expanded': mainMenuOpen})}
           title="FesPay"
+          titleStyle={styles.title}
           onLeftIconButtonTouchTap={toggleMainMenu}
         />
       </header>

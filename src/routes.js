@@ -12,7 +12,7 @@ const routes = (
       <Route exact path="/" component={Home} />
       <Route path="/home" component={Home} />
       <Route path="/todos" component={Todos} />
-      <Route path="/card-register" component={CardRegister} />
+      <Route path="/yeah/:bandId" component={CardRegister} />
       <Route path="*" component={NotFound} />
     </Switch>
   </App>
