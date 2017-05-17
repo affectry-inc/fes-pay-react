@@ -18,17 +18,22 @@ class EditFacePhoto extends Component {
 
   submitFacePhoto = (e) => {
     e.preventDefault()
-    if (!this.state.cardNo || !this.state.year || !this.state.securityCode) {
+
+    const { photoUrl } = this.state
+
+    if (!photoUrl) {
       return
     }
-    alert('Photo saved');
+
+    this.props.onTouchGoNext(photoUrl)
+
     this.setState({
       photoUrl: '',
     })
   }
 
   goBack = (e) => {
-    alert('Go Back');
+    this.props.onTouchGoPrev()
   }
 
   changePhoto = (e) => {
@@ -38,6 +43,8 @@ class EditFacePhoto extends Component {
   }
 
   render() {
+    const { photoUrl } = this.state
+
     return (
       <div className='edit-face-photo'>
         <form
@@ -45,7 +52,7 @@ class EditFacePhoto extends Component {
           onSubmit={this.submitFacePhoto}
         >
           <a href="Javascript:document.getElementById('itsme').click();">
-            <img src={this.state.photoUrl ? this.state.photoUrl : defaultPhoto} />
+            <img src={photoUrl ? photoUrl : defaultPhoto} />
           </a>
           <input id="itsme" type="file" accept="image/*" onChange={this.changePhoto} style={{display: 'none'}} />
           <br/>
@@ -60,6 +67,11 @@ class EditFacePhoto extends Component {
       </div>
     )
   }
+}
+
+EditFacePhoto.propTypes = {
+  onTouchGoNext: PropTypes.func.isRequired,
+  onTouchGoPrev: PropTypes.func.isRequired,
 }
 
 export default EditFacePhoto;

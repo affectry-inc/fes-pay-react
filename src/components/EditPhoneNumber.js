@@ -16,10 +16,15 @@ class EditPhoneNumber extends Component {
 
   submitPhoneNumber = (e) => {
     e.preventDefault()
-    if (!this.state.phoneNumber || this.state.phoneNumberErrorText) {
+
+    const { phoneNumber, phoneNumberErrorText } = this.state
+
+    if (!phoneNumber || phoneNumber < 12|| phoneNumberErrorText) {
       return
     }
+
     alert('Phone saved');
+
     this.setState({
       phoneNumber: '',
       phoneNumberErrorText: '',
@@ -27,12 +32,12 @@ class EditPhoneNumber extends Component {
   }
 
   goBack = (e) => {
-    alert('Go Back');
+    this.props.onTouchGoPrev()
   }
 
   changePhoneNumber = (event, value) => {
     let errorText = '';
-    if (!/^[\d\-]*$/.test(value)){errorText='不正な文字が含まれています'}
+    if (!/^\d*$/.test(value)){errorText='不正な文字が含まれています'}
     this.setState({
       phoneNumber: value,
       phoneNumberErrorText: errorText,
@@ -40,24 +45,27 @@ class EditPhoneNumber extends Component {
   }
 
   render() {
+    const { phoneNumber, phoneNumberErrorText } = this.state
+
     return (
-      <div className='edit-credit-card'>
+      <div className='edit-phone-number'>
         <form onSubmit={this.submitPhoneNumber}>
           <TextField
             hintText='電話番号'
-            errorText={this.state.phoneNumberErrorText}
-            value={this.state.phoneNumber}
+            errorText={phoneNumberErrorText}
+            value={phoneNumber}
             onChange={this.changePhoneNumber}
           />
           <br/>
           <RaisedButton label='登録'
             type='submit'
-            disabled={!this.state.phoneNumber || this.state.phoneNumberErrorText}
+            disabled={!phoneNumber || phoneNumber < 12 || phoneNumberErrorText}
             primary={true}
           >
           </RaisedButton>
           <FlatButton label="戻る" onTouchTap={this.goBack}/>
         </form>
+        <p>登録をもって、本サービス利用規約及びプライバシーポリシーに同意されたものとみなします。</p>
       </div>
     )
   }

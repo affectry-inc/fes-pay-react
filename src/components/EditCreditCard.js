@@ -15,49 +15,69 @@ class EditCreditCard extends Component {
       month: '',
       year: '',
       securityCode: '',
+      valid: false
     }
   }
 
+  // TODO: Validate関数にする
+
   submitCreditCard = (e) => {
     e.preventDefault()
-    if (!this.state.cardNo || this.state.cardNoErrorText || !this.state.month || !this.state.year || !this.state.securityCode) {
+
+    const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
+
+    if (!cardNo || cardNo.length < 14 || cardNoErrorText || !month || !year || !securityCode) {
       return
     }
-    alert('Credit saved');
+
+    this.props.onTouchGoNext(cardNo.slice(-4))
+
     this.setState({
       cardNo: '',
       cardNoErrorText: '',
       month: '',
       year: '',
       securityCode: '',
+      valid: false
     })
   }
 
   changeCardNo = (event, value) => {
     let errorText = '';
-    if (!/^[\d\-]*$/.test(value)){errorText='不正な文字が含まれています'}
+
+    if (!/^\d*$/.test(value)){errorText='不正な文字が含まれています'}
+
     this.setState({
       cardNo: value,
       cardNoErrorText: errorText,
+      valid: this.isValid(),
     })
   }
 
   changeMonth = (event, index, value) => {
     this.setState({
       month: value,
+      valid: this.isValid(),
     })
   }
 
   changeYear = (event, index, value) => {
     this.setState({
       year: value,
+      valid: this.isValid(),
     })
   }
 
   changeSecurityCode = (event, value) => {
     this.setState({
       securityCode: value,
+      valid: this.isValid(),
     })
+  }
+
+  isValid = () => {
+    const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
+    return (cardNo && cardNo.length >= 14 && !cardNoErrorText && month && year && securityCode)
   }
 
   render() {
@@ -66,20 +86,22 @@ class EditCreditCard extends Component {
 
     for (let i = 1; i <= 12; i++){
       let month = ('0' + i).slice(-2);
-      months.push(<MenuItem value={month} primaryText={month} />);
+      months.push(<MenuItem key={i} value={month} primaryText={month} />);
     }
 
     for (let i = 2017; i <= 2027; i++){
-      years.push(<MenuItem value={i} primaryText={i} />);
+      years.push(<MenuItem key={i} value={i} primaryText={i} />);
     }
+
+    const { cardNo, cardNoErrorText, month, year, securityCode, valid } = this.state
 
     return (
       <div className='edit-credit-card'>
         <form onSubmit={this.submitCreditCard}>
           <TextField
             hintText='カード番号'
-            errorText={this.state.cardNoErrorText}
-            value={this.state.cardNo}
+            errorText={cardNoErrorText}
+            value={cardNo}
             onChange={this.changeCardNo}
           />
           <br/>
@@ -87,7 +109,7 @@ class EditCreditCard extends Component {
             floatingLabelText='有効期限'
             floatingLabelFixed={true}
             hintText='月'
-            value={this.state.month}
+            value={month}
             onChange={this.changeMonth}
             style={{width: '120px'}}
           >
@@ -97,7 +119,7 @@ class EditCreditCard extends Component {
             floatingLabelText=' '
             floatingLabelFixed={true}
             hintText='年'
-            value={this.state.year}
+            value={year}
             onChange={this.changeYear}
             style={{width: '120px', marginLeft: '16px'}}
           >
@@ -106,13 +128,13 @@ class EditCreditCard extends Component {
           <br/>
           <TextField
             hintText='セキュリティコード'
-            value={this.state.securityCode}
+            value={securityCode}
             onChange={this.changeSecurityCode}
           />
           <br/>
           <RaisedButton label='次へ'
             type='submit'
-            disabled={!this.state.cardNo || this.state.cardNoErrorText || !this.state.month || !this.state.year || !this.state.securityCode}
+            disabled={!valid}
             primary={true}
           >
           </RaisedButton>
@@ -120,6 +142,10 @@ class EditCreditCard extends Component {
       </div>
     )
   }
+}
+
+EditCreditCard.propTypes = {
+  onTouchGoNext: PropTypes.func.isRequired,
 }
 
 export default EditCreditCard;
