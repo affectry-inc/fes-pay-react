@@ -19,7 +19,7 @@ class EditPhoneNumber extends Component {
 
     const { phoneNumber, phoneNumberErrorText } = this.state
 
-    if (!phoneNumber || phoneNumber < 12|| phoneNumberErrorText) {
+    if (!phoneNumber || phoneNumber.length < 1|| phoneNumberErrorText) {
       return
     }
 
@@ -59,7 +59,7 @@ class EditPhoneNumber extends Component {
           <br/>
           <RaisedButton label='登録'
             type='submit'
-            disabled={!phoneNumber || phoneNumber < 12 || phoneNumberErrorText}
+            disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText}
             primary={true}
           >
           </RaisedButton>

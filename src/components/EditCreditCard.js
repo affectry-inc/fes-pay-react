@@ -15,18 +15,15 @@ class EditCreditCard extends Component {
       month: '',
       year: '',
       securityCode: '',
-      valid: false
     }
   }
-
-  // TODO: Validate関数にする
 
   submitCreditCard = (e) => {
     e.preventDefault()
 
     const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
 
-    if (!cardNo || cardNo.length < 14 || cardNoErrorText || !month || !year || !securityCode) {
+    if (!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode) {
       return
     }
 
@@ -38,7 +35,6 @@ class EditCreditCard extends Component {
       month: '',
       year: '',
       securityCode: '',
-      valid: false
     })
   }
 
@@ -50,34 +46,25 @@ class EditCreditCard extends Component {
     this.setState({
       cardNo: value,
       cardNoErrorText: errorText,
-      valid: this.isValid(),
     })
   }
 
   changeMonth = (event, index, value) => {
     this.setState({
       month: value,
-      valid: this.isValid(),
     })
   }
 
   changeYear = (event, index, value) => {
     this.setState({
       year: value,
-      valid: this.isValid(),
     })
   }
 
   changeSecurityCode = (event, value) => {
     this.setState({
       securityCode: value,
-      valid: this.isValid(),
     })
-  }
-
-  isValid = () => {
-    const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
-    return (cardNo && cardNo.length >= 14 && !cardNoErrorText && month && year && securityCode)
   }
 
   render() {
@@ -93,7 +80,7 @@ class EditCreditCard extends Component {
       years.push(<MenuItem key={i} value={i} primaryText={i} />);
     }
 
-    const { cardNo, cardNoErrorText, month, year, securityCode, valid } = this.state
+    const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
 
     return (
       <div className='edit-credit-card'>
@@ -134,7 +121,7 @@ class EditCreditCard extends Component {
           <br/>
           <RaisedButton label='次へ'
             type='submit'
-            disabled={!valid}
+            disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
             primary={true}
           >
           </RaisedButton>
