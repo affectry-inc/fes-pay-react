@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger';
@@ -10,7 +10,9 @@ export default function configureStore(history, initialState) {
   const store = createStore(
     reducers,
     initialState,
-    applyMiddleware(routerMiddleware(history), thunk, logger)
+    compose(
+      applyMiddleware(routerMiddleware(history), thunk, logger)
+    )
   )
 
   if (module.hot) {

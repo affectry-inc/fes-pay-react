@@ -54,7 +54,7 @@ class CardRegister extends Component {
     return (
       <div>
         <h2>FesPayへようこそ！</h2>
-        <h2>リストバンドID：{this.props.match.params.bandId}</h2>
+        <h2>リストバンドID：{this.props.bandId}</h2>
         <Stepper activeStep={stepIndex} orientation="vertical">
           <Step>
             <StepLabel>クレジットカード登録</StepLabel>
