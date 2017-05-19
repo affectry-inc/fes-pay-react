@@ -23,9 +23,10 @@ class EditCreditCard extends Component {
 
     const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
 
-    if (!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode) {
-      return
-    }
+    // TODO: Remove commentout on production
+    // if (!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode) {
+    //   return
+    // }
 
     this.props.onTouchGoNext(cardNo.slice(-4))
 
@@ -121,7 +122,8 @@ class EditCreditCard extends Component {
           <br/>
           <RaisedButton label='次へ'
             type='submit'
-            disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
+            // TODO: Remove commentout on production
+            // disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
             primary={true}
           >
           </RaisedButton>
