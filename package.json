@@ -6,9 +6,12 @@
     "react-scripts": "0.6.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.54.0",
     "classnames": "^2.2.5",
     "firebase": "^3.9.0",
     "history": "^4.6.1",
+    "jquery": "^3.2.1",
+    "jquery.facedetection": "^2.0.2",
     "material-ui": "^0.18.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
