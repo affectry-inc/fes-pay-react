@@ -6,7 +6,11 @@ const styles = {
     paddingLeft: '21px',
     paddingRight: '16px',
     overflow: 'hidden',
-    borderLeft: '1px solid rgb(189, 189, 189)'}
+    borderLeft: '1px solid rgb(189, 189, 189)',
+  },
+  img: {
+    width: '500px',
+  }
 };
 
 class FinishedStepContent extends Component {
@@ -18,7 +22,7 @@ class FinishedStepContent extends Component {
       <div style={styles.content}>
         <span>
           {text && (<span>{text}</span>)}
-          {imageUrl && (<img src={imageUrl} />)}
+          {imageUrl && (<img src={imageUrl} style={styles.img}/>)}
         </span>
       </div>
     )

@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import $ from 'jquery'
-window.$ = window.jQuery = $;
-require('jquery.facedetection');
 import AWS from 'aws-sdk';
+import axios from 'axios'
+import Alert from './Alert'
 
 import defaultPhoto from '../img/default_photo.png'
 
@@ -12,86 +11,17 @@ const createObjectURL = (window.URL || window.webkitURL).createObjectURL || wind
 
 class EditFacePhoto extends Component {
 
-  componentDidMount() {
-    this.$el = $(this.el);
-    //this.$el.faceDetection('');
-
-    this.handleChange = this.handleChange.bind(this);
-    this.$el.on('load', this.handleChange);
-  }
-
-  componentDidUpdate(prevProps) {
-    // if (prevProps.children !== this.props.children) {
-    //   this.$el.trigger("faceDetection:updated");
-    // }
-  }
-
-  componentWillUnmount() {
-    this.$el.off('load', this.handleChange);
-    // this.$el.faceDetection('destroy');
-  }
-
-  handleChange(e) {
-    // var params = {
-    //   "returnFaceId": "true",
-    //   "returnFaceLandmarks": "true",
-    //   "returnFaceAttributes": "age,gender",
-    // };
-
-    // $.ajax({
-    //   url: "https://westus.api.cognitive.microsoft.com/face/v1.0/detect?" + $.param(params),
-    //   beforeSend: function(xhrObj){
-    //     xhrObj.setRequestHeader("Content-Type","application/json");
-    //     xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","ba8c31c918864b969eb1601590167f93");
-    //   },
-    //   type: "POST",
-    //   data: "{'url':'https://s3-ap-northeast-1.amazonaws.com/fespay-dev/tmp/IMG_0631.JPG'}",
-    // })
-    // .done(function(data) {
-    //   alert("success");
-    //   console.log(data)
-    // })
-    // .fail(function(err) {
-    //   alert("error");
-    //   console.log(err)
-    // });
-
-    // $('.facial-image-border').remove();
-    // this.$el.faceDetection({
-    //   complete: function (obj) {
-    //     if (typeof(obj)=="undefined") {
-    //       alert("顔情報を認識できませんでした…。") ;
-    //       return false ;
-    //     } else {
-    //       // 人数分だけループ処理する
-    //       for ( var i=0 ; i<obj.length ; i++ ) {
-    //         // ラッパー要素内に、顔範囲を示すdiv要素を追加
-    //         // e.target.after( '<div class="facial-image-border"></div>' ) ;
-    //         $('#face-image-wrapper').append('<div class="facial-image-border"></div>')
-
-    //         // 顔範囲の場所を動的に指定
-    //         $(".facial-image-border").eq(i).css( {
-    //           left:obj[i].x * obj[i].scaleX + "px" ,
-    //           top:obj[i].y * obj[i].scaleY + "px" ,
-    //           width:obj[i].width  * obj[i].scaleX + "px" ,
-    //           height:obj[i].height * obj[i].scaleY + "px"
-    //         });
-    //       }
-    //     }
-    //     console.log(obj);
-    //   },
-    //   error:function(code, message) {
-    //     alert("Error:[" + code + "]" + message);
-    //   }
-    // });
-  }
-
   constructor(props) {
     super(props)
 
     this.state = {
       photoUrl: '',
-      photoAlt: ''
+      photoAlt: '',
+      faces: [],
+      scale: 0,
+      alertOpen: false,
+      alertMessage: '',
+      canGoNext: false,
     }
   }
 
@@ -108,7 +38,12 @@ class EditFacePhoto extends Component {
 
     this.setState({
       photoUrl: '',
-      photoAlt: ''
+      photoAlt: '',
+      faces: [],
+      scale: 0,
+      alertOpen: false,
+      alertMessage: '',
+      canGoNext: false,
     })
   }
 
@@ -139,7 +74,7 @@ class EditFacePhoto extends Component {
 
     const files = e.target.files
     if (!files.length) {
-      return alert('Please choose a file to upload first.')
+      return false
     }
     const file = files[0]
 
@@ -156,7 +91,13 @@ class EditFacePhoto extends Component {
       const ctx = canvas.getContext('2d')
       ctx.drawImage(this, 0, 0, this.width, this.height, 0, 0, dstWidth, dstHeight)
       const dataURL = canvas.toDataURL(file.type)
-      that.setState({photoUrl: dataURL, photoAlt: file.name})
+      that.setState({
+        photoUrl: dataURL,
+        photoAlt: file.name,
+        faces: [],
+        scale: 0,
+        canGoNext: false,
+      })
 
       const blob = that.dataURLtoBlob(dataURL, file.type)
       const timestamp = new Date().getTime()
@@ -169,6 +110,7 @@ class EditFacePhoto extends Component {
           } else {
             console.log(data)
             that.setState({photoUrl: data.Location})
+            that.findFaces(data.Location, dstWidth)
           }
         }
       )
@@ -176,20 +118,89 @@ class EditFacePhoto extends Component {
     image.src = createObjectURL(file)
   }
 
-   dataURLtoBlob = (dataurl, type) => {
-     const bin = atob(dataurl.split("base64,")[1]);
-     const len = bin.length;
-     const barr = new Uint8Array(len)
-     for (let i = 0; i < len; i++) {
-       barr[i] = bin.charCodeAt(i)
-     }
-     return new Blob([barr], {
-       type: type,
-     })
-   }
+  dataURLtoBlob = (dataurl, type) => {
+    const bin = atob(dataurl.split("base64,")[1]);
+    const len = bin.length;
+    const barr = new Uint8Array(len)
+    for (let i = 0; i < len; i++) {
+      barr[i] = bin.charCodeAt(i)
+    }
+    return new Blob([barr], {
+      type: type,
+    })
+  }
+
+  findFaces = (photoUrl, dstWidth) => {
+    const params = {
+      "returnFaceId": "true",
+      "returnFaceLandmarks": "true",
+      "returnFaceAttributes": "age,gender",
+    }
+
+    const params_url = Object.keys(params).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(params[k])
+    }).join('&')
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': 'ba8c31c918864b969eb1601590167f93',
+      }
+    }
+
+    axios.post(
+      'https://westus.api.cognitive.microsoft.com/face/v1.0/detect?' + params_url,
+      { url: photoUrl },
+      config
+    )
+    .then(function (res) {
+      console.log(res);
+      if (!res.data || res.data.length === 0) {
+        this.setState({
+          alertOpen: true,
+          alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
+        })
+      } else {
+        const faces = res.data
+        const scale = 500 / dstWidth
+        this.setState({
+          faces: faces,
+          scale: scale,
+          alertOpen: faces.length > 1,
+          alertMessage: '複数の顔を認識しました。違う写真をアップロードしてください。',
+          canGoNext: faces.length === 1,
+        })
+      }
+    }.bind(this))
+    .catch(function (err) {
+      this.setState({
+        alertOpen: true,
+        alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
+      })
+      console.log(err);
+    })
+  }
+
+  closeDialog = () => {
+    this.setState({alertOpen: false});
+  };
 
   render() {
-    const { photoUrl, photoAlt } = this.state
+    const { photoUrl, photoAlt, faces, scale } = this.state
+
+    let list = []
+    faces.map(obj => {
+      const face = obj.faceRectangle
+      const style = {
+        left: face.left * scale + "px" ,
+        top: face.top * scale + "px" ,
+        width: face.width * scale + "px" ,
+        height: face.height * scale + "px"
+      }
+      list.push(
+        <div key={obj.faceId} className="facial-image-border" style={style}></div>
+      )
+    })
 
     return (
       <div className='edit-face-photo'>
@@ -199,17 +210,23 @@ class EditFacePhoto extends Component {
         >
           <a id="face-image-wrapper" href="Javascript:document.getElementById('itsme').click();">
             <img id="AA" src={photoUrl ? photoUrl : defaultPhoto} alt={photoAlt} ref={el => this.el = el} />
+            {list}
           </a>
           <input id="itsme" type="file" accept="image/*" onChange={this.changePhoto} style={{display: 'none'}} />
           <br/>
           <RaisedButton label='次へ'
             type='submit'
-            disabled={!this.state.photoUrl}
+            disabled={!this.state.canGoNext}
             primary={true}
           >
           </RaisedButton>
           <FlatButton label="戻る" onTouchTap={this.goBack}/>
         </form>
+        <Alert
+          onCloseAlert={this.closeDialog}
+          open={this.state.alertOpen}
+          message={this.state.alertMessage}
+        />
       </div>
     )
   }
