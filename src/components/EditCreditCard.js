@@ -28,7 +28,8 @@ class EditCreditCard extends Component {
     //   return
     // }
 
-    this.props.onTouchGoNext(cardNo.slice(-4))
+    // this.props.onTouchGoNext(cardNo.slice(-4))
+    this.props.onTouchGoNext(this.state)
 
     this.setState({
       cardNo: '',

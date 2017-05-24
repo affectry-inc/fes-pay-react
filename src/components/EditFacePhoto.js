@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import AWS from 'aws-sdk';
@@ -6,6 +8,8 @@ import axios from 'axios'
 import Alert from './Alert'
 
 import defaultPhoto from '../img/default_photo.png'
+
+import * as SignUpActions from '../actions/signUp'
 
 const createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL;
 
@@ -70,7 +74,7 @@ class EditFacePhoto extends Component {
   }
 
   changePhoto = (e) => {
-    const { bandId } = this.props
+    const { bandId, actions } = this.props
 
     const files = e.target.files
     if (!files.length) {
@@ -111,6 +115,7 @@ class EditFacePhoto extends Component {
             console.log(data)
             that.setState({photoUrl: data.Location})
             that.findFaces(data.Location, dstWidth)
+            actions.addFace(data.Location)
           }
         }
       )
@@ -238,4 +243,18 @@ EditFacePhoto.propTypes = {
   bandId: PropTypes.string.isRequired,
 }
 
-export default EditFacePhoto;
+function mapStateToProps(state) {
+  return {
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(SignUpActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditFacePhoto);

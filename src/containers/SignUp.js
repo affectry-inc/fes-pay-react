@@ -8,7 +8,9 @@ import EditFacePhoto from '../components/EditFacePhoto'
 import EditPhoneNumber from '../components/EditPhoneNumber'
 import FinishedStepContent from '../components/FinishedStepContent'
 
-class CardRegister extends Component {
+import * as SignUpActions from '../actions/signUp'
+
+class SignUp extends Component {
 
   constructor(props) {
     super(props)
@@ -20,12 +22,12 @@ class CardRegister extends Component {
     }
   }
 
-  saveCreditCard = (lastDigits) => {
-    this.setState({
-      stepIndex: this.state.stepIndex + 1,
-      dispCardNo: '****-****-****-' + lastDigits,
-    })
-  }
+  // saveCreditCard = (lastDigits) => {
+  //   this.setState({
+  //     stepIndex: this.state.stepIndex + 1,
+  //     dispCardNo: '****-****-****-' + lastDigits,
+  //   })
+  // }
 
   saveFacePhoto = (photoUrl) => {
     this.setState({
@@ -50,17 +52,19 @@ class CardRegister extends Component {
 
   render() {
     const { stepIndex, dispCardNo, dispPhotoUrl } = this.state;
+    const { idx, actions } = this.props;
 
     return (
       <div>
         <h2>FesPayへようこそ！</h2>
         <h2>リストバンドID：{this.props.params.bandId}</h2>
-        <Stepper activeStep={stepIndex} orientation="vertical">
+        <Stepper activeStep={idx} orientation="vertical">
           <Step>
             <StepLabel>クレジットカード登録</StepLabel>
             <StepContent>
               <EditCreditCard
-                onTouchGoNext={this.saveCreditCard}
+                // onTouchGoNext={this.saveCreditCard}
+                onTouchGoNext={actions.saveCreditCard}
               />
             </StepContent>
             <FinishedStepContent text={dispCardNo} />
@@ -92,15 +96,17 @@ class CardRegister extends Component {
 
 function mapStateToProps(state) {
   return {
+    idx: state.signUp.stepIndex
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    actions: bindActionCreators(SignUpActions, dispatch)
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CardRegister);
+)(SignUp);
