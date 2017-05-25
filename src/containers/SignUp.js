@@ -25,6 +25,7 @@ class SignUp extends Component {
             <StepLabel>クレジットカード登録</StepLabel>
             <StepContent>
               <EditCreditCard
+                bandId={ this.props.params.bandId }
                 onTouchGoNext={ actions.saveCreditCard }
               />
             </StepContent>
@@ -45,6 +46,7 @@ class SignUp extends Component {
             <StepLabel>携帯電話番号</StepLabel>
             <StepContent>
               <EditPhoneNumber
+                bandId={ this.props.params.bandId }
                 onTouchGoPrev={ actions.resetFacePhoto }
               />
             </StepContent>

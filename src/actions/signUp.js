@@ -1,5 +1,5 @@
 import {firebaseDb} from '../firebase/'
-const ref = firebaseDb.ref('faces');
+const refFaces = firebaseDb.ref('faces')
 
 const saveCreditCard = (card) => {
   return dispatch => {
@@ -12,11 +12,14 @@ const saveCreditCard = (card) => {
   }
 }
 
-const saveFacePhoto = (photoUrl) => {
+const saveFacePhoto = (bandId, photoUrl) => {
   return dispatch => {
     // TODO: save photo
-    ref.push({
+    refFaces.push({
       photoUrl: photoUrl,
+      bands: {
+        [bandId]: true
+      },
     })
     .then(dispatch({
       type: 'SAVE_FACE_PHOTO',

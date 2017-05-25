@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import AWS from 'aws-sdk';
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import AWS from 'aws-sdk'
 import axios from 'axios'
 import Alert from './Alert'
 
 import defaultPhoto from '../img/default_photo.png'
 
-const createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL;
+const createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL
 
 class EditFacePhoto extends Component {
 
@@ -32,12 +30,13 @@ class EditFacePhoto extends Component {
     e.preventDefault()
 
     const { photoUrl } = this.state
+    const { bandId } = this.props
 
     if (!photoUrl) {
       return
     }
 
-    this.props.onTouchGoNext(photoUrl)
+    this.props.onTouchGoNext(bandId, photoUrl)
 
     this.setState({
       photoUrl: '',
@@ -62,12 +61,12 @@ class EditFacePhoto extends Component {
       credentials: new AWS.CognitoIdentityCredentials({
         IdentityPoolId: 'us-east-1:77037c03-1409-4206-b041-05b9c4f1a7ea'
       })
-    });
+    })
 
     this.s3 = new AWS.S3({
       apiVersion: '2006-03-01',
       params: {Bucket: 'fespay-dev'}
-    });
+    })
 
     return this.s3
   }
@@ -122,8 +121,8 @@ class EditFacePhoto extends Component {
   }
 
   dataURLtoBlob = (dataurl, type) => {
-    const bin = atob(dataurl.split("base64,")[1]);
-    const len = bin.length;
+    const bin = atob(dataurl.split("base64,")[1])
+    const len = bin.length
     const barr = new Uint8Array(len)
     for (let i = 0; i < len; i++) {
       barr[i] = bin.charCodeAt(i)
@@ -157,7 +156,7 @@ class EditFacePhoto extends Component {
       config
     )
     .then(function (res) {
-      console.log(res);
+      console.log(res)
       if (!res.data || res.data.length === 0) {
         this.setState({
           alertOpen: true,
@@ -180,13 +179,13 @@ class EditFacePhoto extends Component {
         alertOpen: true,
         alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
       })
-      console.log(err);
+      console.log(err)
     })
   }
 
   closeDialog = () => {
-    this.setState({alertOpen: false});
-  };
+    this.setState({alertOpen: false})
+  }
 
   render() {
     const { photoUrl, photoAlt, faces, scale } = this.state
@@ -211,7 +210,7 @@ class EditFacePhoto extends Component {
           encType='multipart/form-data'
           onSubmit={this.submitFacePhoto}
         >
-          <a id="face-image-wrapper" href="Javascript:document.getElementById('itsme').click();">
+          <a id="face-image-wrapper" href="Javascript:document.getElementById('itsme').click()">
             <img id="AA" src={photoUrl ? photoUrl : defaultPhoto} alt={photoAlt} ref={el => this.el = el} />
             {list}
           </a>

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+import RaisedButton from 'material-ui/RaisedButton'
 
 class EditCreditCard extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       cardNo: '',
@@ -42,7 +42,7 @@ class EditCreditCard extends Component {
   }
 
   changeCardNo = (event, value) => {
-    let errorText = '';
+    let errorText = ''
 
     if (!/^\d*$/.test(value)){errorText='不正な文字が含まれています'}
 
@@ -71,16 +71,16 @@ class EditCreditCard extends Component {
   }
 
   render() {
-    let months = [];
-    let years = [];
+    let months = []
+    let years = []
 
     for (let i = 1; i <= 12; i++){
-      let month = ('0' + i).slice(-2);
-      months.push(<MenuItem key={i} value={month} primaryText={month} />);
+      let month = ('0' + i).slice(-2)
+      months.push(<MenuItem key={i} value={month} primaryText={month} />)
     }
 
     for (let i = 2017; i <= 2027; i++){
-      years.push(<MenuItem key={i} value={i} primaryText={i} />);
+      years.push(<MenuItem key={i} value={i} primaryText={i} />)
     }
 
     const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
@@ -139,4 +139,4 @@ EditCreditCard.propTypes = {
   onTouchGoNext: PropTypes.func.isRequired,
 }
 
-export default EditCreditCard;
+export default EditCreditCard

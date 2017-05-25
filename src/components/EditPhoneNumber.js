@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 
 class EditPhoneNumber extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       phoneNumber: '',
@@ -24,7 +24,7 @@ class EditPhoneNumber extends Component {
       return
     }
 
-    alert('Phone saved');
+    alert('Phone saved')
 
     this.setState({
       phoneNumber: '',
@@ -37,7 +37,7 @@ class EditPhoneNumber extends Component {
   }
 
   changePhoneNumber = (event, value) => {
-    let errorText = '';
+    let errorText = ''
     if (!/^\d*$/.test(value)){errorText='不正な文字が含まれています'}
     this.setState({
       phoneNumber: value,
@@ -60,7 +60,7 @@ class EditPhoneNumber extends Component {
           <br/>
           <RaisedButton label='登録'
             type='submit'
-            disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText}
+            disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText.length > 0}
             primary={true}
           >
           </RaisedButton>
@@ -72,4 +72,4 @@ class EditPhoneNumber extends Component {
   }
 }
 
-export default EditPhoneNumber;
+export default EditPhoneNumber
