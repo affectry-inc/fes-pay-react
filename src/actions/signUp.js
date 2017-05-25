@@ -14,12 +14,18 @@ const saveCreditCard = (card) => {
 
 const saveFacePhoto = (photoUrl) => {
   return dispatch => {
-    // TODO: save face
-    console.log(photoUrl)
-    dispatch({
+    // TODO: save photo
+    ref.push({
+      photoUrl: photoUrl,
+    })
+    .then(dispatch({
       type: 'SAVE_FACE_PHOTO',
       dispPhotoUrl: photoUrl,
-    })
+    }))
+    .catch(error => dispatch({
+      type: 'ADD_FACE_ERROR',
+      message: error.message,
+    }))
   }
 }
 
@@ -35,22 +41,9 @@ const resetFacePhoto = () => {
   }
 }
 
-const addFace = (photoUrl) => {
-  return dispatch => {
-    ref.push({
-      photoUrl: photoUrl,
-    })
-    .catch(error => dispatch({
-      type: 'ADD_FACE_ERROR',
-      message: error.message,
-    }))
-  }
-}
-
 module.exports = {
   saveCreditCard,
   saveFacePhoto,
   resetCreditCard,
   resetFacePhoto,
-  addFace,
 }
