@@ -27,6 +27,11 @@ const signUp = (state = initState, action) => {
          stepIndex: 1,
          dispPhotoUrl: '',
        })
+     case 'SAVE_FACE_PHOTO_ERROR':
+       return Object.assign({}, state, {
+         stepIndex: 1,
+         dispPhotoUrl: '',
+       })
     default:
       return state
   }

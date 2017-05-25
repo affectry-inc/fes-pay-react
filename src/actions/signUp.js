@@ -1,5 +1,6 @@
 import {firebaseDb} from '../firebase/'
 const refFaces = firebaseDb.ref('faces')
+const refBands = firebaseDb.ref('bands')
 
 const saveCreditCard = (card) => {
   return dispatch => {
@@ -15,18 +16,28 @@ const saveCreditCard = (card) => {
 const saveFacePhoto = (bandId, photoUrl) => {
   return dispatch => {
     // TODO: save photo
-    refFaces.push({
+    const refFace = refFaces.push(),
+          faceId = refFace.key
+
+    refFace.set({
       photoUrl: photoUrl,
       bands: {
         [bandId]: true
       },
     })
-    .then(dispatch({
-      type: 'SAVE_FACE_PHOTO',
-      dispPhotoUrl: photoUrl,
-    }))
+    .then(
+      refBands.child(bandId).child('faces').set({
+        [faceId]: true
+      })
+      .then(
+        dispatch({
+          type: 'SAVE_FACE_PHOTO',
+          dispPhotoUrl: photoUrl,
+        })
+      )
+    )
     .catch(error => dispatch({
-      type: 'ADD_FACE_ERROR',
+      type: 'SAVE_FACE_PHOTO_ERROR',
       message: error.message,
     }))
   }
