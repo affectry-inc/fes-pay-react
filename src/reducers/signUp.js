@@ -7,8 +7,26 @@ const initState = {
 const signUp = (state = initState, action) => {
    console.log(action)
    switch (action.type) {
-     case 'GO_NEXT':
-       return Object.assign({}, state, { stepIndex: 1 });
+     case 'SAVE_CREDIT_CARD':
+       return Object.assign({}, state, {
+         stepIndex: 1,
+         dispCardNo: action.dispCardNo,
+       })
+     case 'SAVE_FACE_PHOTO':
+       return Object.assign({}, state, {
+         stepIndex: 2,
+         dispPhotoUrl: action.dispPhotoUrl,
+       })
+     case 'RESET_CREDIT_CARD':
+       return Object.assign({}, state, {
+         stepIndex: 0,
+         dispCardNo: '',
+       })
+     case 'RESET_FACE_PHOTO':
+       return Object.assign({}, state, {
+         stepIndex: 1,
+         dispPhotoUrl: '',
+       })
     default:
       return state
   }
