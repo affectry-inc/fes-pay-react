@@ -8,7 +8,8 @@ class Home extends Component {
     return (
       <div>
         <h1>HOMEページです</h1>
-        <Link to="todos">Todos</Link>
+        <Link to="todos">Todos</Link><br/>
+        <Link to="yeah/B001">Sign Up</Link>
       </div>
     );
   }

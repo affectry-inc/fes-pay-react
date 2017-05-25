@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { AppBar, Drawer, MenuItem } from 'material-ui'
+import { Link } from 'react-router';
 
 import classnames from 'classnames';
 
@@ -18,7 +19,7 @@ class Header extends Component {
       <header className="header">
         <AppBar
           className={classnames('app-bar', {'expanded': mainMenuOpen})}
-          title="FesPay"
+          title={<Link className='title' to='/'>FesPay</Link>}
           titleStyle={styles.title}
           onLeftIconButtonTouchTap={toggleMainMenu}
         />
