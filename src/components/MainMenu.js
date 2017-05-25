@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
+import { PropTypes } from 'prop-types'
 import { Drawer, MenuItem } from 'material-ui'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
