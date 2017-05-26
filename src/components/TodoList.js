@@ -7,7 +7,7 @@ class TodoList extends Component{
     const {todos, onDeleteClick, onTodoClick} = this.props;
     let list = []
     todos.map(todo => {
-      list.push(
+      return list.push(
         <div style={{display:'flex', flexDirection: 'row', alignItems: 'center'}}>
           <Todo
             key={todo.key}

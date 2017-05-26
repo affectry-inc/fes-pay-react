@@ -26,6 +26,12 @@ class EditFacePhoto extends Component {
     }
   }
 
+  clickImg = (e) => {
+    e.preventDefault()
+
+    document.getElementById('file-uploader').click()
+  }
+
   submitFacePhoto = (e) => {
     e.preventDefault()
 
@@ -199,7 +205,7 @@ class EditFacePhoto extends Component {
         width: face.width * scale + "px" ,
         height: face.height * scale + "px"
       }
-      list.push(
+      return list.push(
         <div key={obj.faceId} className="facial-image-border" style={style}></div>
       )
     })
@@ -210,11 +216,11 @@ class EditFacePhoto extends Component {
           encType='multipart/form-data'
           onSubmit={this.submitFacePhoto}
         >
-          <a id="face-image-wrapper" href="Javascript:document.getElementById('itsme').click()">
+          <a id="face-image-wrapper" href="" onClick={this.clickImg}>
             <img id="AA" src={photoUrl ? photoUrl : defaultPhoto} alt={photoAlt} ref={el => this.el = el} />
             {list}
           </a>
-          <input id="itsme" type="file" accept="image/*" onChange={this.changePhoto} style={{display: 'none'}} />
+          <input id="file-uploader" type="file" accept="image/*" onChange={this.changePhoto} style={{display: 'none'}} />
           <br/>
           <RaisedButton label='次へ'
             type='submit'

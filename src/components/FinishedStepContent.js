@@ -23,7 +23,7 @@ class FinishedStepContent extends Component {
       <div style={styles.content}>
         <span>
           {text && (<span>{text}</span>)}
-          {imageUrl && (<img src={imageUrl} style={styles.img}/>)}
+          {imageUrl && (<img src={imageUrl} alt='' style={styles.img}/>)}
         </span>
       </div>
     )

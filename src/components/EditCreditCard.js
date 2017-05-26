@@ -22,6 +22,7 @@ class EditCreditCard extends Component {
   submitCreditCard = (e) => {
     e.preventDefault()
 
+    // eslint-disable-next-line
     const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
 
     // TODO: Remove commentout on production

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
-import { AppBar, Drawer, MenuItem } from 'material-ui'
+import { AppBar } from 'material-ui'
 import { Link } from 'react-router';
 
 import classnames from 'classnames';

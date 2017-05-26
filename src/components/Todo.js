@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types'
 
 class Todo extends Component {
   render(){
-    const { key, onClick, completed, text } = this.props;
+    const { onClick, completed, text } = this.props;
     return(
       <li
         onClick={onClick}
