@@ -31,7 +31,7 @@ exports.timestampFaces = functions.database.ref('/faces/{pushId}/photoUrl')
       ].join(':')
       + '.' + d.getUTCMilliseconds() + ' GMT';
 
-    var updates = {};
+    let updates = {};
     updates['_updatedAt'] = now;
 
     // Only set _createdAt when it is first created.
