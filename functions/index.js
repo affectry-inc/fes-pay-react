@@ -1,11 +1,3 @@
-// var functions = require('firebase-functions');
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 const functions = require('firebase-functions');
 
 const admin = require('firebase-admin');
@@ -39,10 +31,13 @@ exports.timestampFaces = functions.database.ref('/faces/{pushId}/photoUrl')
       ].join(':')
       + '.' + d.getUTCMilliseconds() + ' GMT';
 
+    var updates = {};
+    updates['_updatedAt'] = now;
+
     // Only set _createdAt when it is first created.
     if (!event.data.previous.exists()) {
-      event.data.ref.parent.child('_createdAt').set(now);
+      updates['_createdAt'] = now;
     }
 
-    return event.data.ref.parent.child('_updatedAt').set(now);
+    return event.data.ref.parent.update(updates);
   });
