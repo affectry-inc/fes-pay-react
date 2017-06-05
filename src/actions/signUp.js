@@ -1,6 +1,5 @@
-import {firebaseDb} from '../firebase/'
-
-const refFaces = firebaseDb.ref('faces')
+import AzureClient from '../utils/azureClient'
+import FirebaseClient from '../utils/firebaseClient'
 
 const saveCreditCard = (card) => {
   return dispatch => {
@@ -15,23 +14,30 @@ const saveCreditCard = (card) => {
 
 const saveFacePhoto = (bandId, photoUrl) => {
   return dispatch => {
-    // TODO: save photo
-    const faceId = refFaces.push().key
-
-    let updates= {}
-    updates['/faces/' + faceId + '/photoUrl'] = photoUrl
-    updates['/faces/' + faceId + '/bands/' + bandId] = true
-    updates['/bands/' + bandId + '/faces/' + faceId] = true
-
-    firebaseDb.ref().update(updates)
-    .then(dispatch({
-      type: 'SAVE_FACE_PHOTO',
-      dispPhotoUrl: photoUrl,
-    }))
-    .catch(error => dispatch({
-      type: 'SAVE_FACE_PHOTO_ERROR',
-      message: error.message,
-    }))
+    AzureClient.registerPerson(bandId, photoUrl,
+      (personId, persistedFaceId) => {
+        FirebaseClient.savePerson(bandId, personId, persistedFaceId, photoUrl,
+          () => {
+            dispatch({
+              type: 'SAVE_FACE_PHOTO',
+              dispPhotoUrl: photoUrl,
+            })
+          },
+          err => {
+            dispatch({
+              type: 'SAVE_FACE_PHOTO_ERROR',
+              message: err.message,
+            })
+          }
+        )
+      },
+      err => {
+        dispatch({
+          type: 'SAVE_FACE_PHOTO_ERROR',
+          message: err.message,
+        })
+      }
+    )
   }
 }
 
