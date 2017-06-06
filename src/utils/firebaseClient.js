@@ -20,10 +20,17 @@ const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbEr
     }
   }
 
+  let band = {
+    'persons': {
+      [personId]: true
+    },
+    'photoUrl': photoUrl
+  }
+
   let updates= {}
   updates['/persistedFaces/' + persistedFaceId] = persistedFace
   updates['/persons/' + personId] = person
-  updates['/bands/' + bandId + '/persons'] = { [personId]: true }
+  updates['/bands/' + bandId] = band
 
   firebaseDb.ref().update(updates)
   .then(
