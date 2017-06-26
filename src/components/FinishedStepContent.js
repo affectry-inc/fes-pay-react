@@ -10,7 +10,7 @@ const styles = {
     borderLeft: '1px solid rgb(189, 189, 189)',
   },
   img: {
-    width: '500px',
+    width: '100%',
   }
 };
 

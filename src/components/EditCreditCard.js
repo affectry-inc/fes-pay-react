@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
+import { Row, Col } from 'react-flexbox-grid'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+
+const styles = {
+  fullWidth: {
+    width: '100%'
+  }
+}
 
 class EditCreditCard extends Component {
 
@@ -87,51 +94,70 @@ class EditCreditCard extends Component {
     const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
 
     return (
-      <div className='edit-credit-card'>
-        <form onSubmit={this.submitCreditCard}>
-          <TextField
-            hintText='カード番号'
-            errorText={cardNoErrorText}
-            value={cardNo}
-            onChange={this.changeCardNo}
-          />
-          <br/>
-          <SelectField
-            floatingLabelText='有効期限'
-            floatingLabelFixed={true}
-            hintText='月'
-            value={month}
-            onChange={this.changeMonth}
-            style={{width: '120px'}}
-          >
-            {months}
-          </SelectField>
-          <SelectField
-            floatingLabelText=' '
-            floatingLabelFixed={true}
-            hintText='年'
-            value={year}
-            onChange={this.changeYear}
-            style={{width: '120px', marginLeft: '16px'}}
-          >
-            {years}
-          </SelectField>
-          <br/>
-          <TextField
-            hintText='セキュリティコード'
-            value={securityCode}
-            onChange={this.changeSecurityCode}
-          />
-          <br/>
-          <RaisedButton label='次へ'
-            type='submit'
-            // TODO: Remove commentout on production
-            // disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
-            primary={true}
-          >
-          </RaisedButton>
-        </form>
-      </div>
+      <Row className='edit-credit-card' start='xs'>
+        <Col xs={12}>
+          <form onSubmit={this.submitCreditCard}>
+            <Row>
+              <Col xs={12}>
+                <TextField
+                  hintText='カード番号'
+                  errorText={cardNoErrorText}
+                  value={cardNo}
+                  onChange={this.changeCardNo}
+                  style={styles.fullWidth}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6}>
+                <SelectField
+                  floatingLabelText='有効期限'
+                  floatingLabelFixed={true}
+                  hintText='月'
+                  value={month}
+                  onChange={this.changeMonth}
+                  style={styles.fullWidth}
+                >
+                  {months}
+                </SelectField>
+              </Col>
+              <Col xs={6}>
+                <SelectField
+                  floatingLabelText=' '
+                  floatingLabelFixed={true}
+                  hintText='年'
+                  value={year}
+                  onChange={this.changeYear}
+                  style={styles.fullWidth}
+                >
+                  {years}
+                </SelectField>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <TextField
+                  hintText='セキュリティコード'
+                  value={securityCode}
+                  onChange={this.changeSecurityCode}
+                  style={styles.fullWidth}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6}>
+                <RaisedButton label='次へ'
+                  type='submit'
+                  // TODO: Remove commentout on production
+                  // disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
+                  primary={true}
+                >
+                </RaisedButton>
+              </Col>
+            </Row>
+          </form>
+        </Col>
+      </Row>
     )
   }
 }

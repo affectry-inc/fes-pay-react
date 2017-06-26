@@ -2,8 +2,6 @@ import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
 import loadImage from 'blueimp-load-image'
 
-const createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL
-
 const findFaces = (photoUrl, dstWidth, dispatch) => {
   AzureClient.detectFaces(photoUrl,
     res => {

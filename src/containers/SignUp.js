@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper'
+import { Grid, Row, Col } from 'react-flexbox-grid'
 
 import EditCreditCard from '../components/EditCreditCard'
 import EditFacePhoto from '../components/EditFacePhoto'
@@ -16,42 +17,50 @@ class SignUp extends Component {
     const { stepIndex, dispCardNo, dispPhotoUrl, actions } = this.props
 
     return (
-      <div>
-        <h2>FesPayへようこそ！</h2>
-        <h2>リストバンドID：{ this.props.params.bandId }</h2>
-        <Stepper activeStep={ stepIndex } orientation="vertical">
-          <Step>
-            <StepLabel>クレジットカード登録</StepLabel>
-            <StepContent>
-              <EditCreditCard
-                bandId={ this.props.params.bandId }
-                onTouchGoNext={ actions.saveCreditCard }
-              />
-            </StepContent>
-            <FinishedStepContent text={ dispCardNo } />
-          </Step>
-          <Step>
-            <StepLabel>顔写真</StepLabel>
-            <StepContent>
-              <EditFacePhoto
-                bandId={ this.props.params.bandId }
-                onTouchGoNext={ actions.saveFacePhoto }
-                onTouchGoPrev={ actions.resetCreditCard }
-              />
-            </StepContent>
-            <FinishedStepContent imageUrl={ dispPhotoUrl }/>
-          </Step>
-          <Step>
-            <StepLabel>携帯電話番号</StepLabel>
-            <StepContent>
-              <EditPhoneNumber
-                bandId={ this.props.params.bandId }
-                onTouchGoPrev={ actions.resetFacePhoto }
-              />
-            </StepContent>
-          </Step>
-        </Stepper>
-      </div>
+      <Grid>
+        <Row center='xs'>
+          <Col xs={12}>
+            <h2>FesPayへようこそ！</h2>
+            <h2>リストバンドID：{ this.props.params.bandId }</h2>
+          </Col>
+        </Row>
+        <Row center='xs'>
+          <Col xs={12} sm={8} md={6}>
+            <Stepper activeStep={ stepIndex } orientation="vertical">
+              <Step>
+                <StepLabel>クレジットカード登録</StepLabel>
+                <StepContent>
+                  <EditCreditCard
+                    bandId={ this.props.params.bandId }
+                    onTouchGoNext={ actions.saveCreditCard }
+                  />
+                </StepContent>
+                <FinishedStepContent text={ dispCardNo } />
+              </Step>
+              <Step>
+                <StepLabel>顔写真</StepLabel>
+                <StepContent>
+                  <EditFacePhoto
+                    bandId={ this.props.params.bandId }
+                    onTouchGoNext={ actions.saveFacePhoto }
+                    onTouchGoPrev={ actions.resetCreditCard }
+                  />
+                </StepContent>
+                <FinishedStepContent imageUrl={ dispPhotoUrl }/>
+              </Step>
+              <Step>
+                <StepLabel>携帯電話番号</StepLabel>
+                <StepContent>
+                  <EditPhoneNumber
+                    bandId={ this.props.params.bandId }
+                    onTouchGoPrev={ actions.resetFacePhoto }
+                  />
+                </StepContent>
+              </Step>
+            </Stepper>
+          </Col>
+        </Row>
+      </Grid>
     )
   }
 }

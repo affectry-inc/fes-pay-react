@@ -2,12 +2,19 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
+import { Row, Col } from 'react-flexbox-grid'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Alert from './Alert'
 import * as EditFacePhotoActions from '../actions/editFacePhoto'
 
 import defaultPhoto from '../img/default_photo.png'
+
+const styles = {
+  fullWidth: {
+    width: '100%'
+  }
+}
 
 class EditFacePhoto extends Component {
 
@@ -58,39 +65,71 @@ class EditFacePhoto extends Component {
         left: face.left * scale + "px" ,
         top: face.top * scale + "px" ,
         width: face.width * scale + "px" ,
-        height: face.height * scale + "px"
+        height: face.height * scale + "px",
+        position: 'absolute',
+        border: '4px solid rgb(100, 221, 23)'
       }
       return list.push(
-        <div key={obj.faceId} className="facial-image-border" style={style}></div>
+        <div key={obj.faceId} style={style}></div>
       )
     })
 
     return (
-      <div className='edit-face-photo'>
-        <form
-          encType='multipart/form-data'
-          onSubmit={this.submitFacePhoto}
-        >
-          <a id="face-image-wrapper" href="" onClick={this.clickImg}>
-            <img id="AA" src={photoUrl ? photoUrl : defaultPhoto} alt={photoAlt} ref={el => this.el = el} />
-            {list}
-          </a>
-          <input id="file-uploader" type="file" accept="image/*" onChange={this.changePhoto} style={{display: 'none'}} />
-          <br/>
-          <RaisedButton label='次へ'
-            type='submit'
-            disabled={!canGoNext}
-            primary={true}
+      <Row className='edit-face-photo'>
+        <Col xs={12}>
+          <form
+            encType='multipart/form-data'
+            onSubmit={this.submitFacePhoto}
           >
-          </RaisedButton>
-          <FlatButton label="戻る" onTouchTap={this.goBack}/>
-        </form>
-        <Alert
-          onCloseAlert={actions.closeAlert}
-          open={alertOpen}
-          message={alertMessage}
-        />
-      </div>
+            <Row>
+              <Col xs={12}>
+                <a
+                  href=""
+                  onClick={this.clickImg}>
+                  <img
+                    id="AA"
+                    src={photoUrl ? photoUrl : defaultPhoto}
+                    alt={photoAlt}
+                    ref={el => this.el = el}
+                    style={styles.fullWidth}
+                  />
+                  {list}
+                </a>
+                <input
+                  id="file-uploader"
+                  type="file"
+                  accept="image/*"
+                  onChange={this.changePhoto}
+                  style={{display: 'none'}}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6}>
+                <RaisedButton
+                  label='次へ'
+                  type='submit'
+                  disabled={!canGoNext}
+                  primary={true}
+                  style={styles.fullWidth}
+                />
+              </Col>
+              <Col xs={6}>
+                <FlatButton
+                  label="戻る"
+                  onTouchTap={this.goBack}
+                  style={styles.fullWidth}
+                />
+              </Col>
+            </Row>
+          </form>
+          <Alert
+            onCloseAlert={actions.closeAlert}
+            open={alertOpen}
+            message={alertMessage}
+          />
+        </Col>
+      </Row>
     )
   }
 }
