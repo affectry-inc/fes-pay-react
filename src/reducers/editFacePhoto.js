@@ -41,6 +41,11 @@ const editFacePhoto = (state = initState, action) => {
         alertOpen: true,
         alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
       })
+    case 'ALERT_NOT_IMAGE':
+      return Object.assign({}, state, {
+        alertOpen: true,
+        alertMessage: '画像を選択してください。',
+      })
     case 'CLOSE_ALERT':
       return Object.assign({}, state, {
         alertOpen: false,

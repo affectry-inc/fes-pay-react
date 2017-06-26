@@ -8,6 +8,7 @@
   "dependencies": {
     "aws-sdk": "^2.54.0",
     "axios": "^0.16.1",
+    "blueimp-load-image": "^2.12.2",
     "classnames": "^2.2.5",
     "firebase": "^3.9.0",
     "history": "^4.6.1",

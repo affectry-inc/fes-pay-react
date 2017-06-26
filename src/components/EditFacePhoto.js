@@ -36,11 +36,14 @@ class EditFacePhoto extends Component {
   changePhoto = (e) => {
     const { bandId, actions } = this.props
 
-    const files = e.target.files
-    if (!files.length) {
-      return false
+    const file = e.target.files[0]
+
+    if (!file) return
+
+    if(!/image/.test(file.type)) {
+      actions.alertNotImage()
+      return
     }
-    const file = files[0]
 
     actions.changePhoto(bandId, file)
   }
