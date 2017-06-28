@@ -55,7 +55,7 @@ class EditFacePhoto extends Component {
       return
     }
 
-    actions.changePhoto(bandId, file)
+    actions.changePhoto(bandId, file, this.img.width)
   }
 
   render() {
@@ -93,7 +93,7 @@ class EditFacePhoto extends Component {
                     id="AA"
                     src={photoUrl ? photoUrl : defaultPhoto}
                     alt={photoAlt}
-                    ref={el => this.el = el}
+                    ref={el => this.img = el}
                     style={styles.fullWidth}
                   />
                   {list}

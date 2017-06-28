@@ -2,7 +2,7 @@ import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
 import loadImage from 'blueimp-load-image'
 
-const findFaces = (photoUrl, dstWidth, dispatch) => {
+const findFaces = (photoUrl, scale, dispatch) => {
   AzureClient.detectFaces(photoUrl,
     res => {
       if (!res.data || res.data.length === 0) {
@@ -11,7 +11,6 @@ const findFaces = (photoUrl, dstWidth, dispatch) => {
         })
       } else {
         const faces = res.data
-        const scale = 500 / dstWidth
         dispatch({
           type: 'FACE_DETECT_ONE_OR_MORE',
           faces: faces,
@@ -27,7 +26,7 @@ const findFaces = (photoUrl, dstWidth, dispatch) => {
   )
 }
 
-const uploadFile = (bandId, file, dataURL, dstWidth, dispatch) => {
+const uploadFile = (bandId, file, dataURL, scale, dispatch) => {
   const timestamp = new Date().getTime()
   const filename = 'face_photos/' + bandId + '/' + timestamp + '_' + file.name
   S3Client.upload(filename, file.type, dataURL,
@@ -36,14 +35,14 @@ const uploadFile = (bandId, file, dataURL, dstWidth, dispatch) => {
         type: 'UPLOAD_PHOTO',
         photoUrl: data.Location,
       })
-      findFaces(data.Location, dstWidth, dispatch)
+      findFaces(data.Location, scale, dispatch)
     },
     err => {
     }
   )
 }
 
-const changePhoto = (bandId, file) => {
+const changePhoto = (bandId, file, imgElWidth) => {
   return dispatch => {
     loadImage.parseMetaData(file, (data) => {
       const options = {
@@ -60,7 +59,8 @@ const changePhoto = (bandId, file) => {
           photoUrl: dataURL,
           photoAlt: file.name,
         })
-        uploadFile(bandId, file, dataURL, 1000, dispatch)
+        const scale = imgElWidth / canvas.width
+        uploadFile(bandId, file, dataURL, scale, dispatch)
       }, options)
     })
   }
