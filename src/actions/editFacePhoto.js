@@ -2,7 +2,23 @@ import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
 import loadImage from 'blueimp-load-image'
 
-const findFaces = (photoUrl, scale, dispatch) => {
+const toBinary = (dataURL) => {
+  const bin = atob(dataURL.replace(/^.*,/, ''))
+  const buffer = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) {
+      buffer[i] = bin.charCodeAt(i)
+  }
+  return buffer;
+}
+
+const toBlob = (dataURL, type) => {
+  const buf = toBinary(dataURL)
+  return new Blob([buf.buffer], {
+      type: type
+  })
+}
+
+const findFaces = (bandId, file, dataURL, photoUrl, scale, dispatch) => {
   AzureClient.detectFaces(photoUrl,
     res => {
       if (!res.data || res.data.length === 0) {
@@ -13,9 +29,35 @@ const findFaces = (photoUrl, scale, dispatch) => {
         const faces = res.data
         dispatch({
           type: 'FACE_DETECT_ONE_OR_MORE',
+          photoUrl: photoUrl,
           faces: faces,
           scale: scale,
         })
+        if (faces.length === 1) {
+          // TODO: こそっと画像加工＆URL更新
+          const face = faces[0].faceRectangle
+          const options = {
+            crop: true,
+            left: face.left,
+            top: face.top,
+            sourceWidth: face.width,
+            sourceHeight: face.height,
+          }
+          console.log(options)
+          const blob = toBlob(dataURL, file.type)
+          loadImage(blob, (canvas) => {
+            const dataURL2 = canvas.toDataURL(file.type)
+            const timestamp = new Date().getTime()
+            const filename = 'face_photos/' + bandId + '/' + timestamp + '_' + file.name
+            S3Client.upload(filename, file.type, dataURL2,
+              data => {
+                alert(data.Location)
+              },
+              err => {
+              }
+            )
+          }, options)
+        }
       }
     },
     err => {
@@ -31,11 +73,7 @@ const uploadFile = (bandId, file, dataURL, scale, dispatch) => {
   const filename = 'face_photos/' + bandId + '/' + timestamp + '_' + file.name
   S3Client.upload(filename, file.type, dataURL,
     data => {
-      dispatch({
-        type: 'UPLOAD_PHOTO',
-        photoUrl: data.Location,
-      })
-      findFaces(data.Location, scale, dispatch)
+      findFaces(bandId, file, dataURL, data.Location, scale, dispatch)
     },
     err => {
     }

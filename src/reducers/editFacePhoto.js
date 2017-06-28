@@ -19,10 +19,6 @@ const editFacePhoto = (state = initState, action) => {
         scale: 0,
         canGoNext: false,
       })
-    case 'UPLOAD_PHOTO':
-      return Object.assign({}, state, {
-        photoUrl: action.photoUrl,
-      })
     case 'FACE_DETECT_NONE':
       return Object.assign({}, state, {
         alertOpen: true,
@@ -30,6 +26,7 @@ const editFacePhoto = (state = initState, action) => {
       })
     case 'FACE_DETECT_ONE_OR_MORE':
       return Object.assign({}, state, {
+        photoUrl: action.photoUrl,
         faces: action.faces,
         scale: action.scale,
         alertOpen: action.faces.length > 1,
@@ -39,7 +36,7 @@ const editFacePhoto = (state = initState, action) => {
     case 'FACE_DETECT_FAILED':
       return Object.assign({}, state, {
         alertOpen: true,
-        alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
+        alertMessage: '顔情報の認識に失敗しました。違う写真をアップロードしてください。',
       })
     case 'ALERT_NOT_IMAGE':
       return Object.assign({}, state, {
