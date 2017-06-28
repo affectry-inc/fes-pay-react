@@ -11,6 +11,12 @@ import FinishedStepContent from '../components/FinishedStepContent'
 
 import * as SignUpActions from '../actions/signUp'
 
+const styles = {
+  stepContent: {
+    paddingTop: '16px'
+  }
+}
+
 class SignUp extends Component {
 
   render() {
@@ -21,7 +27,6 @@ class SignUp extends Component {
         <Row center='xs'>
           <Col xs={12}>
             <h2>FesPayへようこそ！</h2>
-            <h2>リストバンドID：{ this.props.params.bandId }</h2>
           </Col>
         </Row>
         <Row center='xs'>
@@ -29,7 +34,7 @@ class SignUp extends Component {
             <Stepper activeStep={ stepIndex } orientation="vertical">
               <Step>
                 <StepLabel>クレジットカード登録</StepLabel>
-                <StepContent>
+                <StepContent style={styles.stepContent}>
                   <EditCreditCard
                     bandId={ this.props.params.bandId }
                     onTouchGoNext={ actions.saveCreditCard }
@@ -39,7 +44,7 @@ class SignUp extends Component {
               </Step>
               <Step>
                 <StepLabel>顔写真</StepLabel>
-                <StepContent>
+                <StepContent style={styles.stepContent}>
                   <EditFacePhoto
                     bandId={ this.props.params.bandId }
                     onTouchGoNext={ actions.saveFacePhoto }
@@ -50,7 +55,7 @@ class SignUp extends Component {
               </Step>
               <Step>
                 <StepLabel>携帯電話番号</StepLabel>
-                <StepContent>
+                <StepContent style={styles.stepContent}>
                   <EditPhoneNumber
                     bandId={ this.props.params.bandId }
                     onTouchGoPrev={ actions.resetFacePhoto }

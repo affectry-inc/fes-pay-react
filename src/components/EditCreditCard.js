@@ -9,6 +9,9 @@ import RaisedButton from 'material-ui/RaisedButton'
 const styles = {
   fullWidth: {
     width: '100%'
+  },
+  buttons: {
+    marginTop: '16px'
   }
 }
 
@@ -144,13 +147,14 @@ class EditCreditCard extends Component {
                 />
               </Col>
             </Row>
-            <Row>
+            <Row style={styles.buttons}>
               <Col xs={6}>
                 <RaisedButton label='次へ'
                   type='submit'
                   // TODO: Remove commentout on production
                   // disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
                   primary={true}
+                  style={styles.fullWidth}
                 >
                 </RaisedButton>
               </Col>

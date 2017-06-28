@@ -13,6 +13,9 @@ import defaultPhoto from '../img/default_photo.png'
 const styles = {
   fullWidth: {
     width: '100%'
+  },
+  buttons: {
+    marginTop: '16px'
   }
 }
 
@@ -104,7 +107,7 @@ class EditFacePhoto extends Component {
                 />
               </Col>
             </Row>
-            <Row>
+            <Row style={styles.buttons}>
               <Col xs={6}>
                 <RaisedButton
                   label='次へ'

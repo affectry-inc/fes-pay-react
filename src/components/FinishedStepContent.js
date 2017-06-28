@@ -8,10 +8,11 @@ const styles = {
     paddingRight: '16px',
     overflow: 'hidden',
     borderLeft: '1px solid rgb(189, 189, 189)',
+    fontSize: '1.4em',
   },
   img: {
     width: '100%',
-  }
+  },
 };
 
 class FinishedStepContent extends Component {

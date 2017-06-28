@@ -7,7 +7,7 @@ const saveCreditCard = (card) => {
     console.log(card)
     dispatch({
       type: 'SAVE_CREDIT_CARD',
-      dispCardNo: '****-****-****-' + card.cardNo.slice(-4),
+      dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
     })
   }
 }

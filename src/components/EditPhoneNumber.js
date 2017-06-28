@@ -3,10 +3,17 @@ import { Row, Col } from 'react-flexbox-grid'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
+import Checkbox from 'material-ui/Checkbox'
 
 const styles = {
   fullWidth: {
     width: '100%'
+  },
+  checkbox: {
+    marginTop: '16px'
+  },
+  buttons: {
+    marginTop: '10px'
   }
 }
 
@@ -18,15 +25,16 @@ class EditPhoneNumber extends Component {
     this.state = {
       phoneNumber: '',
       phoneNumberErrorText: '',
+      isTermsAgreed: false
     }
   }
 
   submitPhoneNumber = (e) => {
     e.preventDefault()
 
-    const { phoneNumber, phoneNumberErrorText } = this.state
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.state
 
-    if (!phoneNumber || phoneNumber.length < 1|| phoneNumberErrorText) {
+    if (!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText || !isTermsAgreed) {
       return
     }
 
@@ -35,6 +43,7 @@ class EditPhoneNumber extends Component {
     this.setState({
       phoneNumber: '',
       phoneNumberErrorText: '',
+      isTermsAgreed: false
     })
   }
 
@@ -44,15 +53,21 @@ class EditPhoneNumber extends Component {
 
   changePhoneNumber = (event, value) => {
     let errorText = ''
-    if (!/^\d*$/.test(value)){errorText='不正な文字が含まれています'}
+    if (!/^\d*$/.test(value)) { errorText = '不正な文字が含まれています' }
     this.setState({
       phoneNumber: value,
       phoneNumberErrorText: errorText,
     })
   }
 
+  checkTermsAgreed = (event, isInputChecked) => {
+    this.setState({
+      isTermsAgreed: isInputChecked,
+    })
+  }
+
   render() {
-    const { phoneNumber, phoneNumberErrorText } = this.state
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.state
 
     return (
       <Row className='edit-phone-number'>
@@ -69,12 +84,22 @@ class EditPhoneNumber extends Component {
                 />
               </Col>
             </Row>
-            <Row>
+            <Row start='xs'>
+              <Col xs={12}>
+                <Checkbox
+                  checked={isTermsAgreed}
+                  label='本サービス利用規約及びプライバシーポリシーに同意する'
+                  onCheck={this.checkTermsAgreed}
+                  style={styles.checkbox}
+                />
+              </Col>
+            </Row>
+            <Row style={styles.buttons}>
               <Col xs={6}>
                 <RaisedButton
                   label='登録'
                   type='submit'
-                  disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText.length > 0}
+                  disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText.length > 0 || !isTermsAgreed}
                   primary={true}
                   style={styles.fullWidth}
                 />
@@ -88,7 +113,6 @@ class EditPhoneNumber extends Component {
               </Col>
             </Row>
           </form>
-          <p>登録をもって、本サービス利用規約及びプライバシーポリシーに同意されたものとみなします。</p>
         </Col>
       </Row>
     )
