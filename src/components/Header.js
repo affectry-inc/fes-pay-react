@@ -3,11 +3,15 @@ import { AppBar } from 'material-ui'
 import { Link } from 'react-router';
 
 import classnames from 'classnames';
+import logo from '../img/logo_m_w_h_wh_tr.png'
 
 const styles = {
   title: {
     textAlign: 'center',
-    fontWeight: 'bold'
+  },
+  titleImage: {
+    height: '80%',
+    verticalAlign: 'middle',
   }
 };
 
@@ -19,7 +23,11 @@ class Header extends Component {
       <header className="header">
         <AppBar
           className={classnames('app-bar', {'expanded': mainMenuOpen})}
-          title={<Link className='title' to='/'>FesPay</Link>}
+          title={
+            <Link className='title' to='/'>
+              <img src={logo} alt='Logo' style={styles.titleImage} />
+            </Link>
+          }
           titleStyle={styles.title}
           onLeftIconButtonTouchTap={toggleMainMenu}
         />
