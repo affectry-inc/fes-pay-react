@@ -30,13 +30,13 @@ class EditFacePhoto extends Component {
   submitFacePhoto = (e) => {
     e.preventDefault()
 
-    const { bandId, photoUrl } = this.props
+    const { bandId, croppedPhotoUrl } = this.props
 
-    if (!photoUrl) {
+    if (!croppedPhotoUrl) {
       return
     }
 
-    this.props.onTouchGoNext(bandId, photoUrl)
+    this.props.onTouchGoNext(bandId, croppedPhotoUrl)
   }
 
   goBack = (e) => {
@@ -147,6 +147,7 @@ function mapStateToProps(state) {
   return {
     photoUrl: state.editFacePhoto.photoUrl,
     photoAlt: state.editFacePhoto.photoAlt,
+    croppedPhotoUrl: state.editFacePhoto.croppedPhotoUrl,
     faces: state.editFacePhoto.faces,
     scale: state.editFacePhoto.scale,
     alertOpen: state.editFacePhoto.alertOpen,

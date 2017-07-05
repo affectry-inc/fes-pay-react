@@ -11,7 +11,7 @@ const styles = {
     fontSize: '1.4em',
   },
   img: {
-    width: '100%',
+    width: '40%',
   },
 };
 

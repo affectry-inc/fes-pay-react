@@ -1,6 +1,7 @@
 const initState = {
   photoUrl: '',
   photoAlt: '',
+  croppedPhotoUrl: '',
   faces: [],
   scale: 0,
   alertOpen: false,
@@ -31,12 +32,16 @@ const editFacePhoto = (state = initState, action) => {
         scale: action.scale,
         alertOpen: action.faces.length > 1,
         alertMessage: '複数の顔を認識しました。違う写真をアップロードしてください。',
-        canGoNext: action.faces.length === 1,
       })
     case 'FACE_DETECT_FAILED':
       return Object.assign({}, state, {
         alertOpen: true,
         alertMessage: '顔情報の認識に失敗しました。違う写真をアップロードしてください。',
+      })
+    case 'FACE_CROPPED':
+      return Object.assign({}, state, {
+        croppedPhotoUrl: action.croppedPhotoUrl,
+        canGoNext: true,
       })
     case 'ALERT_NOT_IMAGE':
       return Object.assign({}, state, {

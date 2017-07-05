@@ -1,5 +1,6 @@
 import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
+import TimeUtil from '../utils/timeUtils'
 import loadImage from 'blueimp-load-image'
 
 const toBinary = (dataURL) => {
@@ -18,7 +19,40 @@ const toBlob = (dataURL, type) => {
   })
 }
 
-const findFaces = (bandId, file, dataURL, photoUrl, scale, dispatch) => {
+const cropPhoto = (face, filepath, file, dataURL, dispatch) => {
+  const w = face.width,
+        h = face.height,
+        l = face.left,
+        t = face.top
+  const nw = w * 2,
+        nh = nw * 150/130,
+        nl = l - (nw - w) / 2,
+        nt = t - (nh - h) / 2
+  const options = {
+    crop: true,
+    left: nl,
+    top: nt,
+    sourceWidth: nw,
+    sourceHeight: nh,
+  }
+  console.log(options)
+  const blob = toBlob(dataURL, file.type)
+  loadImage(blob, (canvas) => {
+    const dataURL2 = canvas.toDataURL(file.type)
+    S3Client.upload(filepath + 'cropped', file.type, dataURL2,
+      data => {
+        dispatch({
+          type: 'FACE_CROPPED',
+          croppedPhotoUrl: data.Location,
+        })
+      },
+      err => {
+      }
+    )
+  }, options)
+}
+
+const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
   AzureClient.detectFaces(photoUrl,
     res => {
       if (!res.data || res.data.length === 0) {
@@ -34,29 +68,8 @@ const findFaces = (bandId, file, dataURL, photoUrl, scale, dispatch) => {
           scale: scale,
         })
         if (faces.length === 1) {
-          // TODO: こそっと画像加工＆URL更新
           const face = faces[0].faceRectangle
-          const options = {
-            crop: true,
-            left: face.left,
-            top: face.top,
-            sourceWidth: face.width,
-            sourceHeight: face.height,
-          }
-          console.log(options)
-          const blob = toBlob(dataURL, file.type)
-          loadImage(blob, (canvas) => {
-            const dataURL2 = canvas.toDataURL(file.type)
-            const timestamp = new Date().getTime()
-            const filename = 'face_photos/' + bandId + '/' + timestamp + '_' + file.name
-            S3Client.upload(filename, file.type, dataURL2,
-              data => {
-                alert(data.Location)
-              },
-              err => {
-              }
-            )
-          }, options)
+          cropPhoto(face, filepath, file, dataURL, dispatch)
         }
       }
     },
@@ -69,11 +82,10 @@ const findFaces = (bandId, file, dataURL, photoUrl, scale, dispatch) => {
 }
 
 const uploadFile = (bandId, file, dataURL, scale, dispatch) => {
-  const timestamp = new Date().getTime()
-  const filename = 'face_photos/' + bandId + '/' + timestamp + '_' + file.name
-  S3Client.upload(filename, file.type, dataURL,
+  const filepath = 'face_photos/' + bandId + '/' + TimeUtil.fullFormat() + '/'
+  S3Client.upload(filepath + 'original', file.type, dataURL,
     data => {
-      findFaces(bandId, file, dataURL, data.Location, scale, dispatch)
+      findFaces(filepath, file, dataURL, data.Location, scale, dispatch)
     },
     err => {
     }
