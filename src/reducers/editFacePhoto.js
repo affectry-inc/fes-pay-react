@@ -10,7 +10,6 @@ const initState = {
 }
 
 const editFacePhoto = (state = initState, action) => {
-  console.log(action)
   switch (action.type) {
     case 'CHANGE_PHOTO':
       return Object.assign({}, state, {

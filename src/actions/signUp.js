@@ -3,7 +3,6 @@ import FirebaseClient from '../utils/firebaseClient'
 
 const saveCreditCard = (bandId, card) => {
   return dispatch => {
-    console.log(card)
     // TODO: get token
     const token = 'TOKEN'
     FirebaseClient.saveCardToken(bandId, token,

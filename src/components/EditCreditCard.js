@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { Row, Col } from 'react-flexbox-grid'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import * as EditCreditCardActions from '../actions/editCreditCard'
 
 const styles = {
   fullWidth: {
@@ -20,141 +23,108 @@ class EditCreditCard extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      cardNo: '',
-      cardNoErrorText: '',
-      month: '',
-      year: '',
-      securityCode: '',
+    this.months = []
+    this.years = []
+
+    for (let i = 1; i <= 12; i++){
+      let month = ('0' + i).slice(-2)
+      this.months.push(<MenuItem key={ i } value={ month } primaryText={ month } />)
+    }
+
+    for (let i = 2017; i <= 2027; i++){
+      this.years.push(<MenuItem key={ i } value={ i } primaryText={ i } />)
     }
   }
 
   submitCreditCard = (e) => {
     e.preventDefault()
 
-    // eslint-disable-next-line
-    const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
-    const { bandId } = this.props
+    const { bandId, card } = this.props
 
-    // TODO: Remove commentout on production
-    // if (!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode) {
-    //   return
-    // }
+    if (!card) {
+      return
+    }
 
-    this.props.onTouchGoNext(bandId, this.state)
-
-    this.setState({
-      cardNo: '',
-      cardNoErrorText: '',
-      month: '',
-      year: '',
-      securityCode: '',
-    })
+    this.props.onTouchGoNext(bandId, card)
   }
 
   changeCardNo = (event, value) => {
-    let errorText = ''
-
-    if (!/^\d*$/.test(value)){errorText='不正な文字が含まれています'}
-
-    this.setState({
-      cardNo: value,
-      cardNoErrorText: errorText,
-    })
+    this.props.actions.changeCardNo(value)
   }
 
   changeMonth = (event, index, value) => {
-    this.setState({
-      month: value,
-    })
+    this.props.actions.changeMonth(value)
   }
 
   changeYear = (event, index, value) => {
-    this.setState({
-      year: value,
-    })
+    this.props.actions.changeYear(value)
   }
 
   changeSecurityCode = (event, value) => {
-    this.setState({
-      securityCode: value,
-    })
+    this.props.actions.changeSecurityCode(value)
   }
 
   render() {
-    let months = []
-    let years = []
-
-    for (let i = 1; i <= 12; i++){
-      let month = ('0' + i).slice(-2)
-      months.push(<MenuItem key={i} value={month} primaryText={month} />)
-    }
-
-    for (let i = 2017; i <= 2027; i++){
-      years.push(<MenuItem key={i} value={i} primaryText={i} />)
-    }
-
-    const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
+    const { cardNo, cardNoErrorText, month, year, securityCode, card } = this.props
 
     return (
       <Row className='edit-credit-card' start='xs'>
-        <Col xs={12}>
-          <form onSubmit={this.submitCreditCard}>
+        <Col xs={ 12 }>
+          <form onSubmit={ this.submitCreditCard }>
             <Row>
-              <Col xs={12}>
+              <Col xs={ 12 }>
                 <TextField
                   hintText='カード番号'
-                  errorText={cardNoErrorText}
-                  value={cardNo}
-                  onChange={this.changeCardNo}
-                  style={styles.fullWidth}
+                  errorText={ cardNoErrorText }
+                  value={ cardNo }
+                  onChange={ this.changeCardNo }
+                  style={ styles.fullWidth }
                 />
               </Col>
             </Row>
             <Row>
-              <Col xs={6}>
+              <Col xs={ 6 }>
                 <SelectField
                   floatingLabelText='有効期限'
-                  floatingLabelFixed={true}
+                  floatingLabelFixed={ true }
                   hintText='月'
-                  value={month}
-                  onChange={this.changeMonth}
-                  style={styles.fullWidth}
+                  value={ month }
+                  onChange={ this.changeMonth }
+                  style={ styles.fullWidth }
                 >
-                  {months}
+                  { this.months }
                 </SelectField>
               </Col>
-              <Col xs={6}>
+              <Col xs={ 6 }>
                 <SelectField
                   floatingLabelText=' '
-                  floatingLabelFixed={true}
+                  floatingLabelFixed={ true }
                   hintText='年'
-                  value={year}
-                  onChange={this.changeYear}
-                  style={styles.fullWidth}
+                  value={ year }
+                  onChange={ this.changeYear }
+                  style={ styles.fullWidth }
                 >
-                  {years}
+                  { this.years }
                 </SelectField>
               </Col>
             </Row>
             <Row>
-              <Col xs={12}>
+              <Col xs={ 12 }>
                 <TextField
                   hintText='セキュリティコード'
-                  value={securityCode}
-                  onChange={this.changeSecurityCode}
-                  style={styles.fullWidth}
+                  value={ securityCode }
+                  onChange={ this.changeSecurityCode }
+                  style={ styles.fullWidth }
                 />
               </Col>
             </Row>
-            <Row style={styles.buttons}>
-              <Col xs={6}>
+            <Row style={ styles.buttons }>
+              <Col xs={ 6 }>
                 <RaisedButton label='次へ'
                   type='submit'
-                  // TODO: Remove commentout on production
-                  // disabled={(!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode)}
-                  primary={true}
-                  style={styles.fullWidth}
+                  disabled={ !card }
+                  primary={ true }
+                  style={ styles.fullWidth }
                 >
                 </RaisedButton>
               </Col>
@@ -171,4 +141,24 @@ EditCreditCard.propTypes = {
   onTouchGoNext: PropTypes.func.isRequired,
 }
 
-export default EditCreditCard
+function mapStateToProps(state) {
+  return {
+    cardNo: state.editCreditCard.cardNo,
+    cardNoErrorText: state.editCreditCard.cardNoErrorText,
+    month: state.editCreditCard.month,
+    year: state.editCreditCard.year,
+    securityCode: state.editCreditCard.securityCode,
+    card: state.editCreditCard.card,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(EditCreditCardActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditCreditCard)

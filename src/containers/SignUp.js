@@ -25,16 +25,16 @@ class SignUp extends Component {
     return (
       <Grid>
         <Row center='xs'>
-          <Col xs={12}>
+          <Col xs={ 12 }>
             <h2>FesPayへようこそ！</h2>
           </Col>
         </Row>
         <Row center='xs'>
-          <Col xs={12} sm={8} md={6}>
+          <Col xs={ 12 } sm={ 8 } md={ 6 }>
             <Stepper activeStep={ stepIndex } orientation="vertical">
               <Step>
                 <StepLabel>クレジットカード登録</StepLabel>
-                <StepContent style={styles.stepContent}>
+                <StepContent style={ styles.stepContent }>
                   <EditCreditCard
                     bandId={ this.props.params.bandId }
                     onTouchGoNext={ actions.saveCreditCard }
@@ -44,7 +44,7 @@ class SignUp extends Component {
               </Step>
               <Step>
                 <StepLabel>顔写真</StepLabel>
-                <StepContent style={styles.stepContent}>
+                <StepContent style={ styles.stepContent }>
                   <EditFacePhoto
                     bandId={ this.props.params.bandId }
                     onTouchGoNext={ actions.saveFacePhoto }
@@ -55,7 +55,7 @@ class SignUp extends Component {
               </Step>
               <Step>
                 <StepLabel>携帯電話番号</StepLabel>
-                <StepContent style={styles.stepContent}>
+                <StepContent style={ styles.stepContent }>
                   <EditPhoneNumber
                     bandId={ this.props.params.bandId }
                     onTouchGoPrev={ actions.resetFacePhoto }

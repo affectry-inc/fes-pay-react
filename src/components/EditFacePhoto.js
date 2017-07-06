@@ -73,63 +73,63 @@ class EditFacePhoto extends Component {
         border: '4px solid rgb(100, 221, 23)'
       }
       return list.push(
-        <div key={obj.faceId} style={style}></div>
+        <div key={ obj.faceId } style={ style }></div>
       )
     })
 
     return (
       <Row className='edit-face-photo'>
-        <Col xs={12}>
+        <Col xs={ 12 }>
           <form
             encType='multipart/form-data'
-            onSubmit={this.submitFacePhoto}
+            onSubmit={ this.submitFacePhoto }
           >
             <Row>
-              <Col xs={12}>
+              <Col xs={ 12 }>
                 <a
                   href=""
-                  onClick={this.clickImg}>
+                  onClick={ this.clickImg }>
                   <img
                     id="AA"
-                    src={photoUrl ? photoUrl : defaultPhoto}
-                    alt={photoAlt}
-                    ref={el => this.img = el}
-                    style={styles.fullWidth}
+                    src={ photoUrl ? photoUrl : defaultPhoto }
+                    alt={ photoAlt }
+                    ref={ el => this.img = el }
+                    style={ styles.fullWidth }
                   />
-                  {list}
+                  { list }
                 </a>
                 <input
                   id="file-uploader"
                   type="file"
                   accept="image/*"
-                  onChange={this.changePhoto}
-                  style={{display: 'none'}}
+                  onChange={ this.changePhoto }
+                  style={ {display: 'none'} }
                 />
               </Col>
             </Row>
-            <Row style={styles.buttons}>
-              <Col xs={6}>
+            <Row style={ styles.buttons }>
+              <Col xs={ 6 }>
                 <RaisedButton
                   label='次へ'
                   type='submit'
-                  disabled={!canGoNext}
-                  primary={true}
-                  style={styles.fullWidth}
+                  disabled={ !canGoNext }
+                  primary={ true }
+                  style={ styles.fullWidth }
                 />
               </Col>
-              <Col xs={6}>
+              <Col xs={ 6 }>
                 <FlatButton
                   label="戻る"
-                  onTouchTap={this.goBack}
-                  style={styles.fullWidth}
+                  onTouchTap={ this.goBack }
+                  style={ styles.fullWidth }
                 />
               </Col>
             </Row>
           </form>
           <Alert
-            onCloseAlert={actions.closeAlert}
-            open={alertOpen}
-            message={alertMessage}
+            onCloseAlert={ actions.closeAlert }
+            open={ alertOpen }
+            message={ alertMessage }
           />
         </Col>
       </Row>

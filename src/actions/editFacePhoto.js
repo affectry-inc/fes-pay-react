@@ -35,7 +35,6 @@ const cropPhoto = (face, filepath, file, dataURL, dispatch) => {
     sourceWidth: nw,
     sourceHeight: nh,
   }
-  console.log(options)
   const blob = toBlob(dataURL, file.type)
   loadImage(blob, (canvas) => {
     const dataURL2 = canvas.toDataURL(file.type)

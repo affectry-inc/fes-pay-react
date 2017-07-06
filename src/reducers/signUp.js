@@ -5,7 +5,6 @@ const initState = {
 }
 
 const signUp = (state = initState, action) => {
-   console.log(action)
    switch (action.type) {
      case 'SAVE_CREDIT_CARD':
        return Object.assign({}, state, {
