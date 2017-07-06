@@ -34,14 +34,14 @@ class EditCreditCard extends Component {
 
     // eslint-disable-next-line
     const { cardNo, cardNoErrorText, month, year, securityCode } = this.state
+    const { bandId } = this.props
 
     // TODO: Remove commentout on production
     // if (!cardNo || cardNo.length < 1 || cardNoErrorText || !month || !year || !securityCode) {
     //   return
     // }
 
-    // this.props.onTouchGoNext(cardNo.slice(-4))
-    this.props.onTouchGoNext(this.state)
+    this.props.onTouchGoNext(bandId, this.state)
 
     this.setState({
       cardNo: '',
@@ -167,6 +167,7 @@ class EditCreditCard extends Component {
 }
 
 EditCreditCard.propTypes = {
+  bandId: PropTypes.string.isRequired,
   onTouchGoNext: PropTypes.func.isRequired,
 }
 

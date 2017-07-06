@@ -27,6 +27,9 @@ const signUp = (state = initState, action) => {
          stepIndex: 1,
          dispPhotoUrl: '',
        })
+     case 'SAVE_CREDIT_CARD_ERROR':
+       return Object.assign({}, state, {
+       })
      case 'SAVE_FACE_PHOTO_ERROR':
        return Object.assign({}, state, {
          stepIndex: 1,

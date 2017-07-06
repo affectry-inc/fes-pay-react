@@ -75,7 +75,7 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
     },
     err => {
       dispatch({
-        type: 'FACE_DETECT_FAILED',
+        type: 'FACE_DETECT_ERROR',
       })
     }
   )

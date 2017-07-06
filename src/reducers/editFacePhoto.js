@@ -33,7 +33,7 @@ const editFacePhoto = (state = initState, action) => {
         alertOpen: action.faces.length > 1,
         alertMessage: '複数の顔を認識しました。違う写真をアップロードしてください。',
       })
-    case 'FACE_DETECT_FAILED':
+    case 'FACE_DETECT_ERROR':
       return Object.assign({}, state, {
         alertOpen: true,
         alertMessage: '顔情報の認識に失敗しました。違う写真をアップロードしてください。',

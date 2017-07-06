@@ -138,9 +138,9 @@ class EditFacePhoto extends Component {
 }
 
 EditFacePhoto.propTypes = {
+  bandId: PropTypes.string.isRequired,
   onTouchGoNext: PropTypes.func.isRequired,
   onTouchGoPrev: PropTypes.func.isRequired,
-  bandId: PropTypes.string.isRequired,
 }
 
 function mapStateToProps(state) {

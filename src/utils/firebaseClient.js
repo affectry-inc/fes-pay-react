@@ -1,4 +1,4 @@
-import {firebaseDb} from '../firebase/'
+import { firebaseDb, firebaseAuth } from '../firebase/'
 
 const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbError) => {
   let persistedFace = {
@@ -41,6 +41,36 @@ const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbEr
   )
 }
 
+const saveCardToken = (bandId, token, cbSuccess, cbError) => {
+  firebaseAuth.signInAnonymously()
+  .catch(err =>
+    cbError(err)
+  )
+
+  firebaseAuth.onAuthStateChanged(user => {
+    if (user) {
+      let anonymous_by = new Date()
+      anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
+
+      let updates= {}
+      updates['/bands/' + bandId + '/cardToken'] = token
+      updates['/bands/' + bandId + '/anonymous_uid'] = user.uid
+      updates['/bands/' + bandId + '/anonymous_by'] = anonymous_by
+
+      firebaseDb.ref().update(updates)
+      .then(
+        cbSuccess()
+      )
+      .catch(err =>
+        cbError(err)
+      )
+    } else {
+      cbError()
+    }
+  })
+}
+
 module.exports = {
   savePerson,
+  saveCardToken,
 }

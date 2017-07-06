@@ -1,14 +1,25 @@
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
 
-const saveCreditCard = (card) => {
+const saveCreditCard = (bandId, card) => {
   return dispatch => {
-    // TODO: save & register card
     console.log(card)
-    dispatch({
-      type: 'SAVE_CREDIT_CARD',
-      dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
-    })
+    // TODO: get token
+    const token = 'TOKEN'
+    FirebaseClient.saveCardToken(bandId, token,
+      () => {
+        dispatch({
+          type: 'SAVE_CREDIT_CARD',
+          dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
+        })
+      },
+      err => {
+        // TODO: Handle error
+        dispatch({
+          type: 'SAVE_CREDIT_CARD_ERROR',
+        })
+      }
+    )
   }
 }
 
