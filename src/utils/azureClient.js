@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const SUBSCRIPTION_KEY = 'ba8c31c918864b969eb1601590167f93'
+const SUBSCRIPTION_KEY = '81d01ff9b1ec45c1abf3147b0444100f'
+const END_POINT = 'https://southeastasia.api.cognitive.microsoft.com/face/v1.0/'
 
 const _post = (urlTail, params, data, cbSuccess, cbError) => {
   const params_url = Object.keys(params).map(function(k) {
@@ -15,7 +16,7 @@ const _post = (urlTail, params, data, cbSuccess, cbError) => {
   }
 
   axios.post(
-    'https://westus.api.cognitive.microsoft.com/face/v1.0/' + urlTail + '?' + params_url,
+    END_POINT + urlTail + '?' + params_url,
     data,
     config
   )
@@ -38,7 +39,7 @@ const _put = (urlTail, data, cbSuccess, cbError) => {
   }
 
   axios.put(
-    'https://westus.api.cognitive.microsoft.com/face/v1.0/' + urlTail,
+    END_POINT + urlTail,
     data,
     config
   )
@@ -60,7 +61,7 @@ const _delete = (urlTail, cbSuccess, cbError) => {
   }
 
   axios.delete(
-    'https://westus.api.cognitive.microsoft.com/face/v1.0/' + urlTail,
+    END_POINT + urlTail,
     config
   )
   .then(function (res) {
