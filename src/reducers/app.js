@@ -1,4 +1,4 @@
-import { OPEN_ALERT, CLOSE_ALERT } from '../types/app'
+import * as Types from '../types/app'
 
 const initState = {
   alertOpen: false,
@@ -7,12 +7,12 @@ const initState = {
 
 const app = (state = initState, action) => {
   switch (action.type) {
-    case OPEN_ALERT:
+    case Types.OPEN_ALERT:
       return Object.assign({}, state, {
         alertOpen: true,
         alertMessage: action.alertMessage,
       })
-    case CLOSE_ALERT:
+    case Types.CLOSE_ALERT:
       return Object.assign({}, state, {
         alertOpen: false,
       })

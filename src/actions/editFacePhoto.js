@@ -1,3 +1,4 @@
+import * as Types from '../types/editFacePhoto'
 import { OPEN_ALERT } from '../types/app'
 import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
@@ -42,7 +43,7 @@ const cropPhoto = (face, filepath, file, dataURL, dispatch) => {
     S3Client.upload(filepath + 'cropped', file.type, dataURL2,
       data => {
         dispatch({
-          type: 'FACE_CROPPED',
+          type: Types.FACE_CROPPED,
           croppedPhotoUrl: data.Location,
         })
       },
@@ -63,7 +64,7 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
       } else {
         const faces = res.data
         dispatch({
-          type: 'FACE_DETECT_ONE_OR_MORE',
+          type: Types.FACE_DETECT_ONE_OR_MORE,
           photoUrl: photoUrl,
           faces: faces,
           scale: scale,
@@ -112,7 +113,7 @@ const changePhoto = (bandId, file, imgElWidth) => {
       loadImage(file, (canvas) => {
         const dataURL = canvas.toDataURL(file.type)
         dispatch({
-          type: 'CHANGE_PHOTO',
+          type: Types.CHANGE_PHOTO,
           photoUrl: dataURL,
           photoAlt: file.name,
         })

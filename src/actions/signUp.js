@@ -1,3 +1,5 @@
+import * as Types from '../types/signUp'
+
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
 
@@ -8,14 +10,14 @@ const saveCreditCard = (bandId, card) => {
     FirebaseClient.saveCardToken(bandId, token,
       () => {
         dispatch({
-          type: 'SAVE_CREDIT_CARD',
+          type: Types.SAVE_CREDIT_CARD,
           dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
         })
       },
       err => {
         // TODO: Handle error
         dispatch({
-          type: 'SAVE_CREDIT_CARD_ERROR',
+          type: Types.SAVE_CREDIT_CARD_ERROR,
         })
       }
     )
@@ -29,13 +31,13 @@ const saveFacePhoto = (bandId, photoUrl) => {
         FirebaseClient.savePerson(bandId, personId, persistedFaceId, photoUrl,
           () => {
             dispatch({
-              type: 'SAVE_FACE_PHOTO',
+              type: Types.SAVE_FACE_PHOTO,
               dispPhotoUrl: photoUrl,
             })
           },
           err => {
             dispatch({
-              type: 'SAVE_FACE_PHOTO_ERROR',
+              type: Types.SAVE_FACE_PHOTO_ERROR,
               message: err.message,
             })
           }
@@ -43,7 +45,7 @@ const saveFacePhoto = (bandId, photoUrl) => {
       },
       err => {
         dispatch({
-          type: 'SAVE_FACE_PHOTO_ERROR',
+          type: Types.SAVE_FACE_PHOTO_ERROR,
           message: err.message,
         })
       }
@@ -53,13 +55,13 @@ const saveFacePhoto = (bandId, photoUrl) => {
 
 const resetCreditCard = () => {
   return {
-    type: 'RESET_CREDIT_CARD',
+    type: Types.RESET_CREDIT_CARD,
   }
 }
 
 const resetFacePhoto = () => {
   return {
-    type: 'RESET_FACE_PHOTO',
+    type: Types.RESET_FACE_PHOTO,
   }
 }
 

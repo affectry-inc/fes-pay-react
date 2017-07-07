@@ -1,3 +1,5 @@
+import * as Types from '../types/editCreditCard'
+
 const initState = {
   cardNo: '',
   cardNoErrorText: '',
@@ -26,23 +28,23 @@ const attachCard = (state) => {
 const editCreditCard = (state = initState, action) => {
   let obj
   switch (action.type) {
-    case 'CHANGE_CARD_NO':
+    case Types.CHANGE_CARD_NO:
       obj = Object.assign({}, state, {
         cardNo: action.cardNo,
         cardNoErrorText: action.cardNoErrorText,
       })
       return attachCard(obj)
-    case 'CHANGE_MONTH':
+    case Types.CHANGE_MONTH:
       obj =  Object.assign({}, state, {
         month: action.month,
       })
       return attachCard(obj)
-    case 'CHANGE_YEAR':
+    case Types.CHANGE_YEAR:
       obj =  Object.assign({}, state, {
         year: action.year,
       })
       return attachCard(obj)
-    case 'CHANGE_SECURITY_CODE':
+    case Types.CHANGE_SECURITY_CODE:
       obj =  Object.assign({}, state, {
         securityCode: action.securityCode,
       })

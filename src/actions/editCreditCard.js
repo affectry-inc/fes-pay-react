@@ -1,3 +1,5 @@
+import * as Types from '../types/editCreditCard'
+
 const changeCardNo = (cardNo) => {
   return dispatch => {
     let errorText = ''
@@ -5,7 +7,7 @@ const changeCardNo = (cardNo) => {
     if (!/^\d*$/.test(cardNo)){errorText='不正な文字が含まれています'}
 
     dispatch({
-      type: 'CHANGE_CARD_NO',
+      type: Types.CHANGE_CARD_NO,
       cardNo: cardNo,
       cardNoErrorText: errorText,
     })
@@ -14,21 +16,21 @@ const changeCardNo = (cardNo) => {
 
 const changeMonth = (month) => {
   return {
-    type: 'CHANGE_MONTH',
+    type: Types.CHANGE_MONTH,
     month: month,
   }
 }
 
 const changeYear = (year) => {
   return {
-    type: 'CHANGE_YEAR',
+    type: Types.CHANGE_YEAR,
     year: year,
   }
 }
 
 const changeSecurityCode = (securityCode) => {
   return {
-    type: 'CHANGE_SECURITY_CODE',
+    type: Types.CHANGE_SECURITY_CODE,
     securityCode: securityCode,
   }
 }
