@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
 
 import Header from '../components/Header'
 import MainMenu from '../components/MainMenu'
+import Alert from '../components/Alert'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import fespayTheme from '../fespayTheme';
+import * as AppActions from '../actions/app'
 
 import classnames from 'classnames';
 
@@ -28,6 +31,8 @@ class App extends Component {
   closeMainMenu = () => this.setState({mainMenuOpen: false});
 
   render() {
+    const { actions, alertOpen, alertMessage } = this.props
+
     return (
       <div>
         <Header
@@ -41,6 +46,11 @@ class App extends Component {
         <div className={classnames('app-content', {'expanded': this.state.mainMenuOpen})}>
           {this.props.children}
         </div>
+        <Alert
+          onCloseAlert={ actions.closeAlert }
+          open={ alertOpen }
+          message={ alertMessage }
+        />
       </div>
     )
   }
@@ -48,12 +58,15 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-  };
+    alertOpen: state.app.alertOpen,
+    alertMessage: state.app.alertMessage,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-  };
+    actions: bindActionCreators(AppActions, dispatch)
+  }
 }
 
 export default connect(
