@@ -1,3 +1,4 @@
+import { OPEN_ALERT } from '../types/app'
 import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
 import TimeUtil from '../utils/timeUtils'
@@ -56,7 +57,8 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
     res => {
       if (!res.data || res.data.length === 0) {
         dispatch({
-          type: 'FACE_DETECT_NONE',
+          type: OPEN_ALERT,
+          alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
         })
       } else {
         const faces = res.data
@@ -69,12 +71,18 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
         if (faces.length === 1) {
           const face = faces[0].faceRectangle
           cropPhoto(face, filepath, file, dataURL, dispatch)
+        } else {
+          dispatch({
+            type: OPEN_ALERT,
+            alertMessage: '複数の顔を認識しました。違う写真をアップロードしてください。',
+          })
         }
       }
     },
     err => {
       dispatch({
-        type: 'FACE_DETECT_ERROR',
+        type: OPEN_ALERT,
+        alertMessage: '顔情報の認識に失敗しました。違う写真をアップロードしてください。',
       })
     }
   )
@@ -117,18 +125,12 @@ const changePhoto = (bandId, file, imgElWidth) => {
 
 const alertNotImage = () => {
   return {
-    type: 'ALERT_NOT_IMAGE'
-  }
-}
-
-const closeAlert = () => {
-  return {
-    type: 'CLOSE_ALERT'
+    type: OPEN_ALERT,
+    alertMessage: '画像を選択してください。',
   }
 }
 
 module.exports = {
   changePhoto,
   alertNotImage,
-  closeAlert,
 }

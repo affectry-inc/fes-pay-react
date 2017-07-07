@@ -5,7 +5,6 @@ import { PropTypes } from 'prop-types'
 import { Row, Col } from 'react-flexbox-grid'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
-import Alert from './Alert'
 import * as EditFacePhotoActions from '../actions/editFacePhoto'
 
 import defaultPhoto from '../img/default_photo.png'
@@ -59,7 +58,7 @@ class EditFacePhoto extends Component {
   }
 
   render() {
-    const { photoUrl, photoAlt, faces, scale, alertOpen, alertMessage, canGoNext, actions } = this.props
+    const { photoUrl, photoAlt, faces, scale, canGoNext } = this.props
 
     let list = []
     faces.map(obj => {
@@ -126,11 +125,6 @@ class EditFacePhoto extends Component {
               </Col>
             </Row>
           </form>
-          <Alert
-            onCloseAlert={ actions.closeAlert }
-            open={ alertOpen }
-            message={ alertMessage }
-          />
         </Col>
       </Row>
     )
@@ -150,8 +144,6 @@ function mapStateToProps(state) {
     croppedPhotoUrl: state.editFacePhoto.croppedPhotoUrl,
     faces: state.editFacePhoto.faces,
     scale: state.editFacePhoto.scale,
-    alertOpen: state.editFacePhoto.alertOpen,
-    alertMessage: state.editFacePhoto.alertMessage,
     canGoNext: state.editFacePhoto.canGoNext,
   }
 }

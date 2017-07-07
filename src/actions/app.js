@@ -1,6 +1,8 @@
+import { CLOSE_ALERT } from '../types/app'
+
 const closeAlert = () => {
   return {
-    type: 'APP_CLOSE_ALERT'
+    type: CLOSE_ALERT,
   }
 }
 
