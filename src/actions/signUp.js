@@ -53,6 +53,20 @@ const saveFacePhoto = (bandId, photoUrl) => {
   }
 }
 
+const savePhoneNumber = (bandId, phoneNumber, recaptchaVerifier) => {
+  return dispatch => {
+    FirebaseClient.signInWithPhoneNumber(phoneNumber, recaptchaVerifier,
+      (confirmationResult) => {
+        alert('SUCCESS')
+      }
+    )
+
+    dispatch({
+      type: Types.SAVE_PHONE_NUMBER,
+    })
+  }
+}
+
 const resetCreditCard = () => {
   return {
     type: Types.RESET_CREDIT_CARD,
@@ -68,6 +82,7 @@ const resetFacePhoto = () => {
 module.exports = {
   saveCreditCard,
   saveFacePhoto,
+  savePhoneNumber,
   resetCreditCard,
   resetFacePhoto,
 }

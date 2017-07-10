@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import { firebaseDb, firebaseAuth } from '../firebase/'
 
 const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbError) => {
@@ -64,7 +65,34 @@ const saveCardToken = (bandId, token, cbSuccess, cbError) => {
   })
 }
 
+const createRecaptchaVerifier = (elementId) => {
+  const recaptchaVerifier = new firebase.auth.RecaptchaVerifier(elementId, {
+    'size': 'invisible',
+    'callback': (res) => {
+      console.log(res)
+    }
+  })
+  return recaptchaVerifier
+}
+
+const signInWithPhoneNumber = (phoneNumber, recaptchaVerifier, cbSuccess) => {
+  firebaseAuth.signInWithPhoneNumber('+' + phoneNumber, recaptchaVerifier)
+  .then( confirmationResult => {
+    // SMS sent. Prompt user to type the code from the message, then sign the
+    // user in with confirmationResult.confirm(code).
+    // window.confirmationResult = confirmationResult;
+    cbSuccess(confirmationResult)
+  })
+  .catch( err => {
+    // Error; SMS not sent
+    // ...
+    console.log(err)
+  })
+}
+
 module.exports = {
   savePerson,
   saveCardToken,
+  createRecaptchaVerifier,
+  signInWithPhoneNumber,
 }

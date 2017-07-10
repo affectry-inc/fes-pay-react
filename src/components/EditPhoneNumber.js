@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
 import { Row, Col } from 'react-flexbox-grid'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Checkbox from 'material-ui/Checkbox'
-import firebase from 'firebase'
-import { firebaseAuth } from '../firebase/'
+import FirebaseClient from '../utils/firebaseClient'
 import * as EditPhoneNumberActions from '../actions/editPhoneNumber'
 
 const styles = {
@@ -24,40 +24,28 @@ const styles = {
 
 class EditPhoneNumber extends Component {
 
+  static propTypes = {
+    bandId: PropTypes.string.isRequired,
+    onTouchSignUp: PropTypes.func.isRequired,
+    onTouchGoPrev: PropTypes.func.isRequired,
+  }
+
   componentDidMount() {
     this.phoneNumber.focus()
 
-    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('register-button', {
-      'size': 'invisible',
-      'callback': (res) => {
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-        console.log(res)
-      }
-    })
+    this.recaptchaVerifier = FirebaseClient.createRecaptchaVerifier('signup-button')
   }
 
   submitPhoneNumber = (e) => {
     e.preventDefault()
 
-    const { phoneNumber, canGoNext } = this.props
+    const { bandId, phoneNumber, canGoNext } = this.props
 
     if (!canGoNext) {
       return
     }
 
-    const appVerifier = this.recaptchaVerifier
-    firebaseAuth.signInWithPhoneNumber('+' + phoneNumber, appVerifier)
-    .then( confirmationResult => {
-      // SMS sent. Prompt user to type the code from the message, then sign the
-      // user in with confirmationResult.confirm(code).
-      window.confirmationResult = confirmationResult;
-      alert('SUCCESS')
-    })
-    .catch( err => {
-      // Error; SMS not sent
-      // ...
-      console.log(err)
-    })
+    this.props.onTouchSignUp(bandId, phoneNumber, this.recaptchaVerifier)
   }
 
   goBack = (e) => {
@@ -109,7 +97,7 @@ class EditPhoneNumber extends Component {
             <Row style={styles.buttons}>
               <Col xs={6}>
                 <RaisedButton
-                  id='register-button'
+                  id='signup-button'
                   label='登録'
                   type='submit'
                   disabled={ !canGoNext }

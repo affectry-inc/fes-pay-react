@@ -58,6 +58,7 @@ class SignUp extends Component {
                 <StepContent style={ styles.stepContent }>
                   <EditPhoneNumber
                     bandId={ this.props.params.bandId }
+                    onTouchSignUp={ actions.savePhoneNumber }
                     onTouchGoPrev={ actions.resetFacePhoto }
                   />
                 </StepContent>

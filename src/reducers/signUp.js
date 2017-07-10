@@ -18,6 +18,9 @@ const signUp = (state = initState, action) => {
         stepIndex: 2,
         dispPhotoUrl: action.dispPhotoUrl,
       })
+    case Types.SAVE_PHONE_NUMBER:
+      return Object.assign({}, state, {
+      })
     case Types.RESET_CREDIT_CARD:
       return Object.assign({}, state, {
         stepIndex: 0,
