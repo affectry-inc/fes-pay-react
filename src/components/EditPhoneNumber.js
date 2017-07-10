@@ -4,6 +4,8 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Checkbox from 'material-ui/Checkbox'
+import firebase from 'firebase'
+import { firebaseAuth } from '../firebase/'
 
 const styles = {
   fullWidth: {
@@ -31,6 +33,14 @@ class EditPhoneNumber extends Component {
 
   componentDidMount() {
     this.phoneNumber.focus()
+
+    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('register-button', {
+      'size': 'invisible',
+      'callback': (res) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+        console.log(res)
+      }
+    })
   }
 
   submitPhoneNumber = (e) => {
@@ -42,7 +52,19 @@ class EditPhoneNumber extends Component {
       return
     }
 
-    alert('Phone saved')
+    // alert('Phone saved')
+    const appVerifier = this.recaptchaVerifier
+    firebaseAuth.signInWithPhoneNumber('+' + phoneNumber, appVerifier)
+        .then(function (confirmationResult) {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          alert('SUCCESS')
+        }).catch(function (error) {
+          // Error; SMS not sent
+          // ...
+          console.log(error)
+        });
 
     this.setState({
       phoneNumber: '',
@@ -99,9 +121,15 @@ class EditPhoneNumber extends Component {
                 />
               </Col>
             </Row>
+            <Row start='xs'>
+              <Col xs={12}>
+                <div id='recaptcha-container'></div>
+              </Col>
+            </Row>
             <Row style={styles.buttons}>
               <Col xs={6}>
                 <RaisedButton
+                  id='register-button'
                   label='登録'
                   type='submit'
                   disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText.length > 0 || !isTermsAgreed}
