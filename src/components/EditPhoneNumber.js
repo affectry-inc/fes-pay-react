@@ -39,25 +39,25 @@ class EditPhoneNumber extends Component {
   submitPhoneNumber = (e) => {
     e.preventDefault()
 
-    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.props
+    const { phoneNumber, canGoNext } = this.props
 
-    if (!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText || !isTermsAgreed) {
+    if (!canGoNext) {
       return
     }
 
-    // alert('Phone saved')
     const appVerifier = this.recaptchaVerifier
     firebaseAuth.signInWithPhoneNumber('+' + phoneNumber, appVerifier)
-        .then(function (confirmationResult) {
-          // SMS sent. Prompt user to type the code from the message, then sign the
-          // user in with confirmationResult.confirm(code).
-          window.confirmationResult = confirmationResult;
-          alert('SUCCESS')
-        }).catch(function (error) {
-          // Error; SMS not sent
-          // ...
-          console.log(error)
-        });
+    .then( confirmationResult => {
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      window.confirmationResult = confirmationResult;
+      alert('SUCCESS')
+    })
+    .catch( err => {
+      // Error; SMS not sent
+      // ...
+      console.log(err)
+    })
   }
 
   goBack = (e) => {
@@ -73,7 +73,7 @@ class EditPhoneNumber extends Component {
   }
 
   render() {
-    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.props
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed, canGoNext } = this.props
 
     return (
       <Row className='edit-phone-number'>
@@ -112,7 +112,7 @@ class EditPhoneNumber extends Component {
                   id='register-button'
                   label='登録'
                   type='submit'
-                  disabled={!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText.length > 0 || !isTermsAgreed}
+                  disabled={ !canGoNext }
                   primary={true}
                   style={styles.fullWidth}
                 />
@@ -136,7 +136,8 @@ function mapStateToProps(state) {
   return {
     phoneNumber: state.editPhoneNumber.phoneNumber,
     phoneNumberErrorText: state.editPhoneNumber.phoneNumberErrorText,
-    isTermsAgreed:state.editPhoneNumber.isTermsAgreed,
+    isTermsAgreed: state.editPhoneNumber.isTermsAgreed,
+    canGoNext: state.editPhoneNumber.canGoNext,
   }
 }
 
