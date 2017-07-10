@@ -1,13 +1,15 @@
 import todoActions from './todos'
 import appActions from './app'
 import signUpActions from './signUp'
-import editFacePhotoActions from './editFacePhoto'
 import editCreditCardActions from './editCreditCard'
+import editFacePhotoActions from './editFacePhoto'
+import editPhoneNumberActions from './editPhoneNumber'
 
 module.exports = {
   ...todoActions,
   ...appActions,
   ...signUpActions,
-  ...editFacePhotoActions,
   ...editCreditCardActions,
+  ...editFacePhotoActions,
+  ...editPhoneNumberActions,
 }

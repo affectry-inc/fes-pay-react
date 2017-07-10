@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { Row, Col } from 'react-flexbox-grid'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -6,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Checkbox from 'material-ui/Checkbox'
 import firebase from 'firebase'
 import { firebaseAuth } from '../firebase/'
+import * as EditPhoneNumberActions from '../actions/editPhoneNumber'
 
 const styles = {
   fullWidth: {
@@ -20,16 +23,6 @@ const styles = {
 }
 
 class EditPhoneNumber extends Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      phoneNumber: '',
-      phoneNumberErrorText: '',
-      isTermsAgreed: false
-    }
-  }
 
   componentDidMount() {
     this.phoneNumber.focus()
@@ -46,7 +39,7 @@ class EditPhoneNumber extends Component {
   submitPhoneNumber = (e) => {
     e.preventDefault()
 
-    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.state
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.props
 
     if (!phoneNumber || phoneNumber.length < 1 || phoneNumberErrorText || !isTermsAgreed) {
       return
@@ -65,12 +58,6 @@ class EditPhoneNumber extends Component {
           // ...
           console.log(error)
         });
-
-    this.setState({
-      phoneNumber: '',
-      phoneNumberErrorText: '',
-      isTermsAgreed: false
-    })
   }
 
   goBack = (e) => {
@@ -78,22 +65,15 @@ class EditPhoneNumber extends Component {
   }
 
   changePhoneNumber = (event, value) => {
-    let errorText = ''
-    if (!/^\d*$/.test(value)) { errorText = '不正な文字が含まれています' }
-    this.setState({
-      phoneNumber: value,
-      phoneNumberErrorText: errorText,
-    })
+    this.props.actions.changePhoneNumber(value)
   }
 
   checkTermsAgreed = (event, isInputChecked) => {
-    this.setState({
-      isTermsAgreed: isInputChecked,
-    })
+    this.props.actions.checkTermsAgreed(isInputChecked)
   }
 
   render() {
-    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.state
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed } = this.props
 
     return (
       <Row className='edit-phone-number'>
@@ -152,4 +132,21 @@ class EditPhoneNumber extends Component {
   }
 }
 
-export default EditPhoneNumber
+function mapStateToProps(state) {
+  return {
+    phoneNumber: state.editPhoneNumber.phoneNumber,
+    phoneNumberErrorText: state.editPhoneNumber.phoneNumberErrorText,
+    isTermsAgreed:state.editPhoneNumber.isTermsAgreed,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(EditPhoneNumberActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditPhoneNumber)
