@@ -45,7 +45,7 @@ class EditPhoneNumber extends Component {
       return
     }
 
-    this.props.onTouchSignUp(bandId, phoneNumber, this.recaptchaVerifier)
+    this.props.onTouchSignUp(bandId, '81', phoneNumber, this.recaptchaVerifier)
   }
 
   goBack = (e) => {

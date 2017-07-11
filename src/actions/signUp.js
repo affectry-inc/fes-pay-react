@@ -51,13 +51,14 @@ const saveFacePhoto = (bandId, photoUrl) => {
   }
 }
 
-const savePhoneNumber = (bandId, phoneNumber, recaptchaVerifier) => {
+const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
   return dispatch => {
-    FirebaseClient.signInWithPhoneNumber(phoneNumber, recaptchaVerifier,
+    const fullPhoneNumber = '+' + countryCode + phoneNumber.replace(/^0/,'')
+    FirebaseClient.signInWithPhoneNumber(fullPhoneNumber, recaptchaVerifier,
       confirmationResult => {
+        window.confirmationResult = confirmationResult
         FirebaseClient.savePhoneNumber(bandId, phoneNumber,
           () => {
-            // TODO: Open confirm dialog
             dispatch({
               type: Types.SAVE_PHONE_NUMBER,
             })
@@ -70,6 +71,25 @@ const savePhoneNumber = (bandId, phoneNumber, recaptchaVerifier) => {
         )
       }
     )
+  }
+}
+
+const sendConfirmCode = (confirmCode) => {
+  return dispatch => {
+    window.confirmationResult.confirm(confirmCode)
+    .then(res => {
+      const user = res.user
+      console.log(user)
+      // TODO: redirect to complete view
+      dispatch({
+        type: Types.SEND_CONFIRM_CODE,
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: Types.SEND_CONFIRM_CODE_ERROR,
+      })
+    })
   }
 }
 
@@ -89,6 +109,7 @@ module.exports = {
   saveCreditCard,
   saveFacePhoto,
   savePhoneNumber,
+  sendConfirmCode,
   resetCreditCard,
   resetFacePhoto,
 }

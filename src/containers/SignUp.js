@@ -8,6 +8,7 @@ import EditCreditCard from '../components/EditCreditCard'
 import EditFacePhoto from '../components/EditFacePhoto'
 import EditPhoneNumber from '../components/EditPhoneNumber'
 import FinishedStepContent from '../components/FinishedStepContent'
+import ConfirmCodeDialog from '../components/ConfirmCodeDialog'
 
 import * as SignUpActions from '../actions/signUp'
 
@@ -20,7 +21,7 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, actions } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, actions, confirmCodeDialogOpen } = this.props
 
     return (
       <Grid>
@@ -31,7 +32,7 @@ class SignUp extends Component {
         </Row>
         <Row center='xs'>
           <Col xs={ 12 } sm={ 8 } md={ 6 }>
-            <Stepper activeStep={ stepIndex } orientation="vertical">
+            <Stepper activeStep={ stepIndex } orientation='vertical'>
               <Step>
                 <StepLabel>クレジットカード登録</StepLabel>
                 <StepContent style={ styles.stepContent }>
@@ -66,6 +67,10 @@ class SignUp extends Component {
             </Stepper>
           </Col>
         </Row>
+        <ConfirmCodeDialog
+          onTouchSend={ actions.sendConfirmCode }
+          open={ confirmCodeDialogOpen }
+        />
       </Grid>
     )
   }
@@ -76,6 +81,7 @@ function mapStateToProps(state) {
     stepIndex: state.signUp.stepIndex,
     dispCardNo: state.signUp.dispCardNo,
     dispPhotoUrl: state.signUp.dispPhotoUrl,
+    confirmCodeDialogOpen: state.signUp.confirmCodeDialogOpen,
   }
 }
 
