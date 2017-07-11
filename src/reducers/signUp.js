@@ -39,6 +39,9 @@ const signUp = (state = initState, action) => {
         stepIndex: 1,
         dispPhotoUrl: '',
       })
+    case Types.SAVE_PHONE_NUMBER_ERROR:
+      return Object.assign({}, state, {
+      })
     default:
       return state
   }

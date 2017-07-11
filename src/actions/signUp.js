@@ -14,7 +14,7 @@ const saveCreditCard = (bandId, card) => {
           dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
         })
       },
-      err => {
+      () => {
         // TODO: Handle error
         dispatch({
           type: Types.SAVE_CREDIT_CARD_ERROR,
@@ -38,7 +38,6 @@ const saveFacePhoto = (bandId, photoUrl) => {
           err => {
             dispatch({
               type: Types.SAVE_FACE_PHOTO_ERROR,
-              message: err.message,
             })
           }
         )
@@ -46,7 +45,6 @@ const saveFacePhoto = (bandId, photoUrl) => {
       err => {
         dispatch({
           type: Types.SAVE_FACE_PHOTO_ERROR,
-          message: err.message,
         })
       }
     )
@@ -56,14 +54,22 @@ const saveFacePhoto = (bandId, photoUrl) => {
 const savePhoneNumber = (bandId, phoneNumber, recaptchaVerifier) => {
   return dispatch => {
     FirebaseClient.signInWithPhoneNumber(phoneNumber, recaptchaVerifier,
-      (confirmationResult) => {
-        alert('SUCCESS')
+      confirmationResult => {
+        FirebaseClient.savePhoneNumber(bandId, phoneNumber,
+          () => {
+            // TODO: Open confirm dialog
+            dispatch({
+              type: Types.SAVE_PHONE_NUMBER,
+            })
+          },
+          err => {
+            dispatch({
+              type: Types.SAVE_PHONE_NUMBER_ERROR,
+            })
+          }
+        )
       }
     )
-
-    dispatch({
-      type: Types.SAVE_PHONE_NUMBER,
-    })
   }
 }
 

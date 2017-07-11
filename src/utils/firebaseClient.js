@@ -1,6 +1,37 @@
 import firebase from 'firebase'
 import { firebaseDb, firebaseAuth } from '../firebase/'
 
+const saveCardToken = (bandId, token, cbSuccess, cbError) => {
+  firebaseAuth.signInAnonymously()
+  .catch(err => {
+    console.log(err)
+    cbError()
+  })
+
+  firebaseAuth.onAuthStateChanged(user => {
+    if (user) {
+      let anonymous_by = new Date()
+      anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
+
+      let updates= {}
+      updates['/bands/' + bandId + '/cardToken'] = token
+      updates['/bands/' + bandId + '/anonymousUid'] = user.uid
+      updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+
+      firebaseDb.ref().update(updates)
+      .then(
+        cbSuccess()
+      )
+      .catch(err => {
+        console.log(err)
+        cbError()
+      })
+    } else {
+      cbError()
+    }
+  })
+}
+
 const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbError) => {
   let persistedFace = {
     'photoUrl': photoUrl,
@@ -31,37 +62,23 @@ const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbEr
   .then(
     cbSuccess()
   )
-  .catch(err =>
+  .catch(err => {
+    console.log(err)
     cbError(err)
-  )
+  })
 }
 
-const saveCardToken = (bandId, token, cbSuccess, cbError) => {
-  firebaseAuth.signInAnonymously()
-  .catch(err =>
-    cbError(err)
+const savePhoneNumber = (bandId, phoneNumber, cbSuccess, cbError) => {
+  let updates= {}
+  updates['/bands/' + bandId + '/phoneNumber'] = phoneNumber
+
+  firebaseDb.ref().update(updates)
+  .then(
+    cbSuccess()
   )
-
-  firebaseAuth.onAuthStateChanged(user => {
-    if (user) {
-      let anonymous_by = new Date()
-      anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
-
-      let updates= {}
-      updates['/bands/' + bandId + '/cardToken'] = token
-      updates['/bands/' + bandId + '/anonymous_uid'] = user.uid
-      updates['/bands/' + bandId + '/anonymous_by'] = anonymous_by
-
-      firebaseDb.ref().update(updates)
-      .then(
-        cbSuccess()
-      )
-      .catch(err =>
-        cbError(err)
-      )
-    } else {
-      cbError()
-    }
+  .catch(err => {
+    console.log(err)
+    cbError(err)
   })
 }
 
@@ -91,8 +108,9 @@ const signInWithPhoneNumber = (phoneNumber, recaptchaVerifier, cbSuccess) => {
 }
 
 module.exports = {
-  savePerson,
   saveCardToken,
+  savePerson,
+  savePhoneNumber,
   createRecaptchaVerifier,
   signInWithPhoneNumber,
 }
