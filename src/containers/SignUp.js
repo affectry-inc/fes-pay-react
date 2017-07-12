@@ -69,6 +69,7 @@ class SignUp extends Component {
         </Row>
         <ConfirmCodeDialog
           onTouchSend={ actions.sendConfirmCode }
+          onTouchGoPrev={ actions.resetPhoneNumber }
           open={ confirmCodeDialogOpen }
         />
       </Grid>

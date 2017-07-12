@@ -92,18 +92,39 @@ const createRecaptchaVerifier = (elementId) => {
   return recaptchaVerifier
 }
 
-const signInWithPhoneNumber = (phoneNumber, recaptchaVerifier, cbSuccess) => {
+const signInWithPhoneNumber = (phoneNumber, recaptchaVerifier, cbSuccess, cbError) => {
   firebaseAuth.signInWithPhoneNumber('+' + phoneNumber, recaptchaVerifier)
-  .then( confirmationResult => {
-    // SMS sent. Prompt user to type the code from the message, then sign the
-    // user in with confirmationResult.confirm(code).
-    // window.confirmationResult = confirmationResult;
+  .then(confirmationResult => {
     cbSuccess(confirmationResult)
   })
-  .catch( err => {
-    // Error; SMS not sent
-    // ...
-    console.log(err)
+  .catch(err => {
+    console.log('Error signing in with phone number', err)
+    cbError(err)
+  })
+}
+
+const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
+  const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, confirmCode)
+  firebase.auth().currentUser.linkWithCredential(credential)
+  .then(user => {
+    console.log('Anonymous account successfully upgraded', user)
+    cbSuccess(user)
+  })
+  .catch(err => {
+    if (err.code === 'auth/credential-already-in-use') {
+      firebaseAuth.signInWithCredential(err.credential)
+      .then(user => {
+        console.log('Sign in with credential successfully', user)
+        cbSuccess(user)
+      })
+      .catch(err => {
+        console.log('Error signing in with credential', err)
+        cbError(err)
+      })
+    } else {
+      console.log('Error upgrading anonymous account', err)
+      cbError(err)
+    }
   })
 }
 
@@ -113,4 +134,5 @@ module.exports = {
   savePhoneNumber,
   createRecaptchaVerifier,
   signInWithPhoneNumber,
+  confirmSignIn,
 }

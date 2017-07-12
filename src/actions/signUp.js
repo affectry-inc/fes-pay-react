@@ -69,6 +69,11 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) =>
             })
           }
         )
+      },
+      err => {
+        dispatch({
+          type: Types.SAVE_PHONE_NUMBER_ERROR,
+        })
       }
     )
   }
@@ -76,20 +81,20 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) =>
 
 const sendConfirmCode = (confirmCode) => {
   return dispatch => {
-    window.confirmationResult.confirm(confirmCode)
-    .then(res => {
-      const user = res.user
-      console.log(user)
-      // TODO: redirect to complete view
-      dispatch({
-        type: Types.SEND_CONFIRM_CODE,
-      })
-    })
-    .catch(err => {
-      dispatch({
-        type: Types.SEND_CONFIRM_CODE_ERROR,
-      })
-    })
+    FirebaseClient.confirmSignIn(window.confirmationResult.verificationId, confirmCode,
+      user => {
+        // TODO: redirect to complete view
+        dispatch({
+          type: Types.SEND_CONFIRM_CODE,
+        })
+      },
+      err => {
+        // TODO: prompt reinput or reset
+        dispatch({
+          type: Types.SEND_CONFIRM_CODE_ERROR,
+        })
+      }
+    )
   }
 }
 
@@ -105,6 +110,12 @@ const resetFacePhoto = () => {
   }
 }
 
+const resetPhoneNumber = () => {
+  return {
+    type: Types.RESET_PHONE_NUMBER,
+  }
+}
+
 module.exports = {
   saveCreditCard,
   saveFacePhoto,
@@ -112,4 +123,5 @@ module.exports = {
   sendConfirmCode,
   resetCreditCard,
   resetFacePhoto,
+  resetPhoneNumber,
 }

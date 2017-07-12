@@ -37,6 +37,10 @@ const signUp = (state = initState, action) => {
         stepIndex: 1,
         dispPhotoUrl: '',
       })
+    case Types.RESET_PHONE_NUMBER:
+      return Object.assign({}, state, {
+        confirmCodeDialogOpen: false,
+      })
     case Types.SAVE_CREDIT_CARD_ERROR:
       return Object.assign({}, state, {
       })

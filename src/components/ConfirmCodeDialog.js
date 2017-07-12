@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import Dialog from 'material-ui/Dialog'
+import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 
 const styles = {
   alignCenter: {
     textAlign: 'center',
+  },
+  buttonStyle: {
+    margin: '0 0.5em'
   },
   hintText: {
     width: '100%',
@@ -15,13 +19,14 @@ const styles = {
   textField: {
     paddingTop: '2em',
     width: '100%',
-  }
+  },
 }
 
 class ConfirmCodeDialog extends Component {
 
   static propTypes = {
     onTouchSend: PropTypes.func.isRequired,
+    onTouchGoPrev: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
   }
 
@@ -47,6 +52,14 @@ class ConfirmCodeDialog extends Component {
     })
   }
 
+  goBack = (e) => {
+    this.props.onTouchGoPrev()
+
+    this.setState({
+      confirmCode: '',
+    })
+  }
+
   changeConfirmCode = (event, value) => {
     this.setState({
       confirmCode: value,
@@ -55,11 +68,17 @@ class ConfirmCodeDialog extends Component {
 
   render() {
     const actions = [
-      <FlatButton
+      <RaisedButton
         label='送信'
         primary={ true }
+        style={ styles.buttonStyle }
         onTouchTap={ this.sendConfirmCode }
       />,
+      <FlatButton
+        label="戻る"
+        style={ styles.buttonStyle }
+        onTouchTap={ this.goBack }
+      />
     ]
 
     return (

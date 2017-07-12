@@ -6,6 +6,8 @@ const changeCardNo = (cardNo) => {
 
     if (!/^\d*$/.test(cardNo)){errorText='不正な文字が含まれています'}
 
+    if (cardNo.length > 16) return
+
     dispatch({
       type: Types.CHANGE_CARD_NO,
       cardNo: cardNo,
