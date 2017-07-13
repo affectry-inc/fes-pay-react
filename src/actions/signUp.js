@@ -85,7 +85,7 @@ const sendConfirmCode = (confirmCode) => {
   return dispatch => {
     FirebaseClient.confirmSignIn(window.confirmationResult.verificationId, confirmCode,
       user => {
-        browserHistory.push('/home')
+        browserHistory.push('/')
         dispatch({
           type: Types.SEND_CONFIRM_CODE,
         })
