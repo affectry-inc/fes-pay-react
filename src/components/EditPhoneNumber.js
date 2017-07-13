@@ -31,7 +31,7 @@ class EditPhoneNumber extends Component {
   }
 
   componentDidMount() {
-    this.phoneNumber.focus()
+    this.phoneNumberText.focus()
 
     this.recaptchaVerifier = FirebaseClient.createRecaptchaVerifier('signup-button')
   }
@@ -75,7 +75,7 @@ class EditPhoneNumber extends Component {
                   value={phoneNumber}
                   onChange={this.changePhoneNumber}
                   style={styles.fullWidth}
-                  ref={el => this.phoneNumber = el}
+                  ref={el => this.phoneNumberText = el}
                 />
               </Col>
             </Row>

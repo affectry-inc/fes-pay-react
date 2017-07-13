@@ -1,3 +1,5 @@
+import { browserHistory } from 'react-router'
+
 import * as Types from '../types/signUp'
 
 import AzureClient from '../utils/azureClient'
@@ -83,6 +85,7 @@ const sendConfirmCode = (confirmCode) => {
   return dispatch => {
     FirebaseClient.confirmSignIn(window.confirmationResult.verificationId, confirmCode,
       user => {
+        browserHistory.push('/home')
         dispatch({
           type: Types.SEND_CONFIRM_CODE,
         })

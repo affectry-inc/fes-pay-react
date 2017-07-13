@@ -1,34 +1,55 @@
 import firebase from 'firebase'
 import { firebaseDb, firebaseAuth } from '../firebase/'
 
-const saveCardToken = (bandId, token, cbSuccess, cbError) => {
-  firebaseAuth.signInAnonymously()
+const updateUid = (bandId, uid, cbSuccess, cbError) => {
+  let updates= {}
+  updates['/bands/' + bandId + '/anonymousUid'] = null
+  updates['/bands/' + bandId + '/anonymousBy'] = null
+  updates['/bands/' + bandId + '/uid'] = uid
+  console.log(updates)
+
+  firebaseDb.ref().update(updates)
+  .then(
+    cbSuccess()
+  )
   .catch(err => {
     console.log(err)
-    cbError()
+    cbError(err)
   })
+}
 
-  firebaseAuth.onAuthStateChanged(user => {
-    if (user) {
-      let anonymous_by = new Date()
-      anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
+const saveCardToken = (bandId, token, cbSuccess, cbError) => {
+  firebaseAuth.signInAnonymously()
+  .then(user => {
+    let anonymous_by = new Date()
+    anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
 
-      let updates= {}
-      updates['/bands/' + bandId + '/cardToken'] = token
-      updates['/bands/' + bandId + '/anonymousUid'] = user.uid
-      updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+    let updates= {}
+    updates['/bands/' + bandId + '/cardToken'] = token
+    updates['/bands/' + bandId + '/anonymousUid'] = user.uid
+    updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
 
-      firebaseDb.ref().update(updates)
-      .then(
+    firebaseDb.ref().update(updates)
+    .then(
+      user.updateProfile({
+        displayName: bandId,
+      })
+      .then(() => {
         cbSuccess()
-      )
+      })
       .catch(err => {
         console.log(err)
         cbError()
       })
-    } else {
+    )
+    .catch(err => {
+      console.log(err)
       cbError()
-    }
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    cbError()
   })
 }
 
@@ -108,14 +129,28 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
   firebase.auth().currentUser.linkWithCredential(credential)
   .then(user => {
     console.log('Anonymous account successfully upgraded', user)
-    cbSuccess(user)
+    updateUid(user.displayName, user.uid,
+      () => {
+        cbSuccess(user)
+      },
+      err => {
+        cbError(err)
+      }
+    )
   })
   .catch(err => {
     if (err.code === 'auth/credential-already-in-use') {
       firebaseAuth.signInWithCredential(err.credential)
       .then(user => {
         console.log('Sign in with credential successfully', user)
-        cbSuccess(user)
+        updateUid(user.displayName, user.uid,
+          () => {
+            cbSuccess(user)
+          },
+          err => {
+            cbError(err)
+          }
+        )
       })
       .catch(err => {
         console.log('Error signing in with credential', err)
