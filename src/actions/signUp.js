@@ -15,7 +15,6 @@ const saveCreditCard = (bandId, card) => {
         })
       },
       () => {
-        // TODO: Handle error
         dispatch({
           type: Types.SAVE_CREDIT_CARD_ERROR,
         })
@@ -84,13 +83,11 @@ const sendConfirmCode = (confirmCode) => {
   return dispatch => {
     FirebaseClient.confirmSignIn(window.confirmationResult.verificationId, confirmCode,
       user => {
-        // TODO: redirect to complete view
         dispatch({
           type: Types.SEND_CONFIRM_CODE,
         })
       },
       err => {
-        // TODO: prompt reinput or reset
         dispatch({
           type: Types.SEND_CONFIRM_CODE_ERROR,
         })
