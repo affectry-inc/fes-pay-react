@@ -61,6 +61,7 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) =>
           () => {
             dispatch({
               type: Types.SAVE_PHONE_NUMBER,
+              dispPhoneNumber: phoneNumber,
             })
           },
           err => {

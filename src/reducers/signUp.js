@@ -4,6 +4,7 @@ const initState = {
   stepIndex: 0,
   dispCardNo: '',
   dispPhotoUrl: '',
+  dispPhoneNumber: '',
   confirmCodeDialogOpen: false,
 }
 
@@ -21,6 +22,8 @@ const signUp = (state = initState, action) => {
       })
     case Types.SAVE_PHONE_NUMBER:
       return Object.assign({}, state, {
+        stepIndex: 3,
+        dispPhoneNumber: action.dispPhoneNumber,
         confirmCodeDialogOpen: true,
       })
     case Types.SEND_CONFIRM_CODE:
@@ -39,6 +42,8 @@ const signUp = (state = initState, action) => {
       })
     case Types.RESET_PHONE_NUMBER:
       return Object.assign({}, state, {
+        stepIndex: 2,
+        dispPhoneNumber: '',
         confirmCodeDialogOpen: false,
       })
     case Types.SAVE_CREDIT_CARD_ERROR:

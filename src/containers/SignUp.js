@@ -21,7 +21,7 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, actions, confirmCodeDialogOpen } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen } = this.props
 
     return (
       <Grid>
@@ -63,6 +63,7 @@ class SignUp extends Component {
                     onTouchGoPrev={ actions.resetFacePhoto }
                   />
                 </StepContent>
+                <FinishedStepContent text={ dispPhoneNumber }/>
               </Step>
             </Stepper>
           </Col>
@@ -82,6 +83,7 @@ function mapStateToProps(state) {
     stepIndex: state.signUp.stepIndex,
     dispCardNo: state.signUp.dispCardNo,
     dispPhotoUrl: state.signUp.dispPhotoUrl,
+    dispPhoneNumber: state.signUp.dispPhoneNumber,
     confirmCodeDialogOpen: state.signUp.confirmCodeDialogOpen,
   }
 }
