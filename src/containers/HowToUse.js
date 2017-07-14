@@ -7,8 +7,8 @@ class HowToUse extends Component {
     return (
       <div>
         <h1>使い方のページです</h1>
-        <Link to="todos">Todos</Link><br/>
-        <Link to="yeah/a001">Sign Up</Link>
+        <Link to="/todos">Todos</Link><br/>
+        <Link to="/yeah/a001">Sign Up</Link>
       </div>
     );
   }
