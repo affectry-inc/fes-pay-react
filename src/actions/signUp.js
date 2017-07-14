@@ -4,19 +4,27 @@ import * as Types from '../types/signUp'
 
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
+import OmiseClient from '../utils/omiseClient'
 
 const saveCreditCard = (bandId, card) => {
   return dispatch => {
-    // TODO: get token
-    const token = 'TOKEN'
-    FirebaseClient.saveCardToken(bandId, token,
-      () => {
-        dispatch({
-          type: Types.SAVE_CREDIT_CARD,
-          dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
-        })
+    OmiseClient.createToken(card,
+      token => {
+        FirebaseClient.saveCardToken(bandId, token,
+          () => {
+            dispatch({
+              type: Types.SAVE_CREDIT_CARD,
+              dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
+            })
+          },
+          () => {
+            dispatch({
+              type: Types.SAVE_CREDIT_CARD_ERROR,
+            })
+          }
+        )
       },
-      () => {
+      err => {
         dispatch({
           type: Types.SAVE_CREDIT_CARD_ERROR,
         })
