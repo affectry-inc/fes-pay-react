@@ -6,7 +6,6 @@ const updateUid = (bandId, uid, cbSuccess, cbError) => {
   updates['/bands/' + bandId + '/anonymousUid'] = null
   updates['/bands/' + bandId + '/anonymousBy'] = null
   updates['/bands/' + bandId + '/uid'] = uid
-  console.log(updates)
 
   firebaseDb.ref().update(updates)
   .then(

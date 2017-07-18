@@ -17,7 +17,10 @@ const createToken = (card, cbSuccess, cbError) => {
   const base64Encoded = new Buffer(pKey + ':').toString('base64')
   const config = {
     headers: {
-      'Authorization': 'Basic ' + base64Encoded
+      'Authorization': 'Basic ' + base64Encoded,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Omise-Version': '2015-11-17',
     }
   }
 
