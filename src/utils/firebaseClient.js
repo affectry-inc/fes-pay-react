@@ -17,7 +17,7 @@ const updateUid = (bandId, uid, cbSuccess, cbError) => {
   })
 }
 
-const saveCardToken = (bandId, token, cbSuccess, cbError) => {
+const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
   firebaseAuth.signInAnonymously()
   .then(user => {
     let anonymous_by = new Date()
@@ -25,6 +25,7 @@ const saveCardToken = (bandId, token, cbSuccess, cbError) => {
 
     let updates= {}
     updates['/bands/' + bandId + '/cardToken'] = token
+    updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
     updates['/bands/' + bandId + '/anonymousUid'] = user.uid
     updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
 
@@ -38,17 +39,17 @@ const saveCardToken = (bandId, token, cbSuccess, cbError) => {
       })
       .catch(err => {
         console.log(err)
-        cbError()
+        cbError(err)
       })
     )
     .catch(err => {
       console.log(err)
-      cbError()
+      cbError(err)
     })
   })
   .catch(err => {
     console.log(err)
-    cbError()
+    cbError(err)
   })
 }
 

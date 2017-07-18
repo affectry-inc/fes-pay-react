@@ -10,14 +10,15 @@ const saveCreditCard = (bandId, card) => {
   return dispatch => {
     OmiseClient.createToken(card,
       token => {
-        FirebaseClient.saveCardToken(bandId, token,
+        const lastDigits = card.cardNo.slice(-4)
+        FirebaseClient.saveCardToken(bandId, token, lastDigits,
           () => {
             dispatch({
               type: Types.SAVE_CREDIT_CARD,
-              dispCardNo: 'XXXX - XXXX - XXXX - ' + card.cardNo.slice(-4),
+              dispCardNo: 'XXXX - XXXX - XXXX - ' + lastDigits,
             })
           },
-          () => {
+          err => {
             dispatch({
               type: Types.SAVE_CREDIT_CARD_ERROR,
             })
