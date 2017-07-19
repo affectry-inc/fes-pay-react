@@ -67,7 +67,7 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) =>
     FirebaseClient.signInWithPhoneNumber(fullPhoneNumber, recaptchaVerifier,
       confirmationResult => {
         window.confirmationResult = confirmationResult
-        FirebaseClient.savePhoneNumber(bandId, phoneNumber,
+        FirebaseClient.savePhoneNumber(bandId, countryCode, phoneNumber,
           () => {
             dispatch({
               type: Types.SAVE_PHONE_NUMBER,

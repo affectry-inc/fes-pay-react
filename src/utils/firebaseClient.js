@@ -91,8 +91,9 @@ const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbEr
   })
 }
 
-const savePhoneNumber = (bandId, phoneNumber, cbSuccess, cbError) => {
+const savePhoneNumber = (bandId, countryCode, phoneNumber, cbSuccess, cbError) => {
   let updates= {}
+  updates['/bands/' + bandId + '/phoneCountryCode'] = countryCode
   updates['/bands/' + bandId + '/phoneNumber'] = phoneNumber
 
   firebaseDb.ref().update(updates)
