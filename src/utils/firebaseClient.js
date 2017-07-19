@@ -26,6 +26,8 @@ const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
     let updates= {}
     updates['/bands/' + bandId + '/cardToken'] = token
     updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
+    updates['/bands/' + bandId + '/cardCustomerId'] = null
+    updates['/bands/' + bandId + '/cardId'] = null
     updates['/bands/' + bandId + '/anonymousUid'] = user.uid
     updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
 

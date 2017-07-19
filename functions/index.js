@@ -1,9 +1,50 @@
-const functions = require('firebase-functions');
-
-const admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
+const axios = require('axios')
+const functions = require('firebase-functions')
+const admin = require('firebase-admin')
+admin.initializeApp(functions.config().firebase)
 
 const pad2 = (n) => { return n < 10 ? '0' + n : n }
+
+exports.registerCard = functions.database.ref('/bands/{bandId}/cardToken')
+  .onCreate(event => {
+
+    const bandId = event.params.bandId
+    const cardToken = event.data.val()
+    const sKey = functions.config().omise.skey
+
+    const data = {
+      'description': bandId,
+      'card': cardToken,
+    }
+
+    const base64Encoded = new Buffer(sKey + ':').toString('base64')
+    const config = {
+      headers: {
+        'Authorization': 'Basic ' + base64Encoded,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Omise-Version': '2015-11-17',
+      }
+    }
+
+    axios.post(
+      'https://api.omise.co/customers',
+      data,
+      config
+    )
+    .then(function (res) {
+      let updates = {}
+      updates['cardCustomerId'] = res.data.id
+      updates['cardId'] = res.data.cards.data[0].id
+      updates['cardToken'] = null
+
+      return event.data.ref.parent.update(updates)
+    })
+    .catch(function (err) {
+      console.log('ERROR Register card', err)
+      return
+    })
+  })
 
 // Listens for new data added to /faces/:pushId/photoUrl
 // and sets _createdAt and _updatedAt
