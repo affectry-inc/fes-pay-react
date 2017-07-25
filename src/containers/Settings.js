@@ -6,6 +6,7 @@ class Settings extends Component {
     return (
       <div>
         <h1>登録情報</h1>
+        <h2>Comming Soon..</h2>
       </div>
     )
   }

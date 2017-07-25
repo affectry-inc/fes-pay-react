@@ -6,6 +6,7 @@ class TermsOfUse extends Component {
     return (
       <div>
         <h1>利用規約のページ</h1>
+        <h2>Comming Soon..</h2>
       </div>
     )
   }

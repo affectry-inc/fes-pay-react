@@ -6,6 +6,7 @@ class History extends Component {
     return (
       <div>
         <h1>購入履歴のページ</h1>
+        <h2>Comming Soon..</h2>
       </div>
     )
   }

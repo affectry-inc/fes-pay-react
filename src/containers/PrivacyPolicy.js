@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 
 class PrivacyPolicy extends Component {
   render() {
     return (
       <div>
         <h1>プライバシーポリシー</h1>
-        <Link to="todos">Todos</Link><br/>
-        <Link to="yeah/a001">Sign Up</Link>
+        <h2>Comming Soon..</h2>
       </div>
     )
   }

@@ -5,6 +5,7 @@ import SignUp from './containers/SignUp'
 import History from './containers/History'
 import Settings from './containers/Settings'
 import TermsOfUse from './containers/TermsOfUse'
+import ComAct from './containers/ComAct'
 import PrivacyPolicy from './containers/PrivacyPolicy'
 import AboutUs from './containers/AboutUs'
 import HowToUse from './containers/HowToUse'
@@ -18,6 +19,7 @@ const routes = (
     <Route path="/history" component={ History } />
     <Route path="/settings" component={ Settings } />
     <Route path="/terms" component={ TermsOfUse } />
+    <Route path="/com_act" component={ ComAct } />
     <Route path="/privacy" component={ PrivacyPolicy } />
     <Route path="/about" component={ AboutUs } />
     <Route path="/howto" component={ HowToUse } />

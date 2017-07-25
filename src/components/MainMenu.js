@@ -20,6 +20,7 @@ class MainMenu extends Component {
     return (
       <Drawer
         docked={ false }
+        width={ 280 }
         open={ mainMenuOpen }
         onRequestChange={ closeMainMenu }
       >
@@ -45,6 +46,11 @@ class MainMenu extends Component {
             primaryText='利用規約'
             insetChildren={ true }
             containerElement={ <Link to="/terms" /> }
+            onTouchTap={ closeMainMenu } />
+          <MenuItem
+            primaryText='特定商取引法に基づく表記'
+            insetChildren={ true }
+            containerElement={ <Link to="/com_act" /> }
             onTouchTap={ closeMainMenu } />
           <MenuItem
             primaryText='プライバシーポリシー'
