@@ -10,32 +10,27 @@ exports.registerCard = functions.database.ref('/bands/{bandId}/cardToken')
 
     const bandId = event.params.bandId
     const cardToken = event.data.val()
-    const sKey = functions.config().omise.skey
+    const sKey = functions.config().stripe.skey
 
-    const data = {
-      'description': bandId,
-      'card': cardToken,
-    }
+    const data = 'description=' + bandId
+      + '&source=' + cardToken
 
-    const base64Encoded = new Buffer(sKey + ':').toString('base64')
     const config = {
       headers: {
-        'Authorization': 'Basic ' + base64Encoded,
+        'Authorization': 'Bearer ' + sKey,
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Omise-Version': '2015-11-17',
+        'Content-Type': 'application/x-www-form-urlencoded',
       }
     }
 
     axios.post(
-      'https://api.omise.co/customers',
+      'https://api.stripe.com/v1/customers',
       data,
       config
     )
     .then(function (res) {
       let updates = {}
       updates['cardCustomerId'] = res.data.id
-      updates['cardId'] = res.data.cards.data[0].id
       updates['cardToken'] = null
 
       return event.data.ref.parent.update(updates)
