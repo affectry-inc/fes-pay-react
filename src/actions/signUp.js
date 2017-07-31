@@ -4,11 +4,11 @@ import * as Types from '../types/signUp'
 
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
-import OmiseClient from '../utils/omiseClient'
+import StripeClient from '../utils/stripeClient'
 
 const saveCreditCard = (bandId, card) => {
   return dispatch => {
-    OmiseClient.createToken(card,
+    StripeClient.createToken(card,
       token => {
         const lastDigits = card.cardNo.slice(-4)
         FirebaseClient.saveCardToken(bandId, token, lastDigits,
