@@ -3,9 +3,8 @@ import { firebaseDb, firebaseAuth } from '../firebase/'
 
 const updateUid = (bandId, uid, cbSuccess, cbError) => {
   let updates= {}
-  updates['/bands/' + bandId + '/anonymousUid'] = null
   updates['/bands/' + bandId + '/anonymousBy'] = null
-  updates['/bands/' + bandId + '/uid'] = uid
+  updates['/bands/' + bandId + '/anonymousByUnix'] = null
 
   firebaseDb.ref().update(updates)
   .then(
@@ -28,8 +27,9 @@ const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
     updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
     updates['/bands/' + bandId + '/cardCustomerId'] = null
     updates['/bands/' + bandId + '/cardId'] = null
-    updates['/bands/' + bandId + '/anonymousUid'] = user.uid
+    updates['/bands/' + bandId + '/uid'] = user.uid
     updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+    updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
 
     firebaseDb.ref().update(updates)
     .then(
