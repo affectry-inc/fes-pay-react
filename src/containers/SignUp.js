@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper'
 import { Grid, Row, Col } from 'react-flexbox-grid'
+import { FormattedMessage } from 'react-intl'
 
 import EditCreditCard from '../components/EditCreditCard'
 import EditFacePhoto from '../components/EditFacePhoto'
@@ -27,7 +28,12 @@ class SignUp extends Component {
       <Grid>
         <Row center='xs'>
           <Col xs={ 12 }>
-            <h2>FesPayへようこそ！</h2>
+            <h2>
+              <FormattedMessage
+                id="signUp.welcomeToFesPay"
+                defaultMessage="Welcome to FesPay!!"
+              />
+            </h2>
           </Col>
         </Row>
         <Row center='xs'>

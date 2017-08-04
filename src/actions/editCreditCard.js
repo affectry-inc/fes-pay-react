@@ -1,10 +1,12 @@
 import * as Types from '../types/editCreditCard'
 
+import I18n from '../utils/i18n'
+
 const changeCardNo = (cardNo) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     let errorText = ''
 
-    if (!/^\d*$/.test(cardNo)){errorText='不正な文字が含まれています'}
+    if (!/^\d*$/.test(cardNo)) {errorText=I18n.t(getState(), 'editCreditCard.invalidChars')}
 
     if (cardNo.length > 16) return
 
