@@ -8,21 +8,26 @@ import en from 'react-intl/locale-data/en'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import Cookies from 'universal-cookie'
 
 import configureStore from './store/configureStore'
 import routes from './routes'
 import msgJa from './locales/ja'
+import msgEn from './locales/en'
 import './style.css'
 
 injectTapEventPlugin()
 
 addLocaleData([...ja, ...en])
 
+const cookies = new Cookies()
+const locale = cookies.get('locale', { path: '/' }) || 'ja'
+
 let state = {
   intl: {
     defaultLocale: 'ja',
-    locale: 'ja',
-    messages: msgJa,
+    locale: locale,
+    messages: locale === 'en' ? msgEn : msgJa,
   },
 }
 

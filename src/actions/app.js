@@ -1,4 +1,5 @@
 import { updateIntl } from 'react-intl-redux'
+import Cookies from 'universal-cookie'
 
 import * as Types from '../types/app'
 import msgJa from '../locales/ja'
@@ -12,6 +13,10 @@ const closeAlert = () => {
 
 const changeLocale = (locale) => {
   const messages = locale === 'en' ? msgEn : msgJa
+
+  const cookies = new Cookies()
+  cookies.set('locale', locale, { path: '/' })
+
   return dispatch => {
     dispatch(updateIntl({
       locale,
