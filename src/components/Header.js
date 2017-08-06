@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppBar } from 'material-ui'
+import { AppBar, FlatButton } from 'material-ui'
 import { Link } from 'react-router';
 
 import classnames from 'classnames';
@@ -17,8 +17,13 @@ const styles = {
 
 class Header extends Component {
 
+  onChangeLocale = () => {
+    const newLocale = this.props.locale === 'en' ? 'ja' : 'en'
+    this.props.changeLocale(newLocale)
+  }
+
   render() {
-    const { mainMenuOpen, toggleMainMenu } = this.props;
+    const { mainMenuOpen, toggleMainMenu, locale } = this.props;
     return (
       <header className="header">
         <AppBar
@@ -29,7 +34,9 @@ class Header extends Component {
             </Link>
           }
           titleStyle={styles.title}
+          iconElementRight={<FlatButton label={locale === 'en' ? '日本語' : 'English'} />}
           onLeftIconButtonTouchTap={toggleMainMenu}
+          onRightIconButtonTouchTap={this.onChangeLocale}
         />
       </header>
     )

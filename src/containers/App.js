@@ -31,13 +31,15 @@ class App extends Component {
   closeMainMenu = () => this.setState({mainMenuOpen: false});
 
   render() {
-    const { actions, alertOpen, alertMessage } = this.props
+    const { actions, alertOpen, alertMessage, locale } = this.props
 
     return (
       <div>
         <Header
           mainMenuOpen={this.state.mainMenuOpen}
           toggleMainMenu={this.toggleMainMenu}
+          locale={locale}
+          changeLocale={actions.changeLocale}
         />
         <MainMenu
           mainMenuOpen={this.state.mainMenuOpen}
@@ -60,6 +62,7 @@ const mapStateToProps = (state) => {
   return {
     alertOpen: state.app.alertOpen,
     alertMessage: state.app.alertMessage,
+    locale: state.intl.locale,
   }
 }
 
