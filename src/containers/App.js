@@ -31,19 +31,20 @@ class App extends Component {
   closeMainMenu = () => this.setState({mainMenuOpen: false});
 
   render() {
-    const { actions, alertOpen, alertMessage, locale } = this.props
+    const { actions, alertOpen, alertMessage, intl } = this.props
 
     return (
       <div>
         <Header
           mainMenuOpen={this.state.mainMenuOpen}
           toggleMainMenu={this.toggleMainMenu}
-          locale={locale}
+          locale={intl.locale}
           changeLocale={actions.changeLocale}
         />
         <MainMenu
           mainMenuOpen={this.state.mainMenuOpen}
           closeMainMenu={this.closeMainMenu}
+          intl={intl}
         />
         <div className={classnames('app-content', {'expanded': this.state.mainMenuOpen})}>
           {this.props.children}
@@ -62,7 +63,7 @@ const mapStateToProps = (state) => {
   return {
     alertOpen: state.app.alertOpen,
     alertMessage: state.app.alertMessage,
-    locale: state.intl.locale,
+    intl: state.intl,
   }
 }
 

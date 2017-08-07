@@ -1,4 +1,12 @@
 module.exports = {
+  'mainMenu.history': '購入履歴',
+  'mainMenu.settings': '登録情報',
+  'mainMenu.about': 'FesPayについて',
+  'mainMenu.howTo': 'FesPayの使い方',
+  'mainMenu.terms': '利用規約',
+  'mainMenu.comAct': '特定商取引法に基づく表記',
+  'mainMenu.privacy': 'プライバシーポリシー',
+  'mainMenu.aboutUs': '運営会社',
   'signUp.welcomeToFesPay': 'FesPayへようこそ！',
   'signUp.registerCreditCard': 'クレジットカード登録',
   'signUp.registerFacePhoto': '顔写真',

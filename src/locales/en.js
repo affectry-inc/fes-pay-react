@@ -1,4 +1,12 @@
 module.exports = {
+  'mainMenu.history': 'Purchase History',
+  'mainMenu.settings': 'Settings',
+  'mainMenu.about': 'About FesPay',
+  'mainMenu.howTo': 'How to Use',
+  'mainMenu.terms': 'Terms of Use',
+  'mainMenu.comAct': 'Legal Notices',
+  'mainMenu.privacy': 'Privacy Policy',
+  'mainMenu.aboutUs': 'About Us',
   'signUp.welcomeToFesPay': 'Welcome to FesPay!!',
   'signUp.registerCreditCard': 'Credit Card',
   'signUp.registerFacePhoto': 'Face Photo',
