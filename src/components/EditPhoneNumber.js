@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Checkbox from 'material-ui/Checkbox'
+import { FormattedHTMLMessage } from 'react-intl'
 import FirebaseClient from '../utils/firebaseClient'
 import * as EditPhoneNumberActions from '../actions/editPhoneNumber'
 import I18n from '../utils/i18n'
@@ -81,13 +82,20 @@ class EditPhoneNumber extends Component {
               </Col>
             </Row>
             <Row start='xs'>
-              <Col xs={12}>
+              <Col xs={1}>
                 <Checkbox
                   checked={isTermsAgreed}
-                  label={ I18n.t(intl, 'editPhoneNumber.agree') }
                   onCheck={this.checkTermsAgreed}
                   style={styles.checkbox}
                 />
+              </Col>
+              <Col xs={11}>
+                <p style={{marginTop: '17px'}}>
+                  <FormattedHTMLMessage
+                    id='editPhoneNumber.agree'
+                    defaultMessage=''
+                  />
+                </p>
               </Col>
             </Row>
             <Row start='xs'>

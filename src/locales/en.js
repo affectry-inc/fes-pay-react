@@ -21,7 +21,7 @@ module.exports = {
   'editFacePhoto.next': 'Next',
   'editFacePhoto.back': 'Back',
   'editPhoneNumber.phoneNumber': 'Phone Number',
-  'editPhoneNumber.agree': 'I agree to the Terms of Use and the Privacy Policy',
+  'editPhoneNumber.agree': 'I agree to the <a href="/terms" target="_blank">Terms of Use</a> and the <a href="/privacy" target="_blank">Privacy Policy</a>.',
   'editPhoneNumber.register': 'Register',
   'editPhoneNumber.back': 'Back',
   'comAct.comAct': 'Notices required by Act on Specified Commercial Transactions',

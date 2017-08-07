@@ -21,7 +21,7 @@ module.exports = {
   'editFacePhoto.next': '次へ',
   'editFacePhoto.back': '戻る',
   'editPhoneNumber.phoneNumber': '電話番号',
-  'editPhoneNumber.agree': '本サービス利用規約及びプライバシーポリシーに同意する',
+  'editPhoneNumber.agree': '本サービス<a href="/terms" target="_blank">利用規約</a>及び<a href="/privacy" target="_blank">プライバシーポリシー</a>に同意する',
   'editPhoneNumber.register': '登録',
   'editPhoneNumber.back': '戻る',
   'comAct.comAct': '特定商取引法に基づく表記',
