@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Checkbox from 'material-ui/Checkbox'
 import FirebaseClient from '../utils/firebaseClient'
 import * as EditPhoneNumberActions from '../actions/editPhoneNumber'
+import I18n from '../utils/i18n'
 
 const styles = {
   fullWidth: {
@@ -61,7 +62,7 @@ class EditPhoneNumber extends Component {
   }
 
   render() {
-    const { phoneNumber, phoneNumberErrorText, isTermsAgreed, canGoNext } = this.props
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed, canGoNext, intl } = this.props
 
     return (
       <Row className='edit-phone-number'>
@@ -70,7 +71,7 @@ class EditPhoneNumber extends Component {
             <Row>
               <Col xs={12}>
                 <TextField
-                  hintText='電話番号'
+                  hintText={ I18n.t(intl, 'editPhoneNumber.phoneNumber') }
                   errorText={phoneNumberErrorText}
                   value={phoneNumber}
                   onChange={this.changePhoneNumber}
@@ -83,7 +84,7 @@ class EditPhoneNumber extends Component {
               <Col xs={12}>
                 <Checkbox
                   checked={isTermsAgreed}
-                  label='本サービス利用規約及びプライバシーポリシーに同意する'
+                  label={ I18n.t(intl, 'editPhoneNumber.agree') }
                   onCheck={this.checkTermsAgreed}
                   style={styles.checkbox}
                 />
@@ -98,7 +99,7 @@ class EditPhoneNumber extends Component {
               <Col xs={6}>
                 <RaisedButton
                   id='signup-button'
-                  label='登録'
+                  label={ I18n.t(intl, 'editPhoneNumber.register') }
                   type='submit'
                   disabled={ !canGoNext }
                   primary={true}
@@ -107,7 +108,7 @@ class EditPhoneNumber extends Component {
               </Col>
               <Col xs={6}>
                 <FlatButton
-                  label="戻る"
+                  label={ I18n.t(intl, 'editPhoneNumber.back') }
                   onTouchTap={this.goBack}
                   style={styles.fullWidth}
                 />
@@ -126,6 +127,7 @@ function mapStateToProps(state) {
     phoneNumberErrorText: state.editPhoneNumber.phoneNumberErrorText,
     isTermsAgreed: state.editPhoneNumber.isTermsAgreed,
     canGoNext: state.editPhoneNumber.canGoNext,
+    intl: state.intl,
   }
 }
 

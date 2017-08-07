@@ -30,8 +30,8 @@ class SignUp extends Component {
           <Col xs={ 12 }>
             <h2>
               <FormattedMessage
-                id="signUp.welcomeToFesPay"
-                defaultMessage="Welcome to FesPay!!"
+                id='signUp.welcomeToFesPay'
+                defaultMessage='Welcome to FesPay!!'
               />
             </h2>
           </Col>
@@ -40,7 +40,12 @@ class SignUp extends Component {
           <Col xs={ 12 } sm={ 8 } md={ 6 }>
             <Stepper activeStep={ stepIndex } orientation='vertical'>
               <Step>
-                <StepLabel>クレジットカード登録</StepLabel>
+                <StepLabel>
+                  <FormattedMessage
+                    id='signUp.registerCreditCard'
+                    defaultMessage='Credit Card'
+                  />
+                </StepLabel>
                 <StepContent style={ styles.stepContent }>
                   <EditCreditCard
                     bandId={ this.props.params.bandId }
@@ -50,7 +55,12 @@ class SignUp extends Component {
                 <FinishedStepContent text={ dispCardNo } />
               </Step>
               <Step>
-                <StepLabel>顔写真</StepLabel>
+                <StepLabel>
+                  <FormattedMessage
+                    id='signUp.registerFacePhoto'
+                    defaultMessage='Face Photo'
+                  />
+                </StepLabel>
                 <StepContent style={ styles.stepContent }>
                   <EditFacePhoto
                     bandId={ this.props.params.bandId }
@@ -61,7 +71,12 @@ class SignUp extends Component {
                 <FinishedStepContent imageUrl={ dispPhotoUrl }/>
               </Step>
               <Step>
-                <StepLabel>携帯電話番号</StepLabel>
+                <StepLabel>
+                  <FormattedMessage
+                    id='signUp.registerPhoneNumber'
+                    defaultMessage='Phone Number'
+                  />
+                </StepLabel>
                 <StepContent style={ styles.stepContent }>
                   <EditPhoneNumber
                     bandId={ this.props.params.bandId }

@@ -8,6 +8,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import * as EditCreditCardActions from '../actions/editCreditCard'
+import I18n from '../utils/i18n'
 
 const styles = {
   fullWidth: {
@@ -65,7 +66,7 @@ class EditCreditCard extends Component {
   }
 
   render() {
-    const { cardNo, cardNoErrorText, month, year, securityCode, card } = this.props
+    const { cardNo, cardNoErrorText, month, year, securityCode, card, intl } = this.props
 
     return (
       <Row className='edit-credit-card' start='xs'>
@@ -74,7 +75,7 @@ class EditCreditCard extends Component {
             <Row>
               <Col xs={ 12 }>
                 <TextField
-                  hintText='カード番号'
+                  hintText={ I18n.t(intl, 'editCreditCard.cardNo') }
                   errorText={ cardNoErrorText }
                   value={ cardNo }
                   onChange={ this.changeCardNo }
@@ -85,9 +86,9 @@ class EditCreditCard extends Component {
             <Row>
               <Col xs={ 6 }>
                 <SelectField
-                  floatingLabelText='有効期限'
+                  floatingLabelText={ I18n.t(intl, 'editCreditCard.expiration') }
                   floatingLabelFixed={ true }
-                  hintText='月'
+                  hintText={ I18n.t(intl, 'editCreditCard.month') }
                   value={ month }
                   onChange={ this.changeMonth }
                   style={ styles.fullWidth }
@@ -99,7 +100,7 @@ class EditCreditCard extends Component {
                 <SelectField
                   floatingLabelText=' '
                   floatingLabelFixed={ true }
-                  hintText='年'
+                  hintText={ I18n.t(intl, 'editCreditCard.year') }
                   value={ year }
                   onChange={ this.changeYear }
                   style={ styles.fullWidth }
@@ -111,7 +112,7 @@ class EditCreditCard extends Component {
             <Row>
               <Col xs={ 12 }>
                 <TextField
-                  hintText='セキュリティコード'
+                  hintText={ I18n.t(intl, 'editCreditCard.securityCode') }
                   value={ securityCode }
                   onChange={ this.changeSecurityCode }
                   style={ styles.fullWidth }
@@ -120,7 +121,7 @@ class EditCreditCard extends Component {
             </Row>
             <Row style={ styles.buttons }>
               <Col xs={ 6 }>
-                <RaisedButton label='次へ'
+                <RaisedButton label={ I18n.t(intl, 'editCreditCard.next') }
                   type='submit'
                   disabled={ !card }
                   primary={ true }
@@ -149,6 +150,7 @@ function mapStateToProps(state) {
     year: state.editCreditCard.year,
     securityCode: state.editCreditCard.securityCode,
     card: state.editCreditCard.card,
+    intl: state.intl,
   }
 }
 

@@ -6,7 +6,7 @@ const changeCardNo = (cardNo) => {
   return (dispatch, getState) => {
     let errorText = ''
 
-    if (!/^\d*$/.test(cardNo)) {errorText=I18n.t(getState(), 'editCreditCard.invalidChars')}
+    if (!/^\d*$/.test(cardNo)) {errorText=I18n.t(getState().intl, 'editCreditCard.invalidChars')}
 
     if (cardNo.length > 16) return
 

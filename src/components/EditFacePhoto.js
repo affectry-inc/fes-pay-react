@@ -6,6 +6,7 @@ import { Row, Col } from 'react-flexbox-grid'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import * as EditFacePhotoActions from '../actions/editFacePhoto'
+import I18n from '../utils/i18n'
 
 import defaultPhoto from '../img/default_photo.png'
 
@@ -58,7 +59,7 @@ class EditFacePhoto extends Component {
   }
 
   render() {
-    const { photoUrl, photoAlt, faces, scale, canGoNext } = this.props
+    const { photoUrl, photoAlt, faces, scale, canGoNext, intl } = this.props
 
     let list = []
     faces.map(obj => {
@@ -109,7 +110,7 @@ class EditFacePhoto extends Component {
             <Row style={ styles.buttons }>
               <Col xs={ 6 }>
                 <RaisedButton
-                  label='次へ'
+                  label={ I18n.t(intl, 'editFacePhoto.next') }
                   type='submit'
                   disabled={ !canGoNext }
                   primary={ true }
@@ -118,7 +119,7 @@ class EditFacePhoto extends Component {
               </Col>
               <Col xs={ 6 }>
                 <FlatButton
-                  label="戻る"
+                  label={ I18n.t(intl, 'editFacePhoto.back') }
                   onTouchTap={ this.goBack }
                   style={ styles.fullWidth }
                 />
@@ -145,6 +146,7 @@ function mapStateToProps(state) {
     faces: state.editFacePhoto.faces,
     scale: state.editFacePhoto.scale,
     canGoNext: state.editFacePhoto.canGoNext,
+    intl: state.intl,
   }
 }
 
