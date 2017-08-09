@@ -23,7 +23,6 @@ const createToken = (card, cbSuccess, cbError) => {
     config
   )
   .then(function (res) {
-    console.log(res)
     cbSuccess(res.data.id)
   })
   .catch(function (err) {

@@ -1,4 +1,5 @@
 module.exports = {
+  'app.accessViaQr': 'QRコードからアクセスしてください。',
   'mainMenu.history': '購入履歴',
   'mainMenu.settings': '登録情報',
   'mainMenu.about': 'FesPayについて',
@@ -9,6 +10,8 @@ module.exports = {
   'mainMenu.aboutUs': '運営会社',
   'signUp.welcomeToFesPay': 'FesPayへようこそ！',
   'signUp.registerCreditCard': 'クレジットカード登録',
+  'signUp.saveCardError': 'カード情報の保存に失敗しました。',
+  'signUp.tokenizeError': 'カード情報の登録に失敗しました。こ確認の上、再度入力してください。',
   'signUp.registerFacePhoto': '顔写真',
   'signUp.registerPhoneNumber': '携帯電話番号',
   'editCreditCard.invalidChars': '不正な文字が含まれています',

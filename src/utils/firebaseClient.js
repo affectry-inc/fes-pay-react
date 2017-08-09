@@ -1,15 +1,16 @@
 import firebase from 'firebase'
 import { firebaseDb, firebaseAuth } from '../firebase/'
 
-const updateUid = (bandId, uid, cbSuccess, cbError) => {
+const activateBand = (bandId, cbSuccess, cbError) => {
   let updates= {}
   updates['/bands/' + bandId + '/anonymousBy'] = null
   updates['/bands/' + bandId + '/anonymousByUnix'] = null
+  updates['/bands/' + bandId + '/isActive'] = true
 
   firebaseDb.ref().update(updates)
-  .then(
+  .then(() => {
     cbSuccess()
-  )
+  })
   .catch(err => {
     console.log(err)
     cbError(err)
@@ -32,7 +33,7 @@ const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
     updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
 
     firebaseDb.ref().update(updates)
-    .then(
+    .then(() => {
       user.updateProfile({
         displayName: bandId,
       })
@@ -43,7 +44,7 @@ const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
         console.log(err)
         cbError(err)
       })
-    )
+    })
     .catch(err => {
       console.log(err)
       cbError(err)
@@ -82,9 +83,9 @@ const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbEr
   updates['/bands/' + bandId + '/photoUrl'] = photoUrl
 
   firebaseDb.ref().update(updates)
-  .then(
+  .then(() => {
     cbSuccess()
-  )
+  })
   .catch(err => {
     console.log(err)
     cbError(err)
@@ -97,9 +98,9 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, cbSuccess, cbError) =
   updates['/bands/' + bandId + '/phoneNumber'] = phoneNumber
 
   firebaseDb.ref().update(updates)
-  .then(
+  .then(() => {
     cbSuccess()
-  )
+  })
   .catch(err => {
     console.log(err)
     cbError(err)
@@ -132,7 +133,7 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
   firebase.auth().currentUser.linkWithCredential(credential)
   .then(user => {
     console.log('Anonymous account successfully upgraded', user)
-    updateUid(user.displayName, user.uid,
+    activateBand(user.displayName,
       () => {
         cbSuccess(user)
       },
@@ -146,7 +147,7 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
       firebaseAuth.signInWithCredential(err.credential)
       .then(user => {
         console.log('Sign in with credential successfully', user)
-        updateUid(user.displayName, user.uid,
+        activateBand(user.displayName,
           () => {
             cbSuccess(user)
           },
@@ -166,6 +167,24 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
   })
 }
 
+const canSignUp = (bandId, onChecked) => {
+  firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
+    firebaseAuth.onAuthStateChanged((user) => {
+      const now = (new Date()).getTime()
+      if (!snapshot.exists() ||
+        (user && snapshot.val().uid === user.uid && snapshot.val().isActive) ||
+        (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
+        onChecked(true)
+      } else {
+        onChecked(false)
+      }
+    })
+  })
+  .catch(err => {
+    onChecked(false)
+  })
+}
+
 module.exports = {
   saveCardToken,
   savePerson,
@@ -173,4 +192,5 @@ module.exports = {
   createRecaptchaVerifier,
   signInWithPhoneNumber,
   confirmSignIn,
+  canSignUp,
 }

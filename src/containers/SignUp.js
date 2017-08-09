@@ -22,7 +22,7 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, bandId } = this.props
 
     return (
       <Grid>
@@ -48,7 +48,7 @@ class SignUp extends Component {
                 </StepLabel>
                 <StepContent style={ styles.stepContent }>
                   <EditCreditCard
-                    bandId={ this.props.params.bandId }
+                    bandId={ bandId }
                     onTouchGoNext={ actions.saveCreditCard }
                   />
                 </StepContent>
@@ -63,7 +63,7 @@ class SignUp extends Component {
                 </StepLabel>
                 <StepContent style={ styles.stepContent }>
                   <EditFacePhoto
-                    bandId={ this.props.params.bandId }
+                    bandId={ bandId }
                     onTouchGoNext={ actions.saveFacePhoto }
                     onTouchGoPrev={ actions.resetCreditCard }
                   />
@@ -79,7 +79,7 @@ class SignUp extends Component {
                 </StepLabel>
                 <StepContent style={ styles.stepContent }>
                   <EditPhoneNumber
-                    bandId={ this.props.params.bandId }
+                    bandId={ bandId }
                     onTouchSignUp={ actions.savePhoneNumber }
                     onTouchGoPrev={ actions.resetFacePhoto }
                   />
@@ -106,6 +106,7 @@ function mapStateToProps(state) {
     dispPhotoUrl: state.signUp.dispPhotoUrl,
     dispPhoneNumber: state.signUp.dispPhoneNumber,
     confirmCodeDialogOpen: state.signUp.confirmCodeDialogOpen,
+    bandId: state.app.bandId,
   }
 }
 

@@ -11,20 +11,29 @@ import AboutUs from './containers/AboutUs'
 import HowToUse from './containers/HowToUse'
 import Todos from './containers/Todos'
 import NotFound from './containers/NotFound'
+import FirebaseClient from './utils/firebaseClient'
+
+const checkSignUppable = (nextState, replace, callback) => {
+  FirebaseClient.canSignUp(nextState.params.bandId,
+  can => {
+    if (!can) replace({pathname: '/howto'})
+    callback()
+  })
+}
 
 const routes = (
-  <Route path="/" component={ App } >
+  <Route path='/' component={ App } >
     <IndexRoute component={ HowToUse } />
-    <Route path="/yeah/:bandId" component={ SignUp } />
-    <Route path="/history" component={ History } />
-    <Route path="/settings" component={ Settings } />
-    <Route path="/terms" component={ TermsOfUse } />
-    <Route path="/com_act" component={ ComAct } />
-    <Route path="/privacy" component={ PrivacyPolicy } />
-    <Route path="/about" component={ AboutUs } />
-    <Route path="/howto" component={ HowToUse } />
-    <Route path="/todos" component={ Todos } />
-    <Route path="*" component={ NotFound } />
+    <Route path='/yeah/:bandId' component={ SignUp } onEnter={ checkSignUppable } />
+    <Route path='/history' component={ History } />
+    <Route path='/settings' component={ Settings } />
+    <Route path='/terms' component={ TermsOfUse } />
+    <Route path='/com_act' component={ ComAct } />
+    <Route path='/privacy' component={ PrivacyPolicy } />
+    <Route path='/about' component={ AboutUs } />
+    <Route path='/howto' component={ HowToUse } />
+    <Route path='/todos' component={ Todos } />
+    <Route path='*' component={ NotFound } />
   </Route>
 )
 

@@ -7,10 +7,11 @@ import reducers from '../reducers'
 const logger = createLogger();
 
 export default function configureStore(history, initialState) {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   const store = createStore(
     reducers,
     initialState,
-    compose(
+    composeEnhancers(
       applyMiddleware(routerMiddleware(history), thunk, logger)
     )
   )

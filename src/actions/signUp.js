@@ -1,13 +1,14 @@
 import { browserHistory } from 'react-router'
 
 import * as Types from '../types/signUp'
-
+import { OPEN_ALERT } from '../types/app'
+import I18n from '../utils/i18n'
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
 import StripeClient from '../utils/stripeClient'
 
 const saveCreditCard = (bandId, card) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     StripeClient.createToken(card,
       token => {
         const lastDigits = card.cardNo.slice(-4)
@@ -20,14 +21,16 @@ const saveCreditCard = (bandId, card) => {
           },
           err => {
             dispatch({
-              type: Types.SAVE_CREDIT_CARD_ERROR,
+              type: OPEN_ALERT,
+              alertMessage: I18n.t(getState().intl, 'signUp.saveCardError')
             })
           }
         )
       },
       err => {
         dispatch({
-          type: Types.SAVE_CREDIT_CARD_ERROR,
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.tokenizeError')
         })
       }
     )

@@ -47,10 +47,6 @@ const signUp = (state = initState, action) => {
         dispPhoneNumber: '',
         confirmCodeDialogOpen: false,
       })
-    case Types.SAVE_CREDIT_CARD_ERROR:
-      // TODO: prompt reinput
-      return Object.assign({}, state, {
-      })
     case Types.SAVE_FACE_PHOTO_ERROR:
       // TODO: prompt reinput
       return Object.assign({}, state, {
