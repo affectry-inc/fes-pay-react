@@ -4,6 +4,13 @@ const initState = {
   alertOpen: false,
   alertMessage: '',
   bandId: '',
+  bandIds: [],
+  uid: '',
+  isAnonymous: false,
+}
+
+const addItem = (array, item) => {
+  return Array.from(new Set([...array, item]))
 }
 
 const app = (state = initState, action) => {
@@ -20,6 +27,9 @@ const app = (state = initState, action) => {
     case Types.SET_BAND_ID:
       return Object.assign({}, state, {
         bandId: action.bandId,
+        bandIds: addItem(state.bandIds, action.bandId),
+        uid: action.uid,
+        isAnonymous: action.isAnonymous,
       })
     default:
       return state

@@ -33,7 +33,7 @@ class App extends Component {
   closeMainMenu = () => this.setState({mainMenuOpen: false});
 
   render() {
-    const { actions, alertOpen, alertMessage, intl } = this.props
+    const { actions, alertOpen, alertMessage, intl, app } = this.props
 
     return (
       <div>
@@ -47,6 +47,7 @@ class App extends Component {
           mainMenuOpen={this.state.mainMenuOpen}
           closeMainMenu={this.closeMainMenu}
           intl={intl}
+          app={app}
         />
         <div className={classnames('app-content', {'expanded': this.state.mainMenuOpen})}>
           {this.props.children}
@@ -66,6 +67,7 @@ const mapStateToProps = (state) => {
     alertOpen: state.app.alertOpen,
     alertMessage: state.app.alertMessage,
     intl: state.intl,
+    app: state.app,
   }
 }
 

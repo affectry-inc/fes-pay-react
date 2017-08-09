@@ -48,7 +48,9 @@ const storeBandId = (paramBandId) => {
 
       dispatch({
         type: Types.SET_BAND_ID,
-        bandId: bandId
+        bandId: bandId,
+        uid: user ? user.uid : '',
+        isAnonymous: user ? user.isAnonymous : false,
       })
     })
   }

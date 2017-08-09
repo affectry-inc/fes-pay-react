@@ -17,7 +17,23 @@ class MainMenu extends Component {
   toggleAboutSub = () => this.setState({ aboutSubOpen: !this.state.aboutSubOpen })
 
   render() {
-    const { mainMenuOpen, closeMainMenu, intl } = this.props
+    const { mainMenuOpen, closeMainMenu, intl, app } = this.props
+    let bandIdMenuItem, historyMenuItem, settingsMenuItem
+    if (app.bandId) {
+      bandIdMenuItem = <MenuItem primaryText={ 'Band ID: ' + app.bandId } />
+      if (app.uid && !app.isAnonymous) {
+        historyMenuItem =
+          <MenuItem
+            primaryText={ I18n.t(intl, 'mainMenu.history') }
+            containerElement={ <Link to="/history" /> }
+            onTouchTap={ closeMainMenu } />
+        settingsMenuItem =
+          <MenuItem
+            primaryText={ I18n.t(intl, 'mainMenu.settings') }
+            containerElement={ <Link to="/settings" /> }
+            onTouchTap={ closeMainMenu } />
+      }
+    }
     return (
       <Drawer
         docked={ false }
@@ -25,14 +41,9 @@ class MainMenu extends Component {
         open={ mainMenuOpen }
         onRequestChange={ closeMainMenu }
       >
-        <MenuItem
-          primaryText={ I18n.t(intl, 'mainMenu.history') }
-          containerElement={ <Link to="/history" /> }
-          onTouchTap={ closeMainMenu } />
-        <MenuItem
-          primaryText={ I18n.t(intl, 'mainMenu.settings') }
-          containerElement={ <Link to="/settings" /> }
-          onTouchTap={ closeMainMenu } />
+        { bandIdMenuItem }
+        { historyMenuItem }
+        { settingsMenuItem }
         <MenuItem
           primaryText={ I18n.t(intl, 'mainMenu.about') }
           rightIcon={ this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon /> }
