@@ -15,7 +15,7 @@ body {
 }
 
 .app-content.expanded {
-  padding-left: 255px;
+  padding-left: 280px;
 }
 
 /*
@@ -34,7 +34,7 @@ body {
 }
 
 .app-bar.expanded {
-  left: 255px;
+  left: 280px;
 }
 
 /*
