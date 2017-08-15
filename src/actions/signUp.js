@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 
 import * as Types from '../types/signUp'
-import { OPEN_ALERT } from '../types/app'
+import { OPEN_ALERT, BAND_ID_ADDED } from '../types/app'
 import I18n from '../utils/i18n'
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
@@ -94,13 +94,23 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) =>
 }
 
 const sendConfirmCode = (confirmCode) => {
-  return dispatch => {
-    FirebaseClient.confirmSignIn(window.confirmationResult.verificationId, confirmCode,
+  return (dispatch, getState) => {
+    const bandId = getState().app.bandId
+    const verificationId = window.confirmationResult.verificationId
+    FirebaseClient.confirmSignIn(bandId, verificationId, confirmCode,
       user => {
         browserHistory.push('/')
         dispatch({
           type: Types.SEND_CONFIRM_CODE,
         })
+        FirebaseClient.listenBandIds(user.uid,
+          bandIds => {
+            dispatch({
+              type: BAND_ID_ADDED,
+              bandIds: bandIds,
+            })
+          }
+        )
       },
       err => {
         dispatch({

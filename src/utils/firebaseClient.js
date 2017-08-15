@@ -7,6 +7,7 @@ const activateBand = (bandId, uid, cbSuccess, cbError) => {
   updates['/bands/' + bandId + '/anonymousByUnix'] = null
   updates['/bands/' + bandId + '/isActive'] = true
   updates['/bands/' + bandId + '/uid'] = uid
+  updates['/users/' + uid + '/' + bandId] = true
 
   firebaseDb.ref().update(updates)
   .then(() => {
@@ -35,16 +36,7 @@ const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
 
     firebaseDb.ref().update(updates)
     .then(() => {
-      user.updateProfile({
-        displayName: bandId,
-      })
-      .then(() => {
-        cbSuccess()
-      })
-      .catch(err => {
-        console.log(err)
-        cbError(err)
-      })
+      cbSuccess()
     })
     .catch(err => {
       console.log(err)
@@ -129,12 +121,12 @@ const signInWithPhoneNumber = (phoneNumber, recaptchaVerifier, cbSuccess, cbErro
   })
 }
 
-const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
+const confirmSignIn = (bandId, verificationId, confirmCode, cbSuccess, cbError) => {
   const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, confirmCode)
   firebase.auth().currentUser.linkWithCredential(credential)
   .then(user => {
     console.log('Anonymous account successfully upgraded', user)
-    activateBand(user.displayName, user.uid,
+    activateBand(bandId, user.uid,
       () => {
         cbSuccess(user)
       },
@@ -148,7 +140,7 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
       firebaseAuth.signInWithCredential(err.credential)
       .then(user => {
         console.log('Sign in with credential successfully', user)
-        activateBand(user.displayName, user.uid,
+        activateBand(bandId, user.uid,
           () => {
             cbSuccess(user)
           },
@@ -185,8 +177,20 @@ const routeHome = (bandId, toHistory, toHowTo, callback) => {
     })
   })
   .catch(err => {
+    console.log(err)
     toHowTo()
     callback()
+  })
+}
+
+const listenBandIds = (uid, onAdd) => {
+  const bandIdsRef = firebaseDb.ref('users/' + uid)
+  bandIdsRef.on('value', function(snapshot) {
+    let bandIds = []
+    snapshot.forEach(function(childSnapshot){
+      bandIds.push(childSnapshot.key)
+    })
+    onAdd(bandIds)
   })
 }
 
@@ -198,4 +202,5 @@ module.exports = {
   signInWithPhoneNumber,
   confirmSignIn,
   routeHome,
+  listenBandIds,
 }
