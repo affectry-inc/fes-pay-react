@@ -1,11 +1,12 @@
 import firebase from 'firebase'
 import { firebaseDb, firebaseAuth } from '../firebase/'
 
-const activateBand = (bandId, cbSuccess, cbError) => {
+const activateBand = (bandId, uid, cbSuccess, cbError) => {
   let updates= {}
   updates['/bands/' + bandId + '/anonymousBy'] = null
   updates['/bands/' + bandId + '/anonymousByUnix'] = null
   updates['/bands/' + bandId + '/isActive'] = true
+  updates['/bands/' + bandId + '/uid'] = uid
 
   firebaseDb.ref().update(updates)
   .then(() => {
@@ -133,7 +134,7 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
   firebase.auth().currentUser.linkWithCredential(credential)
   .then(user => {
     console.log('Anonymous account successfully upgraded', user)
-    activateBand(user.displayName,
+    activateBand(user.displayName, user.uid,
       () => {
         cbSuccess(user)
       },
@@ -147,7 +148,7 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
       firebaseAuth.signInWithCredential(err.credential)
       .then(user => {
         console.log('Sign in with credential successfully', user)
-        activateBand(user.displayName,
+        activateBand(user.displayName, user.uid,
           () => {
             cbSuccess(user)
           },
@@ -167,11 +168,12 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
   })
 }
 
-const routeHome = (bandId, toHistory, toHowTo) => {
+const routeHome = (bandId, toHistory, toHowTo, callback) => {
   firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
     firebaseAuth.onAuthStateChanged((user) => {
       const now = (new Date()).getTime()
       if (!snapshot.exists() ||
+        (user && snapshot.val().uid === user.uid && !snapshot.val().isActive) ||
         (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
         // route To SignUp
       } else if (user && snapshot.val().uid === user.uid && snapshot.val().isActive) {
@@ -179,10 +181,12 @@ const routeHome = (bandId, toHistory, toHowTo) => {
       } else {
         toHowTo()
       }
+      callback()
     })
   })
   .catch(err => {
     toHowTo()
+    callback()
   })
 }
 

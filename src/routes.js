@@ -17,12 +17,11 @@ const routeHome = (nextState, replace, callback) => {
   FirebaseClient.routeHome(nextState.params.bandId,
     () => {
       replace({pathname: '/history'})
-      callback()
     },
     () => {
       replace({pathname: '/howto'})
-      callback()
-    }
+    },
+    callback
   )
 }
 
