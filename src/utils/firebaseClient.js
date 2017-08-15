@@ -167,21 +167,22 @@ const confirmSignIn = (verificationId, confirmCode, cbSuccess, cbError) => {
   })
 }
 
-const canSignUp = (bandId, onChecked) => {
+const routeHome = (bandId, toHistory, toHowTo) => {
   firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
     firebaseAuth.onAuthStateChanged((user) => {
       const now = (new Date()).getTime()
       if (!snapshot.exists() ||
-        (user && snapshot.val().uid === user.uid && snapshot.val().isActive) ||
         (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
-        onChecked(true)
+        // route To SignUp
+      } else if (user && snapshot.val().uid === user.uid && snapshot.val().isActive) {
+        toHistory()
       } else {
-        onChecked(false)
+        toHowTo()
       }
     })
   })
   .catch(err => {
-    onChecked(false)
+    toHowTo()
   })
 }
 
@@ -192,5 +193,5 @@ module.exports = {
   createRecaptchaVerifier,
   signInWithPhoneNumber,
   confirmSignIn,
-  canSignUp,
+  routeHome,
 }

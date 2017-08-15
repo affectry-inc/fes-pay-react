@@ -13,18 +13,23 @@ import Todos from './containers/Todos'
 import NotFound from './containers/NotFound'
 import FirebaseClient from './utils/firebaseClient'
 
-const checkSignUppable = (nextState, replace, callback) => {
-  FirebaseClient.canSignUp(nextState.params.bandId,
-  can => {
-    if (!can) replace({pathname: '/howto'})
-    callback()
-  })
+const routeHome = (nextState, replace, callback) => {
+  FirebaseClient.routeHome(nextState.params.bandId,
+    () => {
+      replace({pathname: '/history'})
+      callback()
+    },
+    () => {
+      replace({pathname: '/howto'})
+      callback()
+    }
+  )
 }
 
 const routes = (
   <Route path='/' component={ App } >
     <IndexRoute component={ HowToUse } />
-    <Route path='/yeah/:bandId' component={ SignUp } onEnter={ checkSignUppable } />
+    <Route path='/yeah/:bandId' component={ SignUp } onEnter={ routeHome } />
     <Route path='/history' component={ History } />
     <Route path='/settings' component={ Settings } />
     <Route path='/terms' component={ TermsOfUse } />
