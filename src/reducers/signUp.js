@@ -15,6 +15,11 @@ const signUp = (state = initState, action) => {
         stepIndex: 1,
         dispCardNo: action.dispCardNo,
       })
+    case Types.SKIP_CREDIT_CARD:
+      return Object.assign({}, state, {
+        stepIndex: 1,
+        dispCardNo: action.dispCardNo,
+      })
     case Types.SAVE_FACE_PHOTO:
       return Object.assign({}, state, {
         stepIndex: 2,
@@ -41,10 +46,17 @@ const signUp = (state = initState, action) => {
         stepIndex: 1,
         dispPhotoUrl: '',
       })
-    case Types.RESET_PHONE_NUMBER:
+    case Types.BACK_TO_CREDIT_CARD:
+      return Object.assign({}, state, {
+        stepIndex: 0,
+      })
+    case Types.BACK_TO_FACE_PHOTO:
+      return Object.assign({}, state, {
+        stepIndex: 1,
+      })
+    case Types.BACK_TO_PHONE_NUMBER:
       return Object.assign({}, state, {
         stepIndex: 2,
-        dispPhoneNumber: '',
         confirmCodeDialogOpen: false,
       })
     case Types.SAVE_FACE_PHOTO_ERROR:

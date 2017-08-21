@@ -49,6 +49,15 @@ const editCreditCard = (state = initState, action) => {
         securityCode: action.securityCode,
       })
       return attachCard(obj)
+    case Types.CLEAR_ALL:
+      obj =  Object.assign({}, state, {
+        cardNo: '',
+        cardNoErrorText: '',
+        month: '',
+        year: '',
+        securityCode: '',
+      })
+      return attachCard(obj)
    default:
      return state
   }

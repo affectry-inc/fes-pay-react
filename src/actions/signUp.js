@@ -37,6 +37,25 @@ const saveCreditCard = (bandId, card) => {
   }
 }
 
+const skipCreditCard = (bandId) => {
+  return (dispatch, getState) => {
+    FirebaseClient.skipCreditCard(bandId,
+      () => {
+        dispatch({
+          type: Types.SKIP_CREDIT_CARD,
+          dispCardNo: I18n.t(getState().intl, 'signUp.noCardSaved'),
+        })
+      },
+      err => {
+        dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.skipCardError')
+        })
+      }
+    )
+  }
+}
+
 const saveFacePhoto = (bandId, photoUrl) => {
   return dispatch => {
     AzureClient.registerPerson(bandId, photoUrl,
@@ -64,30 +83,56 @@ const saveFacePhoto = (bandId, photoUrl) => {
   }
 }
 
-const savePhoneNumber = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
-  return dispatch => {
-    const fullPhoneNumber = '+' + countryCode + phoneNumber.replace(/^0/,'')
-    FirebaseClient.signInWithPhoneNumber(fullPhoneNumber, recaptchaVerifier,
-      confirmationResult => {
-        window.confirmationResult = confirmationResult
-        FirebaseClient.savePhoneNumber(bandId, countryCode, phoneNumber,
-          () => {
-            dispatch({
-              type: Types.SAVE_PHONE_NUMBER,
-              dispPhoneNumber: phoneNumber,
-            })
-          },
-          err => {
-            dispatch({
-              type: Types.SAVE_PHONE_NUMBER_ERROR,
-            })
-          }
-        )
-      },
-      err => {
+const savePhoneNumber = (dispatch, bandId, countryCode, phoneNumber, recaptchaVerifier) => {
+  const fullPhoneNumber = '+' + countryCode + phoneNumber.replace(/^0/,'')
+  FirebaseClient.signInWithPhoneNumber(fullPhoneNumber, recaptchaVerifier,
+    confirmationResult => {
+      window.confirmationResult = confirmationResult
+      FirebaseClient.savePhoneNumber(bandId, countryCode, phoneNumber,
+        () => {
+          dispatch({
+            type: Types.SAVE_PHONE_NUMBER,
+            dispPhoneNumber: phoneNumber,
+          })
+        },
+        err => {
+          dispatch({
+            type: Types.SAVE_PHONE_NUMBER_ERROR,
+          })
+        }
+      )
+    },
+    err => {
+      dispatch({
+        type: Types.SAVE_PHONE_NUMBER_ERROR,
+      })
+    }
+  )
+}
+
+const register = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
+  return (dispatch, getState) => {
+    FirebaseClient.checkReadyToRegister(bandId,
+      () => {
         dispatch({
-          type: Types.SAVE_PHONE_NUMBER_ERROR,
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.missingCreditCard')
         })
+        dispatch({
+          type: Types.RESET_CREDIT_CARD,
+        })
+      },
+      () => {
+        dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.missingFacePhoto')
+        })
+        dispatch({
+          type: Types.RESET_FACE_PHOTO,
+        })
+      },
+      () => {
+        savePhoneNumber(dispatch, bandId, countryCode, phoneNumber, recaptchaVerifier)
       }
     )
   }
@@ -121,30 +166,31 @@ const sendConfirmCode = (confirmCode) => {
   }
 }
 
-const resetCreditCard = () => {
+const backToCreditCard = () => {
   return {
-    type: Types.RESET_CREDIT_CARD,
+    type: Types.BACK_TO_CREDIT_CARD,
   }
 }
 
-const resetFacePhoto = () => {
+const backToFacePhoto = () => {
   return {
-    type: Types.RESET_FACE_PHOTO,
+    type: Types.BACK_TO_FACE_PHOTO,
   }
 }
 
-const resetPhoneNumber = () => {
+const backToPhoneNumber = () => {
   return {
-    type: Types.RESET_PHONE_NUMBER,
+    type: Types.BACK_TO_PHONE_NUMBER,
   }
 }
 
 module.exports = {
   saveCreditCard,
+  skipCreditCard,
   saveFacePhoto,
-  savePhoneNumber,
+  register,
   sendConfirmCode,
-  resetCreditCard,
-  resetFacePhoto,
-  resetPhoneNumber,
+  backToCreditCard,
+  backToFacePhoto,
+  backToPhoneNumber,
 }

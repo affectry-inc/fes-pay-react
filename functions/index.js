@@ -37,7 +37,12 @@ exports.registerCard = functions.database.ref('/bands/{bandId}/cardToken')
     })
     .catch(function (err) {
       console.log('ERROR Register card', err)
-      return
+
+      let updates = {}
+      updates['cardCustomerId'] = null
+      updates['cardToken'] = null
+
+      return event.data.ref.parent.update(updates)
     })
   })
 

@@ -13,16 +13,21 @@ const styles = {
   img: {
     width: '40%',
   },
+  hide: {
+    display: 'none',
+  },
 };
 
 class FinishedStepContent extends Component {
 
   render() {
-    const { text, imageUrl } = this.props;
+    const { text, imageUrl, hide } = this.props;
+
+    const spanStyle = hide ? {display: 'none'} : {}
 
     return (
       <div style={styles.content}>
-        <span>
+        <span style={ spanStyle }>
           {text && (<span>{text}</span>)}
           {imageUrl && (<img src={imageUrl} alt='' style={styles.img}/>)}
         </span>
@@ -34,6 +39,7 @@ class FinishedStepContent extends Component {
 FinishedStepContent.propTypes = {
   text: PropTypes.string,
   imageUrl: PropTypes.string,
+  hide: PropTypes.bool,
 }
 
 export default FinishedStepContent;

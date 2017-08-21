@@ -39,9 +39,16 @@ const changeSecurityCode = (securityCode) => {
   }
 }
 
+const clearAll = () => {
+  return {
+    type: Types.CLEAR_ALL,
+  }
+}
+
 module.exports = {
   changeCardNo,
   changeMonth,
   changeYear,
   changeSecurityCode,
+  clearAll,
 }

@@ -29,7 +29,35 @@ const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
     updates['/bands/' + bandId + '/cardToken'] = token
     updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
     updates['/bands/' + bandId + '/cardCustomerId'] = null
-    updates['/bands/' + bandId + '/cardId'] = null
+    updates['/bands/' + bandId + '/uid'] = user.uid
+    updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+    updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
+
+    firebaseDb.ref().update(updates)
+    .then(() => {
+      cbSuccess()
+    })
+    .catch(err => {
+      console.log(err)
+      cbError(err)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    cbError(err)
+  })
+}
+
+const skipCreditCard = (bandId, cbSuccess, cbError) => {
+  firebaseAuth.signInAnonymously()
+  .then(user => {
+    let anonymous_by = new Date()
+    anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
+
+    let updates= {}
+    updates['/bands/' + bandId + '/cardToken'] = null
+    updates['/bands/' + bandId + '/cardLastDigits'] = null
+    updates['/bands/' + bandId + '/cardCustomerId'] = null
     updates['/bands/' + bandId + '/uid'] = user.uid
     updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
     updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
@@ -97,6 +125,22 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, cbSuccess, cbError) =
   .catch(err => {
     console.log(err)
     cbError(err)
+  })
+}
+
+const checkReadyToRegister = (bandId, onResetCredit, onResetFacePhoto, onReady) => {
+  firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
+    const cardCustomerId = snapshot.val().cardCustomerId
+    const photoUrl = snapshot.val().photoUrl
+    if (!cardCustomerId && !bandId.match(/^c/)) {
+      console.log('cardCustomerId is missed')
+      onResetCredit()
+    } else if (!photoUrl) {
+      console.log('photoUrl is missed')
+      onResetFacePhoto()
+    } else {
+      onReady()
+    }
   })
 }
 
@@ -196,8 +240,10 @@ const listenBandIds = (uid, onAdd) => {
 
 module.exports = {
   saveCardToken,
+  skipCreditCard,
   savePerson,
   savePhoneNumber,
+  checkReadyToRegister,
   createRecaptchaVerifier,
   signInWithPhoneNumber,
   confirmSignIn,

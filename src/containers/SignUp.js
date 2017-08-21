@@ -50,9 +50,10 @@ class SignUp extends Component {
                   <EditCreditCard
                     bandId={ bandId }
                     onTouchGoNext={ actions.saveCreditCard }
+                    onTouchSkip={ actions.skipCreditCard }
                   />
                 </StepContent>
-                <FinishedStepContent text={ dispCardNo } />
+                <FinishedStepContent text={ dispCardNo } hide={ stepIndex === 0 } />
               </Step>
               <Step>
                 <StepLabel>
@@ -65,10 +66,10 @@ class SignUp extends Component {
                   <EditFacePhoto
                     bandId={ bandId }
                     onTouchGoNext={ actions.saveFacePhoto }
-                    onTouchGoPrev={ actions.resetCreditCard }
+                    onTouchGoPrev={ actions.backToCreditCard }
                   />
                 </StepContent>
-                <FinishedStepContent imageUrl={ dispPhotoUrl }/>
+                <FinishedStepContent imageUrl={ dispPhotoUrl } hide={ stepIndex === 1 } />
               </Step>
               <Step>
                 <StepLabel>
@@ -80,18 +81,18 @@ class SignUp extends Component {
                 <StepContent style={ styles.stepContent }>
                   <EditPhoneNumber
                     bandId={ bandId }
-                    onTouchSignUp={ actions.savePhoneNumber }
-                    onTouchGoPrev={ actions.resetFacePhoto }
+                    onTouchSignUp={ actions.register }
+                    onTouchGoPrev={ actions.backToFacePhoto }
                   />
                 </StepContent>
-                <FinishedStepContent text={ dispPhoneNumber }/>
+                <FinishedStepContent text={ dispPhoneNumber } hide={ stepIndex === 2 } />
               </Step>
             </Stepper>
           </Col>
         </Row>
         <ConfirmCodeDialog
           onTouchSend={ actions.sendConfirmCode }
-          onTouchGoPrev={ actions.resetPhoneNumber }
+          onTouchGoPrev={ actions.backToPhoneNumber }
           open={ confirmCodeDialogOpen }
         />
       </Grid>
