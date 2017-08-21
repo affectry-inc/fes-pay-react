@@ -16,10 +16,10 @@ import FirebaseClient from './utils/firebaseClient'
 const routeHome = (nextState, replace, callback) => {
   FirebaseClient.routeHome(nextState.params.bandId,
     () => {
-      replace({pathname: '/history'})
+      replace({pathname: '/history/' + nextState.params.bandId})
     },
     () => {
-      replace({pathname: '/howto'})
+      replace({pathname: '/howto/' + nextState.params.bandId})
     },
     callback
   )
@@ -29,8 +29,8 @@ const routes = (
   <Route path='/' component={ App } >
     <IndexRoute component={ HowToUse } />
     <Route path='/yeah/:bandId' component={ SignUp } onEnter={ routeHome } />
-    <Route path='/history' component={ History } />
-    <Route path='/settings' component={ Settings } />
+    <Route path='/history/:bandId' component={ History } />
+    <Route path='/settings/:bandId' component={ Settings } />
     <Route path='/terms' component={ TermsOfUse } />
     <Route path='/com_act' component={ ComAct } />
     <Route path='/privacy' component={ PrivacyPolicy } />

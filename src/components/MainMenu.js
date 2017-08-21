@@ -25,12 +25,12 @@ class MainMenu extends Component {
         historyMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.history') }
-            containerElement={ <Link to="/history" /> }
+            containerElement={ <Link to={'/history/' + app.bandId} /> }
             onTouchTap={ closeMainMenu } />
         settingsMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.settings') }
-            containerElement={ <Link to="/settings" /> }
+            containerElement={ <Link to={'/settings/' + app.bandId} /> }
             onTouchTap={ closeMainMenu } />
       }
     }

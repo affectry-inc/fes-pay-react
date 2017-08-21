@@ -18,7 +18,7 @@ class App extends Component {
     super(props);
     this.state = {mainMenuOpen: false};
 
-    this.props.actions.storeBandId(this.props.params.bandId)
+    this.props.actions.storeBandId(props.params.bandId)
   }
 
   static get childContextTypes() {
