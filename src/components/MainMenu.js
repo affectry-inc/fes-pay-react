@@ -16,7 +16,10 @@ class MainMenu extends Component {
 
   toggleAboutSub = () => this.setState({ aboutSubOpen: !this.state.aboutSubOpen })
 
-  changeBandId = (event, index, value) => this.props.changeBandId(value)
+  changeBandId = (event, index, value) => {
+    this.props.changeBandId(value)
+    this.props.closeMainMenu()
+  }
 
   render() {
     const { mainMenuOpen, closeMainMenu, intl, app } = this.props
