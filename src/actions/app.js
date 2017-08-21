@@ -5,6 +5,7 @@ import * as Types from '../types/app'
 import msgJa from '../locales/ja'
 import msgEn from '../locales/en'
 import I18n from '../utils/i18n'
+import FirebaseClient from '../utils/firebaseClient'
 
 const closeAlert = () => {
   return {
@@ -52,6 +53,17 @@ const storeBandId = (paramBandId) => {
         uid: user ? user.uid : '',
         isAnonymous: user ? user.isAnonymous : false,
       })
+
+      if (user) {
+        FirebaseClient.listenBandIds(user.uid,
+          bandIds => {
+            dispatch({
+              type: Types.BAND_ID_ADDED,
+              bandIds: bandIds,
+            })
+          }
+        )
+      }
     })
   }
 }
