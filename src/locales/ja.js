@@ -32,6 +32,7 @@ module.exports = {
   'editPhoneNumber.agree': '本サービス<a href="/terms" target="_blank">利用規約</a>及び<a href="/privacy" target="_blank">プライバシーポリシー</a>に同意する',
   'editPhoneNumber.register': '登録',
   'editPhoneNumber.back': '戻る',
+  'history.history': '購入履歴',
   'comAct.comAct': '特定商取引法に基づく表記',
   'comAct.companyKey': '事業者',
   'comAct.companyVal': '株式会社JEPCO',

@@ -32,6 +32,7 @@ module.exports = {
   'editPhoneNumber.agree': 'I agree to the <a href="/terms" target="_blank">Terms of Use</a> and the <a href="/privacy" target="_blank">Privacy Policy</a>.',
   'editPhoneNumber.register': 'Register',
   'editPhoneNumber.back': 'Back',
+  'history.history': 'Your Orders',
   'comAct.comAct': 'Notices required by Act on Specified Commercial Transactions',
   'comAct.companyKey': 'Company',
   'comAct.companyVal': 'JEPCO, K.K.',
