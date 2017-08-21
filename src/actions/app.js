@@ -68,8 +68,21 @@ const storeBandId = (paramBandId) => {
   }
 }
 
+const changeBandId = (bandId) => {
+  return (dispatch, getState) => {
+    const cookies = new Cookies()
+    cookies.set('bandId', bandId, { path: '/' })
+
+    dispatch({
+      type: Types.CHANGE_BAND_ID,
+      bandId: bandId,
+    })
+  }
+}
+
 module.exports = {
   closeAlert,
   changeLocale,
   storeBandId,
+  changeBandId,
 }

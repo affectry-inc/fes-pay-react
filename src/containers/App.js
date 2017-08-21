@@ -46,6 +46,7 @@ class App extends Component {
         <MainMenu
           mainMenuOpen={this.state.mainMenuOpen}
           closeMainMenu={this.closeMainMenu}
+          changeBandId={actions.changeBandId}
           intl={intl}
           app={app}
         />

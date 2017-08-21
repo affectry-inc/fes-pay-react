@@ -35,6 +35,10 @@ const app = (state = initState, action) => {
       return Object.assign({}, state, {
         bandIds: action.bandIds,
       })
+    case Types.CHANGE_BAND_ID:
+      return Object.assign({}, state, {
+        bandId: action.bandId,
+      })
     default:
       return state
   }

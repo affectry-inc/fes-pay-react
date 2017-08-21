@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { Drawer, MenuItem } from 'material-ui'
+import { Drawer, MenuItem, DropDownMenu } from 'material-ui'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import I18n from '../utils/i18n'
@@ -16,11 +16,34 @@ class MainMenu extends Component {
 
   toggleAboutSub = () => this.setState({ aboutSubOpen: !this.state.aboutSubOpen })
 
+  changeBandId = (event, index, value) => this.props.changeBandId(value)
+
   render() {
     const { mainMenuOpen, closeMainMenu, intl, app } = this.props
     let bandIdMenuItem, historyMenuItem, settingsMenuItem
     if (app.bandId) {
-      bandIdMenuItem = <MenuItem primaryText={ 'Band ID: ' + app.bandId } />
+      if (app.bandIds.length === 1) {
+        bandIdMenuItem = <MenuItem primaryText={ 'Band ID: ' + app.bandId } />
+      } else {
+        let items = []
+        app.bandIds.map(id => {
+          return items.push(
+            <MenuItem
+              key={ id }
+              value={ id }
+              primaryText={ id }
+              containerElement={ <Link to={ '/history/' + id } /> }
+            />
+          )
+        })
+        bandIdMenuItem =
+          <div>
+            <span>Band ID:</span>
+            <DropDownMenu value={ app.bandId } onChange={this.changeBandId}>
+              { items }
+            </DropDownMenu>
+          </div>
+      }
       if (app.uid && !app.isAnonymous) {
         historyMenuItem =
           <MenuItem
