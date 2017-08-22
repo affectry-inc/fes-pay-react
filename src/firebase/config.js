@@ -1,8 +1,8 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyAK-V_L2pvzxsmXtKyJZ7uHKEKjqFtz23Y",
-  authDomain: "fespay-dev.firebaseapp.com",
-  databaseURL: "https://fespay-dev.firebaseio.com",
-  projectId: "fespay-dev",
-  storageBucket: "fespay-dev.appspot.com",
-  messagingSenderId: "1063340824258"
+  apiKey: process.env.REACT_APP_FB_API_KEY,
+  authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FB_DATABASE_URL,
+  projectId: process.env.REACT_APP_FB_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FB_MESSAGING_SENDER_ID
 };

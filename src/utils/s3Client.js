@@ -6,15 +6,15 @@ const s3 = () => {
   if (s3_client) return s3_client
 
   AWS.config.update({
-    region: 'us-east-1',
+    region: process.env.REACT_APP_AWS_REGION,
     credentials: new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-1:77037c03-1409-4206-b041-05b9c4f1a7ea'
+      IdentityPoolId: process.env.REACT_APP_AWS_IDENTITY_POOL_ID
     })
   })
 
   s3_client = new AWS.S3({
-    apiVersion: '2006-03-01',
-    params: {Bucket: 'fespay-dev'}
+    apiVersion: process.env.REACT_APP_S3_API_VERSION,
+    params: {Bucket: process.env.REACT_APP_S3_BUCKET}
   })
 
   return s3_client

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const pKey = 'pkey_test_58mj60m4zft3hp9wxhc'
+const pKey = process.env.REACT_APP_OMISE_P_KEY
 
 const createToken = (card, cbSuccess, cbError) => {
 

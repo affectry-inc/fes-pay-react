@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const SUBSCRIPTION_KEY = '81d01ff9b1ec45c1abf3147b0444100f'
-const END_POINT = 'https://southeastasia.api.cognitive.microsoft.com/face/v1.0/'
+const SUBSCRIPTION_KEY = process.env.REACT_APP_AZURE_SUBSCRIPTION_KEY
+const END_POINT = process.env.REACT_APP_AZURE_END_POINT
 
 const _post = (urlTail, params, data, cbSuccess, cbError) => {
   const params_url = Object.keys(params).map(function(k) {
