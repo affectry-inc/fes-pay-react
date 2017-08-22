@@ -19,7 +19,7 @@ const routeHome = (nextState, replace, callback) => {
       replace({pathname: '/history/' + nextState.params.bandId})
     },
     () => {
-      replace({pathname: '/howto/' + nextState.params.bandId})
+      replace({pathname: '/howto'})
     },
     callback
   )
