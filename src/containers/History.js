@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage } from 'react-intl'
 import { Paper } from 'material-ui'
 
 import Order from '../components/Order'
+
+import * as HistoryActions from '../actions/history'
 
 const styles = {
   summary: {
@@ -21,7 +24,15 @@ const styles = {
 }
 
 class History extends Component {
+
+  componentDidMount(){
+    const {actions} = this.props
+    actions.loadOrders(this.props.params.bandId)
+  }
+
   render() {
+    const { orders, totalAmount, actions } = this.props
+
     return (
       <Grid>
         <Row center='xs'>
@@ -34,7 +45,12 @@ class History extends Component {
             </h2>
           </Col>
         </Row>
-        <Summary amount={ 17000 } />
+        <Summary totalAmount={ totalAmount } />
+        <Order
+          datetime='8/17 12:30'
+          tenantName='でへへ本舗'
+          amount={ 1000 }
+        />
         <Order
           datetime='8/17 12:30'
           tenantName='でへへ本舗'
@@ -47,7 +63,7 @@ class History extends Component {
 
 class Summary extends Component {
   render() {
-    const { amount } = this.props
+    const { totalAmount } = this.props
     return (
       <Paper style={ styles.summary } zDepth={1}>
         <Row center='xs' >
@@ -55,7 +71,7 @@ class Summary extends Component {
             <span>総額</span>
           </Col>
           <Col xs={ 6 } style={ styles.textRight }>
-            <span>&yen; { amount.toLocaleString() }</span>
+            <span>&yen; { totalAmount.toLocaleString() }</span>
           </Col>
         </Row>
       </Paper>
@@ -65,11 +81,14 @@ class Summary extends Component {
 
 function mapStateToProps(state) {
   return {
+    orders: state.history.orders ? state.history.orders : [],
+    totalAmount: state.history.totalAmount,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    actions: bindActionCreators(HistoryActions, dispatch)
   }
 }
 
