@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "fespay-dev"
+    "default": "fespay-dev",
+    "production": "fespay-prd"
   }
 }
