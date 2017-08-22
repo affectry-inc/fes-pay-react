@@ -72,7 +72,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "NODE_ENV=development node scripts/build.js",
+    "build:prod": "NODE_ENV=production node -r dotenv/config scripts/build.js dotenv_config_path=.env.production",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {

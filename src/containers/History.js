@@ -15,6 +15,10 @@ class History extends Component {
                 defaultMessage='Your Orders'
               />
             </h2>
+            <h2>
+              {process.env.REACT_APP_ABC}
+              {process.env.NODE_ENV}
+            </h2>
           </Col>
         </Row>
       </Grid>
