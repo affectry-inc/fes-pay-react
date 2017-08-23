@@ -20,7 +20,7 @@ function history(state = initState, action){
       }
       return Object.assign({}, state, {
         orders: [...orders],
-        totalAmount: action.totalAmount,
+        totalAmount: action.totalAmount ? action.totalAmount : 0,
       })
 
     case 'ORDERS_RECEIVE_ERROR':

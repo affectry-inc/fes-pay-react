@@ -4,11 +4,9 @@ import { firebaseDb } from '../firebase/'
 function loadOrders(bandId) {
   return dispatch => {
     const ref = firebaseDb.ref('pays/' + bandId).orderByKey()
-    ref.off()
-    ref.on('value',
-      (snapshot) => {dispatch(loadOrdersSuccess(snapshot))},
-      (error) => {dispatch(loadOrdersError(error))}
-    )
+    ref.once('value')
+    .then(snapshot => {dispatch(loadOrdersSuccess(snapshot))})
+    .catch(error => {dispatch(loadOrdersError(error))})
   }
 }
 

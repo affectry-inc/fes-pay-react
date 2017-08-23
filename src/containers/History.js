@@ -25,9 +25,11 @@ const styles = {
 
 class History extends Component {
 
-  componentDidMount(){
-    const {actions} = this.props
-    actions.loadOrders(this.props.params.bandId)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.bandId !== this.props.bandId) {
+      const { actions } = this.props
+      actions.loadOrders(nextProps.bandId)
+    }
   }
 
   render() {
@@ -86,6 +88,7 @@ function mapStateToProps(state) {
   return {
     orders: state.history.orders ? state.history.orders : [],
     totalAmount: state.history.totalAmount,
+    bandId: state.app.bandId,
   }
 }
 
