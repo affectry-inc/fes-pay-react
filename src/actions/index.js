@@ -5,6 +5,7 @@ import editCreditCardActions from './editCreditCard'
 import editFacePhotoActions from './editFacePhoto'
 import editPhoneNumberActions from './editPhoneNumber'
 import historyActions  from './history'
+import settingsActions  from './settings'
 
 module.exports = {
   ...todoActions,
@@ -14,4 +15,5 @@ module.exports = {
   ...editFacePhotoActions,
   ...editPhoneNumberActions,
   ...historyActions,
+  ...settingsActions,
 }

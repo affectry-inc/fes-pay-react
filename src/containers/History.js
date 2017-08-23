@@ -25,6 +25,11 @@ const styles = {
 
 class History extends Component {
 
+  componentDidMount() {
+    const { actions, bandId } = this.props
+    actions.loadOrders(bandId)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.bandId !== this.props.bandId) {
       const { actions } = this.props

@@ -7,6 +7,7 @@ import editCreditCard from './editCreditCard'
 import editFacePhoto from './editFacePhoto'
 import editPhoneNumber from './editPhoneNumber'
 import history from './history'
+import settings from './settings'
 import { intlReducer } from 'react-intl-redux'
 
 export default combineReducers({
@@ -17,6 +18,7 @@ export default combineReducers({
   editFacePhoto,
   editPhoneNumber,
   history,
+  settings,
   routing: routerReducer,
   intl: intlReducer,
 })
