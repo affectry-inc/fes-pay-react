@@ -3,7 +3,7 @@ import { firebaseDb } from '../firebase/'
 // Subscribe
 function loadOrders(bandId) {
   return dispatch => {
-    const ref = firebaseDb.ref('pays/' + bandId)
+    const ref = firebaseDb.ref('pays/' + bandId).orderByKey()
     ref.off()
     ref.on('value',
       (snapshot) => {dispatch(loadOrdersSuccess(snapshot))},
@@ -13,10 +13,13 @@ function loadOrders(bandId) {
 }
 
 function loadOrdersSuccess(snapshot){
-  console.log(snapshot)
+  const orders = []
+  snapshot.child('charges').forEach(order => {
+    orders.unshift({ key: order.key, ...order.val() })
+  })
   return {
     type: 'ORDERS_RECEIVE_DATA',
-    orders: snapshot.child('charges').val(),
+    orders: orders,
     totalAmount: snapshot.child('totalAmount').val()
   }
 }

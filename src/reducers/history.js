@@ -9,10 +9,9 @@ function history(state = initState, action){
     case 'ORDERS_RECEIVE_DATA':
       let orders = []
       if (action.orders){
-        Object.keys(action.orders).forEach(key =>{
-          let order = action.orders[key];
+        action.orders.forEach(order => {
           orders.push({
-            key: key,
+            key: order.key,
             amount: order.amount,
             paidAt: order.paidAt,
             tenantName: order.tenantName,

@@ -31,7 +31,18 @@ class History extends Component {
   }
 
   render() {
-    const { orders, totalAmount, actions } = this.props
+    const { orders, totalAmount } = this.props
+
+    let list = []
+    orders.map(order => {
+      return list.push(
+        <Order
+          datetime={ order.paidAt }
+          tenantName={ order.tenantName }
+          amount={ order.amount }
+        />
+      )
+    })
 
     return (
       <Grid>
@@ -46,16 +57,7 @@ class History extends Component {
           </Col>
         </Row>
         <Summary totalAmount={ totalAmount } />
-        <Order
-          datetime='8/17 12:30'
-          tenantName='でへへ本舗'
-          amount={ 1000 }
-        />
-        <Order
-          datetime='8/17 12:30'
-          tenantName='でへへ本舗'
-          amount={ 1000 }
-        />
+        { list }
       </Grid>
     )
   }
