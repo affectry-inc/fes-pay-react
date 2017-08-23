@@ -37,6 +37,7 @@ class History extends Component {
     orders.map(order => {
       return list.push(
         <Order
+          key={ order.key }
           datetime={ order.paidAt }
           tenantName={ order.tenantName }
           amount={ order.amount }
