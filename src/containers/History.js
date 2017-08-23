@@ -40,9 +40,12 @@ class History extends Component {
       return list.push(
         <Order
           key={ order.key }
-          datetime={ order.paidAt }
+          paidAt={ order.paidAt }
           tenantName={ order.tenantName }
           amount={ order.amount }
+          amountCard={ order.amountCard }
+          amountCoupon={ order.amountCoupon }
+          cardLastDigits={ order.cardLastDigits }
         />
       )
     })
@@ -70,7 +73,7 @@ class Summary extends Component {
   render() {
     const { totalAmount } = this.props
     return (
-      <Paper style={ styles.summary } zDepth={1}>
+      <Paper style={ styles.summary } zDepth={ 0 }>
         <Row center='xs' >
           <Col xs={ 6 } style={ styles.textLeft }>
             <span>総額</span>

@@ -13,6 +13,9 @@ function history(state = initState, action){
           orders.push({
             key: order.key,
             amount: order.amount,
+            amountCard: order.amountCard,
+            amountCoupon: order.amountCoupon,
+            cardLastDigits: order.cardLastDigits,
             paidAt: order.paidAt,
             tenantName: order.tenantName,
           })
