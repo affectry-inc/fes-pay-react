@@ -73,7 +73,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "build:prod": "node -r dotenv/config scripts/build.js dotenv_config_path=.env.production",
+    "build:prod": "node -r dotenv/config scripts/build.js dotenv_config_path=.env.production paths_config_path=paths.prod",
+    "deploy": "firebase use default && firebase deploy",
+    "deploy:prod": "firebase use production && firebase deploy -p build_prod && firebase use default",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {

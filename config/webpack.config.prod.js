@@ -1,3 +1,11 @@
+// Setup args
+var args = new Object;
+var params = process.argv.filter(v => { return (/^.+=.+/.test(v))})
+for(var i=0; params[i]; i++) {
+    var kv = params[i].split(/=(.+)/)
+    args[kv[0]]=kv[1]
+}
+
 var path = require('path');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
@@ -5,7 +13,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
-var paths = require('./paths');
+// var paths = require('./paths');
+var paths_path = args['paths_config_path'] ? args['paths_config_path'] : 'paths'
+var paths = require('../config/' + paths_path)
 var getClientEnvironment = require('./env');
 
 function ensureSlash(path, needsSlash) {

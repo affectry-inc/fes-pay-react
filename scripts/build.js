@@ -7,6 +7,14 @@ process.env.NODE_ENV = 'production';
 // https://github.com/motdotla/dotenv
 require('dotenv').config({silent: true});
 
+// Setup args
+var args = new Object;
+var params = process.argv.filter(v => { return (/^.+=.+/.test(v))})
+for(var i=0; params[i]; i++) {
+    var kv = params[i].split(/=(.+)/)
+    args[kv[0]]=kv[1]
+}
+
 var chalk = require('chalk');
 var fs = require('fs-extra');
 var path = require('path');
@@ -15,7 +23,9 @@ var gzipSize = require('gzip-size').sync;
 var rimrafSync = require('rimraf').sync;
 var webpack = require('webpack');
 var config = require('../config/webpack.config.prod');
-var paths = require('../config/paths');
+// var paths = require('../config/paths');
+var paths_path = args['paths_config_path'] ? args['paths_config_path'] : 'paths'
+var paths = require('../config/' + paths_path)
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 var recursive = require('recursive-readdir');
 var stripAnsi = require('strip-ansi');
