@@ -18,7 +18,7 @@ function loadOrdersSuccess(snapshot){
   return {
     type: 'ORDERS_RECEIVE_DATA',
     orders: orders,
-    totalAmount: snapshot.child('totalAmount').val()
+    totalAmount: snapshot.child('summary/totalAmount').val()
   }
 }
 
