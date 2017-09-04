@@ -22,7 +22,7 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, isLoadingCard, isLoadingPhoto, isLoadingPhone, isLoadingConfCode } = this.props
     const bandId = this.props.params.bandId
 
     return (
@@ -50,6 +50,7 @@ class SignUp extends Component {
                 <StepContent style={ styles.stepContent }>
                   <EditCreditCard
                     bandId={ bandId }
+                    isLoading={ isLoadingCard }
                     onTouchGoNext={ actions.saveCreditCard }
                     onTouchSkip={ actions.skipCreditCard }
                   />
@@ -66,6 +67,7 @@ class SignUp extends Component {
                 <StepContent style={ styles.stepContent }>
                   <EditFacePhoto
                     bandId={ bandId }
+                    isLoading={ isLoadingPhoto }
                     onTouchGoNext={ actions.saveFacePhoto }
                     onTouchGoPrev={ actions.backToCreditCard }
                   />
@@ -82,6 +84,7 @@ class SignUp extends Component {
                 <StepContent style={ styles.stepContent }>
                   <EditPhoneNumber
                     bandId={ bandId }
+                    isLoading={ isLoadingPhone }
                     onTouchSignUp={ actions.register }
                     onTouchGoPrev={ actions.backToFacePhoto }
                   />
@@ -93,6 +96,7 @@ class SignUp extends Component {
         </Row>
         <ConfirmCodeDialog
           bandId={ bandId }
+          isLoading={ isLoadingConfCode }
           onTouchSend={ actions.sendConfirmCode }
           onTouchGoPrev={ actions.backToPhoneNumber }
           open={ confirmCodeDialogOpen }
@@ -109,6 +113,10 @@ function mapStateToProps(state) {
     dispPhotoUrl: state.signUp.dispPhotoUrl,
     dispPhoneNumber: state.signUp.dispPhoneNumber,
     confirmCodeDialogOpen: state.signUp.confirmCodeDialogOpen,
+    isLoadingCard: state.signUp.isLoadingCard,
+    isLoadingPhoto: state.signUp.isLoadingPhoto,
+    isLoadingPhone: state.signUp.isLoadingPhone,
+    isLoadingConfCode: state.signUp.isLoadingConfCode,
   }
 }
 

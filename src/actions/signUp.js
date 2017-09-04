@@ -9,6 +9,7 @@ import StripeClient from '../utils/stripeClient'
 
 const saveCreditCard = (bandId, card) => {
   return (dispatch, getState) => {
+    dispatch({ type: Types.DISP_CARD_LOADER })
     StripeClient.createToken(card,
       token => {
         const lastDigits = card.cardNo.slice(-4)
@@ -24,6 +25,7 @@ const saveCreditCard = (bandId, card) => {
               type: OPEN_ALERT,
               alertMessage: I18n.t(getState().intl, 'signUp.saveCardError')
             })
+            dispatch({ type: Types.HIDE_CARD_LOADER })
           }
         )
       },
@@ -32,6 +34,7 @@ const saveCreditCard = (bandId, card) => {
           type: OPEN_ALERT,
           alertMessage: I18n.t(getState().intl, 'signUp.tokenizeError')
         })
+        dispatch({ type: Types.HIDE_CARD_LOADER })
       }
     )
   }
@@ -58,6 +61,7 @@ const skipCreditCard = (bandId) => {
 
 const saveFacePhoto = (bandId, photoUrl) => {
   return dispatch => {
+    dispatch({ type: Types.DISP_PHOTO_LOADER })
     AzureClient.registerPerson(bandId, photoUrl,
       (personId, persistedFaceId) => {
         FirebaseClient.savePerson(bandId, personId, persistedFaceId, photoUrl,
@@ -112,6 +116,7 @@ const savePhoneNumber = (dispatch, bandId, countryCode, phoneNumber, recaptchaVe
 
 const register = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
   return (dispatch, getState) => {
+    dispatch({ type: Types.DISP_PHONE_LOADER })
     FirebaseClient.checkReadyToRegister(bandId,
       () => {
         dispatch({
@@ -140,6 +145,7 @@ const register = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
 
 const sendConfirmCode = (confirmCode, bandId) => {
   return (dispatch, getState) => {
+    dispatch({ type: Types.DISP_CONF_CODE_LOADER })
     const verificationId = window.confirmationResult.verificationId
     FirebaseClient.confirmSignIn(bandId, verificationId, confirmCode,
       user => {

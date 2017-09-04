@@ -8,6 +8,8 @@ import FlatButton from 'material-ui/FlatButton'
 import * as EditFacePhotoActions from '../actions/editFacePhoto'
 import I18n from '../utils/i18n'
 
+import Spinner from '../components/Spinner'
+
 import defaultPhoto from '../img/default_photo.png'
 
 const styles = {
@@ -16,6 +18,10 @@ const styles = {
   },
   buttons: {
     marginTop: '16px'
+  },
+  disabledAnchor: {
+    pointerEvents: 'none',
+    cursor: 'default'
   }
 }
 
@@ -59,7 +65,7 @@ class EditFacePhoto extends Component {
   }
 
   render() {
-    const { photoUrl, photoAlt, faces, scale, canGoNext, intl } = this.props
+    const { photoUrl, photoAlt, faces, scale, canGoNext, intl, isLoading } = this.props
 
     let list = []
     faces.map(obj => {
@@ -79,6 +85,7 @@ class EditFacePhoto extends Component {
 
     return (
       <Row className='edit-face-photo'>
+        <Spinner top={ 150 } isLoading={ isLoading } />
         <Col xs={ 12 }>
           <form
             encType='multipart/form-data'
@@ -88,6 +95,7 @@ class EditFacePhoto extends Component {
               <Col xs={ 12 }>
                 <a
                   href=""
+                  style={ isLoading ? styles.disabledAnchor : {} }
                   onClick={ this.clickImg }>
                   <img
                     id="AA"
@@ -112,7 +120,7 @@ class EditFacePhoto extends Component {
                 <RaisedButton
                   label={ I18n.t(intl, 'editFacePhoto.next') }
                   type='submit'
-                  disabled={ !canGoNext }
+                  disabled={ !canGoNext || isLoading }
                   primary={ true }
                   style={ styles.fullWidth }
                 />
@@ -122,6 +130,7 @@ class EditFacePhoto extends Component {
                   label={ I18n.t(intl, 'editFacePhoto.back') }
                   onTouchTap={ this.goBack }
                   style={ styles.fullWidth }
+                  disabled={ isLoading }
                 />
               </Col>
             </Row>
@@ -134,6 +143,7 @@ class EditFacePhoto extends Component {
 
 EditFacePhoto.propTypes = {
   bandId: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   onTouchGoNext: PropTypes.func.isRequired,
   onTouchGoPrev: PropTypes.func.isRequired,
 }

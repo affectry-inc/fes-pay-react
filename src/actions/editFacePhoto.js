@@ -1,5 +1,6 @@
 import * as Types from '../types/editFacePhoto'
 import { OPEN_ALERT } from '../types/app'
+import { DISP_PHOTO_LOADER, HIDE_PHOTO_LOADER } from '../types/signUp'
 import AzureClient from '../utils/azureClient'
 import S3Client from '../utils/s3Client'
 import TimeUtil from '../utils/timeUtils'
@@ -46,8 +47,10 @@ const cropPhoto = (face, filepath, file, dataURL, dispatch) => {
           type: Types.FACE_CROPPED,
           croppedPhotoUrl: data.Location,
         })
+        dispatch({ type: HIDE_PHOTO_LOADER })
       },
       err => {
+        dispatch({ type: HIDE_PHOTO_LOADER })
       }
     )
   }, options)
@@ -61,6 +64,7 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
           type: OPEN_ALERT,
           alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
         })
+        dispatch({ type: HIDE_PHOTO_LOADER })
       } else {
         const faces = res.data
         dispatch({
@@ -77,6 +81,7 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
             type: OPEN_ALERT,
             alertMessage: '複数の顔を認識しました。違う写真をアップロードしてください。',
           })
+          dispatch({ type: HIDE_PHOTO_LOADER })
         }
       }
     },
@@ -85,6 +90,7 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
         type: OPEN_ALERT,
         alertMessage: '顔情報の認識に失敗しました。違う写真をアップロードしてください。',
       })
+      dispatch({ type: HIDE_PHOTO_LOADER })
     }
   )
 }
@@ -96,12 +102,14 @@ const uploadFile = (bandId, file, dataURL, scale, dispatch) => {
       findFaces(filepath, file, dataURL, data.Location, scale, dispatch)
     },
     err => {
+      dispatch({ type: HIDE_PHOTO_LOADER })
     }
   )
 }
 
 const changePhoto = (bandId, file, imgElWidth) => {
   return dispatch => {
+    dispatch({ type: DISP_PHOTO_LOADER })
     loadImage.parseMetaData(file, (data) => {
       const options = {
         maxWidth: 1000,

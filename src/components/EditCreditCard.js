@@ -10,6 +10,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import * as EditCreditCardActions from '../actions/editCreditCard'
 import I18n from '../utils/i18n'
 
+import Spinner from '../components/Spinner'
+
 const styles = {
   fullWidth: {
     width: '100%'
@@ -78,10 +80,11 @@ class EditCreditCard extends Component {
   }
 
   render() {
-    const { cardNo, cardNoErrorText, month, year, securityCode, card, intl } = this.props
+    const { cardNo, cardNoErrorText, month, year, securityCode, card, intl, isLoading } = this.props
 
     return (
       <Row className='edit-credit-card' start='xs'>
+        <Spinner top={ 80 } isLoading={ isLoading } />
         <Col xs={ 12 }>
           <form onSubmit={ this.submitCreditCard }>
             <Row>
@@ -92,6 +95,7 @@ class EditCreditCard extends Component {
                   value={ cardNo }
                   onChange={ this.changeCardNo }
                   style={ styles.fullWidth }
+                  disabled={ isLoading }
                 />
               </Col>
             </Row>
@@ -104,6 +108,7 @@ class EditCreditCard extends Component {
                   value={ month }
                   onChange={ this.changeMonth }
                   style={ styles.fullWidth }
+                  disabled={ isLoading }
                 >
                   { this.months }
                 </SelectField>
@@ -116,6 +121,7 @@ class EditCreditCard extends Component {
                   value={ year }
                   onChange={ this.changeYear }
                   style={ styles.fullWidth }
+                  disabled={ isLoading }
                 >
                   { this.years }
                 </SelectField>
@@ -128,6 +134,7 @@ class EditCreditCard extends Component {
                   value={ securityCode }
                   onChange={ this.changeSecurityCode }
                   style={ styles.fullWidth }
+                  disabled={ isLoading }
                 />
               </Col>
             </Row>
@@ -135,7 +142,7 @@ class EditCreditCard extends Component {
               <Col xs={ 6 }>
                 <RaisedButton label={ I18n.t(intl, 'editCreditCard.next') }
                   type='submit'
-                  disabled={ !card }
+                  disabled={ !card || isLoading }
                   primary={ true }
                   style={ styles.fullWidth }
                 >
@@ -153,6 +160,7 @@ class EditCreditCard extends Component {
 
 EditCreditCard.propTypes = {
   bandId: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   onTouchGoNext: PropTypes.func.isRequired,
   onTouchSkip: PropTypes.func.isRequired,
 }

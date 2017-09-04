@@ -130,6 +130,11 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, cbSuccess, cbError) =
 
 const checkReadyToRegister = (bandId, onResetCredit, onResetFacePhoto, onReady) => {
   firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
+    if (!snapshot.exists()) {
+      console.log('no band info')
+      onResetCredit()
+      return
+    }
     const cardCustomerId = snapshot.val().cardCustomerId
     const photoUrl = snapshot.val().photoUrl
     if (!cardCustomerId) {

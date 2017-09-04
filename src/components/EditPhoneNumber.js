@@ -12,6 +12,8 @@ import FirebaseClient from '../utils/firebaseClient'
 import * as EditPhoneNumberActions from '../actions/editPhoneNumber'
 import I18n from '../utils/i18n'
 
+import Spinner from '../components/Spinner'
+
 const styles = {
   fullWidth: {
     width: '100%'
@@ -28,6 +30,7 @@ class EditPhoneNumber extends Component {
 
   static propTypes = {
     bandId: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     onTouchSignUp: PropTypes.func.isRequired,
     onTouchGoPrev: PropTypes.func.isRequired,
   }
@@ -63,10 +66,11 @@ class EditPhoneNumber extends Component {
   }
 
   render() {
-    const { phoneNumber, phoneNumberErrorText, isTermsAgreed, canGoNext, intl } = this.props
+    const { phoneNumber, phoneNumberErrorText, isTermsAgreed, canGoNext, intl, isLoading } = this.props
 
     return (
       <Row className='edit-phone-number'>
+        <Spinner top={ 30 } isLoading={ isLoading } />
         <Col xs={12}>
           <form onSubmit={this.submitPhoneNumber}>
             <Row>
@@ -78,6 +82,7 @@ class EditPhoneNumber extends Component {
                   onChange={this.changePhoneNumber}
                   style={styles.fullWidth}
                   ref={el => this.phoneNumberText = el}
+                  disabled={ isLoading }
                 />
               </Col>
             </Row>
@@ -87,6 +92,7 @@ class EditPhoneNumber extends Component {
                   checked={isTermsAgreed}
                   onCheck={this.checkTermsAgreed}
                   style={styles.checkbox}
+                  disabled={ isLoading }
                 />
               </Col>
               <Col xs={11}>
@@ -109,7 +115,7 @@ class EditPhoneNumber extends Component {
                   id='signup-button'
                   label={ I18n.t(intl, 'editPhoneNumber.register') }
                   type='submit'
-                  disabled={ !canGoNext }
+                  disabled={ !canGoNext || isLoading }
                   primary={true}
                   style={styles.fullWidth}
                 />
@@ -119,6 +125,7 @@ class EditPhoneNumber extends Component {
                   label={ I18n.t(intl, 'editPhoneNumber.back') }
                   onTouchTap={this.goBack}
                   style={styles.fullWidth}
+                  disabled={ isLoading }
                 />
               </Col>
             </Row>
