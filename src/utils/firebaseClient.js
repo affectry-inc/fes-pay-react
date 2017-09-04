@@ -132,7 +132,7 @@ const checkReadyToRegister = (bandId, onResetCredit, onResetFacePhoto, onReady) 
   firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
     const cardCustomerId = snapshot.val().cardCustomerId
     const photoUrl = snapshot.val().photoUrl
-    if (!cardCustomerId && !bandId.match(/^c/)) {
+    if (!cardCustomerId) {
       console.log('cardCustomerId is missed')
       onResetCredit()
     } else if (!photoUrl) {

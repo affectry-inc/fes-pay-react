@@ -7,7 +7,6 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
 import * as EditCreditCardActions from '../actions/editCreditCard'
 import I18n from '../utils/i18n'
 
@@ -79,17 +78,7 @@ class EditCreditCard extends Component {
   }
 
   render() {
-    const { cardNo, cardNoErrorText, month, year, securityCode, card, intl, bandId } = this.props
-
-    let skipButton
-    if (bandId.match(/^c/)) {
-      skipButton =
-        <FlatButton label={ I18n.t(intl, 'editCreditCard.skip') }
-          primary={ true }
-          onClick={ this.skipCreditCard }
-          style={ styles.fullWidth }
-        />
-    }
+    const { cardNo, cardNoErrorText, month, year, securityCode, card, intl } = this.props
 
     return (
       <Row className='edit-credit-card' start='xs'>
@@ -153,7 +142,6 @@ class EditCreditCard extends Component {
                 </RaisedButton>
               </Col>
               <Col xs={ 6 }>
-                { skipButton }
               </Col>
             </Row>
           </form>
