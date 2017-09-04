@@ -91,7 +91,7 @@ Order.propTypes = {
   amount: PropTypes.number.isRequired,
   amountCard: PropTypes.number.isRequired,
   amountCoupon: PropTypes.number,
-  cardLastDigits: PropTypes.number.isRequired,
+  cardLastDigits: PropTypes.string.isRequired,
 }
 
 export default Order

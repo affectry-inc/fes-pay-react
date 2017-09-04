@@ -25,6 +25,7 @@ const styles = {
 class ConfirmCodeDialog extends Component {
 
   static propTypes = {
+    bandId: PropTypes.string.isRequired,
     onTouchSend: PropTypes.func.isRequired,
     onTouchGoPrev: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
@@ -45,7 +46,7 @@ class ConfirmCodeDialog extends Component {
       return
     }
 
-    this.props.onTouchSend(this.state.confirmCode)
+    this.props.onTouchSend(this.state.confirmCode, this.props.bandId)
 
     this.setState({
       confirmCode: '',

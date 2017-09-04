@@ -138,9 +138,8 @@ const register = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
   }
 }
 
-const sendConfirmCode = (confirmCode) => {
+const sendConfirmCode = (confirmCode, bandId) => {
   return (dispatch, getState) => {
-    const bandId = getState().app.bandId
     const verificationId = window.confirmationResult.verificationId
     FirebaseClient.confirmSignIn(bandId, verificationId, confirmCode,
       user => {

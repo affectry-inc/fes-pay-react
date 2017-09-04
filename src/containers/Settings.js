@@ -28,14 +28,14 @@ const styles = {
 class Settings extends Component {
 
   componentDidMount() {
-    const { actions, bandId } = this.props
-    actions.loadSettings(bandId)
+    const { actions } = this.props
+    actions.loadSettings(this.props.params.bandId)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.bandId !== this.props.bandId) {
+    if (nextProps.params.bandId !== this.props.params.bandId) {
       const { actions } = this.props
-      actions.loadSettings(nextProps.bandId)
+      actions.loadSettings(nextProps.params.bandId)
     }
   }
 
@@ -160,7 +160,6 @@ function mapStateToProps(state) {
     dispCardNo: state.settings.dispCardNo,
     dispPhotoUrl: state.settings.dispPhotoUrl,
     dispPhoneNumber: state.settings.dispPhoneNumber,
-    bandId: state.app.bandId,
   }
 }
 

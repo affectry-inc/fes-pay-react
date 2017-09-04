@@ -22,7 +22,8 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, bandId } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen } = this.props
+    const bandId = this.props.params.bandId
 
     return (
       <Grid>
@@ -91,6 +92,7 @@ class SignUp extends Component {
           </Col>
         </Row>
         <ConfirmCodeDialog
+          bandId={ bandId }
           onTouchSend={ actions.sendConfirmCode }
           onTouchGoPrev={ actions.backToPhoneNumber }
           open={ confirmCodeDialogOpen }
@@ -107,7 +109,6 @@ function mapStateToProps(state) {
     dispPhotoUrl: state.signUp.dispPhotoUrl,
     dispPhoneNumber: state.signUp.dispPhoneNumber,
     confirmCodeDialogOpen: state.signUp.confirmCodeDialogOpen,
-    bandId: state.app.bandId,
   }
 }
 
