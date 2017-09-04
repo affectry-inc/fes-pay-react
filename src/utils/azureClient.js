@@ -21,7 +21,6 @@ const _post = (urlTail, params, data, cbSuccess, cbError) => {
     config
   )
   .then(function (res) {
-    console.log(res)
     if (cbSuccess) cbSuccess(res)
   })
   .catch(function (err) {
@@ -44,7 +43,6 @@ const _put = (urlTail, data, cbSuccess, cbError) => {
     config
   )
   .then(function (res) {
-    console.log(res)
     if (cbSuccess) cbSuccess(res)
   })
   .catch(function (err) {
@@ -65,7 +63,6 @@ const _delete = (urlTail, cbSuccess, cbError) => {
     config
   )
   .then(function (res) {
-    console.log(res)
     if (cbSuccess) cbSuccess(res)
   })
   .catch(function (err) {

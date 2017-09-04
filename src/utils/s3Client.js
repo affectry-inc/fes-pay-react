@@ -42,7 +42,6 @@ const upload = (filename, filetype, localUrl, cbSuccess, cbError) => {
         console.log(err)
         cbError(err)
       } else {
-        console.log(data)
         cbSuccess(data)
       }
     }

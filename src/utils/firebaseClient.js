@@ -148,7 +148,6 @@ const createRecaptchaVerifier = (elementId) => {
   const recaptchaVerifier = new firebase.auth.RecaptchaVerifier(elementId, {
     'size': 'invisible',
     'callback': (res) => {
-      console.log(res)
     }
   })
   return recaptchaVerifier
@@ -183,7 +182,6 @@ const confirmSignIn = (bandId, verificationId, confirmCode, cbSuccess, cbError) 
     if (err.code === 'auth/credential-already-in-use') {
       firebaseAuth.signInWithCredential(err.credential)
       .then(user => {
-        console.log('Sign in with credential successfully', user)
         activateBand(bandId, user.uid,
           () => {
             cbSuccess(user)

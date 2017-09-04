@@ -39,7 +39,6 @@ const storeBandId = (paramBandId) => {
     }
 
     firebaseAuth.onAuthStateChanged((user) => {
-      console.log('LOGGED IN uid:', user.uid)
       if (user && !bandId) {
         dispatch({
           type: Types.OPEN_ALERT,
