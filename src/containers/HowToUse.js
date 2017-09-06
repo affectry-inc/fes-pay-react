@@ -6,7 +6,7 @@ class HowToUse extends Component {
   render() {
     return (
       <div>
-        <h1>使い方のページ</h1>
+        <h1>How to use</h1>
         <h2>Comming Soon..</h2>
         <Link to="/todos">Todos</Link><br/>
         <Link to="/yeah/a001">Sign Up</Link>

@@ -5,7 +5,7 @@ class TermsOfUse extends Component {
   render() {
     return (
       <div>
-        <h1>利用規約のページ</h1>
+        <h1>Terms of use</h1>
         <h2>Comming Soon..</h2>
       </div>
     )

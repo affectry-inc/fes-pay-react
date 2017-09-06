@@ -81,7 +81,10 @@ class Summary extends Component {
       <Paper style={ styles.summary } zDepth={ 0 }>
         <Row center='xs' >
           <Col xs={ 6 } style={ styles.textLeft }>
-            <span>総額</span>
+            <FormattedMessage
+              id='history.total'
+              defaultMessage='Total'
+            />
           </Col>
           <Col xs={ 6 } style={ styles.textRight }>
             <span>&yen; { totalAmount.toLocaleString() }</span>

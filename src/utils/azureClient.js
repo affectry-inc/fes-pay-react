@@ -97,7 +97,7 @@ const addPersonFace = (personGroupId, personId, photoUrl, cbSuccess, cbError) =>
       cbSuccess(personId, res.data.persistedFaceId)
     },
     err => {
-      cbError({message: '画像の登録に失敗しました。再度登録を行ってください。'})
+      cbError(err)
     }
   )
 }
@@ -116,7 +116,7 @@ const createPerson = (personGroupId, photoUrl, cbSuccess, cbError) => {
       addPersonFace(personGroupId, res.data.personId, photoUrl, cbSuccess, cbError)
     },
     err => {
-      cbError({message: '画像の登録に失敗しました。再度登録を行ってください。'})
+      cbError(err)
     }
   )
 }
@@ -132,7 +132,7 @@ const createPersonGroup = (personGroupId, photoUrl, cbSuccess, cbError) => {
       createPerson(personGroupId, photoUrl, cbSuccess, cbError)
     },
     err => {
-      cbError({message: '画像の登録に失敗しました。再度登録を行ってください。'})
+      cbError(err)
     }
   )
 }

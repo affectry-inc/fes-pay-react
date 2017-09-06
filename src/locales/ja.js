@@ -42,6 +42,7 @@ module.exports = {
   'confirmCodeDialog.msgInputCode': 'ご登録いただいた電話番号にSMSを送信しました。<br/>本文に記載されている確認コードを入力してください。',
   'confirmCodeDialog.confirmCode': '確認コード',
   'history.history': '購入履歴',
+  'history.total': '総額',
   'order.details': '<内訳>',
   'order.amountCard': 'クレジットカード(末尾{ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'クーポン利用: &yen; { amountCoupon, number }',

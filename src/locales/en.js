@@ -42,6 +42,7 @@ module.exports = {
   'confirmCodeDialog.msgInputCode': 'A confirmation code was sent to your mobile device. Enter it in the field below.',
   'confirmCodeDialog.confirmCode': 'Confirm code',
   'history.history': 'Your Orders',
+  'history.total': 'Total',
   'order.details': '<Details>',
   'order.amountCard': 'Credit card ({ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'Coupon: &yen; { amountCoupon, number }',
