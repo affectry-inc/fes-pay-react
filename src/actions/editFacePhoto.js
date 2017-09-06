@@ -6,6 +6,8 @@ import S3Client from '../utils/s3Client'
 import TimeUtil from '../utils/timeUtils'
 import loadImage from 'blueimp-load-image'
 
+import I18n from '../utils/i18n'
+
 const toBinary = (dataURL) => {
   const bin = atob(dataURL.replace(/^.*,/, ''))
   const buffer = new Uint8Array(bin.length)
@@ -56,13 +58,13 @@ const cropPhoto = (face, filepath, file, dataURL, dispatch) => {
   }, options)
 }
 
-const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
+const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch, intl) => {
   AzureClient.detectFaces(photoUrl,
     res => {
       if (!res.data || res.data.length === 0) {
         dispatch({
           type: OPEN_ALERT,
-          alertMessage: '顔情報を認識できません。違う写真をアップロードしてください。',
+          alertMessage: I18n.t(intl, 'editFacePhoto.noFace'),
         })
         dispatch({ type: HIDE_PHOTO_LOADER })
       } else {
@@ -79,7 +81,7 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
         } else {
           dispatch({
             type: OPEN_ALERT,
-            alertMessage: '複数の顔を認識しました。違う写真をアップロードしてください。',
+            alertMessage: I18n.t(intl, 'editFacePhoto.multiFaces'),
           })
           dispatch({ type: HIDE_PHOTO_LOADER })
         }
@@ -88,18 +90,18 @@ const findFaces = (filepath, file, dataURL, photoUrl, scale, dispatch) => {
     err => {
       dispatch({
         type: OPEN_ALERT,
-        alertMessage: '顔情報の認識に失敗しました。違う写真をアップロードしてください。',
+        alertMessage: I18n.t(intl, 'editFacePhoto.detectFailed'),
       })
       dispatch({ type: HIDE_PHOTO_LOADER })
     }
   )
 }
 
-const uploadFile = (bandId, file, dataURL, scale, dispatch) => {
+const uploadFile = (bandId, file, dataURL, scale, dispatch, intl) => {
   const filepath = 'face_photos/' + bandId + '/' + TimeUtil.fullFormat() + '/'
   S3Client.upload(filepath + 'original', file.type, dataURL,
     data => {
-      findFaces(filepath, file, dataURL, data.Location, scale, dispatch)
+      findFaces(filepath, file, dataURL, data.Location, scale, dispatch, intl)
     },
     err => {
       dispatch({ type: HIDE_PHOTO_LOADER })
@@ -108,7 +110,7 @@ const uploadFile = (bandId, file, dataURL, scale, dispatch) => {
 }
 
 const changePhoto = (bandId, file, imgElWidth) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: DISP_PHOTO_LOADER })
     loadImage.parseMetaData(file, (data) => {
       const options = {
@@ -126,16 +128,18 @@ const changePhoto = (bandId, file, imgElWidth) => {
           photoAlt: file.name,
         })
         const scale = imgElWidth / canvas.width
-        uploadFile(bandId, file, dataURL, scale, dispatch)
+        uploadFile(bandId, file, dataURL, scale, dispatch, getState().intl)
       }, options)
     })
   }
 }
 
 const alertNotImage = () => {
-  return {
-    type: OPEN_ALERT,
-    alertMessage: '画像を選択してください。',
+  return (dispatch, getState) => {
+    dispatch({
+      type: OPEN_ALERT,
+      alertMessage: I18n.t(getState().intl, 'editFacePhoto.notImage'),
+    })
   }
 }
 
