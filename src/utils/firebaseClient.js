@@ -19,32 +19,42 @@ const activateBand = (bandId, uid, cbSuccess, cbError) => {
   })
 }
 
-const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
-  firebaseAuth.signInAnonymously()
-  .then(user => {
-    let anonymous_by = new Date()
-    anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
+const execSaveCardToken = (user, bandId, token, lastDigits, cbSuccess, cbError) => {
+  let anonymous_by = new Date()
+  anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
 
-    let updates= {}
-    updates['/bands/' + bandId + '/cardToken'] = token
-    updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
-    updates['/bands/' + bandId + '/cardCustomerId'] = null
-    updates['/bands/' + bandId + '/uid'] = user.uid
-    updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
-    updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
+  let updates= {}
+  updates['/bands/' + bandId + '/cardToken'] = token
+  updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
+  updates['/bands/' + bandId + '/cardCustomerId'] = null
+  updates['/bands/' + bandId + '/uid'] = user.uid
+  updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+  updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
 
-    firebaseDb.ref().update(updates)
-    .then(() => {
-      cbSuccess()
-    })
-    .catch(err => {
-      console.log(err)
-      cbError(err)
-    })
+  firebaseDb.ref().update(updates)
+  .then(() => {
+    cbSuccess()
   })
   .catch(err => {
     console.log(err)
     cbError(err)
+  })
+}
+
+const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
+  firebaseAuth.onAuthStateChanged(user => {
+    if (user) {
+      execSaveCardToken(user, bandId, token, lastDigits, cbSuccess, cbError)
+    } else {
+      firebaseAuth.signInAnonymously()
+      .then(anoUser => {
+        execSaveCardToken(anoUser, bandId, token, lastDigits, cbSuccess, cbError)
+      })
+      .catch(err => {
+        console.log(err)
+        cbError(err)
+      })
+    }
   })
 }
 
