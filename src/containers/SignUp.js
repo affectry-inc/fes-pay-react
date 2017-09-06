@@ -22,7 +22,7 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, isLoadingCard, isLoadingPhoto, isLoadingPhone, isLoadingConfCode } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, isLoadingCard, isLoadingPhoto, isLoadingPhone, isLoadingConfCode, intl } = this.props
     const bandId = this.props.params.bandId
 
     return (
@@ -97,6 +97,7 @@ class SignUp extends Component {
         <ConfirmCodeDialog
           bandId={ bandId }
           isLoading={ isLoadingConfCode }
+          intl={ intl }
           onTouchSend={ actions.sendConfirmCode }
           onTouchGoPrev={ actions.backToPhoneNumber }
           open={ confirmCodeDialogOpen }
@@ -117,6 +118,7 @@ function mapStateToProps(state) {
     isLoadingPhoto: state.signUp.isLoadingPhoto,
     isLoadingPhone: state.signUp.isLoadingPhone,
     isLoadingConfCode: state.signUp.isLoadingConfCode,
+    intl: state.intl,
   }
 }
 

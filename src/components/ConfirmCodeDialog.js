@@ -4,8 +4,10 @@ import Dialog from 'material-ui/Dialog'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
+import { FormattedHTMLMessage } from 'react-intl'
 
 import Spinner from '../components/Spinner'
+import I18n from '../utils/i18n'
 
 const styles = {
   alignCenter: {
@@ -69,14 +71,14 @@ class ConfirmCodeDialog extends Component {
   render() {
     const actions = [
       <RaisedButton
-        label='送信'
+        label={ I18n.t(this.props.intl, 'confirmCodeDialog.send') }
         primary={ true }
         style={ styles.buttonStyle }
         onTouchTap={ this.sendConfirmCode }
         disabled={ this.props.isLoading }
       />,
       <FlatButton
-        label="戻る"
+        label={ I18n.t(this.props.intl, 'confirmCodeDialog.back') }
         style={ styles.buttonStyle }
         onTouchTap={ this.goBack }
         disabled={ this.props.isLoading }
@@ -92,12 +94,12 @@ class ConfirmCodeDialog extends Component {
         actionsContainerStyle={ styles.alignCenter }
       >
         <Spinner top={ 40 } isLoading={ this.props.isLoading } />
-        <span>
-          ご登録いただいた電話番号にSMSを送信しました。<br/>
-          本文に記載されている確認コードを入力してください。
-        </span>
+        <FormattedHTMLMessage
+          id='confirmCodeDialog.msgInputCode'
+          defaultMessage='----------'
+        />
         <TextField
-          hintText='確認コード'
+          hintText={ I18n.t(this.props.intl, 'confirmCodeDialog.confirmCode') }
           value={ this.state.confirmCode }
           onChange={ this.changeConfirmCode }
           style={ styles.textField }
