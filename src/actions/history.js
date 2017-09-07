@@ -29,6 +29,19 @@ function loadOrdersError(error){
   }
 }
 
+function tryLoadOrders(bandId) {
+  return (dispatch, getState) => {
+    if (getState().app.uid) {
+      dispatch(loadOrders(bandId))
+    } else {
+      dispatch({
+        type: 'NEED_TO_LOGIN',
+      })
+    }
+  }
+}
+
 module.exports = {
   loadOrders,
+  tryLoadOrders,
 }

@@ -217,6 +217,18 @@ const confirmSignIn = (bandId, verificationId, confirmCode, cbSuccess, cbError) 
   })
 }
 
+const confirmWithCredential = (verificationId, code, cbSuccess, cbError) => {
+  let credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code)
+  firebaseAuth.signInWithCredential(credential)
+  .then(user => {
+    cbSuccess(user)
+  })
+  .catch(err => {
+    console.log('Error signing in with credential', err)
+    cbError(err)
+  })
+}
+
 const routeHome = (bandId, toHistory, toHowTo, callback) => {
   firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
     firebaseAuth.onAuthStateChanged((user) => {
@@ -225,7 +237,7 @@ const routeHome = (bandId, toHistory, toHowTo, callback) => {
         (user && snapshot.val().uid === user.uid && !snapshot.val().isActive) ||
         (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
         // route To SignUp
-      } else if (user && snapshot.val().uid === user.uid && snapshot.val().isActive) {
+      } else if (snapshot.val().isActive) {
         toHistory()
       } else {
         toHowTo()
@@ -260,6 +272,7 @@ module.exports = {
   createRecaptchaVerifier,
   signInWithPhoneNumber,
   confirmSignIn,
+  confirmWithCredential,
   routeHome,
   listenBandIds,
 }

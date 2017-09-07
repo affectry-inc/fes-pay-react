@@ -6,6 +6,7 @@ import editFacePhotoActions from './editFacePhoto'
 import editPhoneNumberActions from './editPhoneNumber'
 import historyActions  from './history'
 import settingsActions  from './settings'
+import loginDialogActions  from './loginDialog'
 
 module.exports = {
   ...todoActions,
@@ -16,4 +17,5 @@ module.exports = {
   ...editPhoneNumberActions,
   ...historyActions,
   ...settingsActions,
+  ...loginDialogActions,
 }

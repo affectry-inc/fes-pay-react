@@ -8,6 +8,7 @@ import editFacePhoto from './editFacePhoto'
 import editPhoneNumber from './editPhoneNumber'
 import history from './history'
 import settings from './settings'
+import loginDialog from './loginDialog'
 import { intlReducer } from 'react-intl-redux'
 
 export default combineReducers({
@@ -19,6 +20,7 @@ export default combineReducers({
   editPhoneNumber,
   history,
   settings,
+  loginDialog,
   routing: routerReducer,
   intl: intlReducer,
 })
