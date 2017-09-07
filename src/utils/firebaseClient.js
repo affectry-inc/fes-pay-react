@@ -247,7 +247,7 @@ const routeHome = (bandId, toHistory, toHowTo, callback) => {
   })
   .catch(err => {
     console.log(err)
-    toHowTo()
+    toHistory()
     callback()
   })
 }
