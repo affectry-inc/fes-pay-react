@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import { FormattedHTMLMessage } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 
+import Spinner from '../components/Spinner'
 import LoginCard from '../components/LoginCard'
 
 import * as SettingsActions from '../actions/settings'
@@ -117,6 +118,7 @@ class Settings extends Component {
             </h2>
           </Col>
         </Row>
+        <Spinner top={ 200 } isLoading={ this.props.isLoading } />
         { isPrivileged ? settingPanels : <LoginCard /> }
       </Grid>
     )
@@ -163,11 +165,12 @@ class SettingPanel extends Component {
 
 function mapStateToProps(state) {
   return {
-    isPrivileged: state.history.isPrivileged,
+    isPrivileged: state.settings.isPrivileged,
     couponBalance: state.settings.couponBalance,
     dispCardNo: state.settings.dispCardNo,
     dispPhotoUrl: state.settings.dispPhotoUrl,
     dispPhoneNumber: state.settings.dispPhoneNumber,
+    isLoading: state.history.isLoading,
   }
 }
 

@@ -4,6 +4,7 @@ import * as Types from '../types/settings'
 // Subscribe
 function loadSettings(bandId) {
   return dispatch => {
+    dispatch({ type: Types.DISP_LOADER })
     const ref = firebaseDb.ref('bands/' + bandId)
     ref.once('value')
     .then(snapshot => {dispatch(loadSettingsSuccess(snapshot))})

@@ -4,6 +4,7 @@ import * as Types from '../types/history'
 // Subscribe
 function loadOrders(bandId) {
   return dispatch => {
+    dispatch({ type: Types.DISP_LOADER })
     const ref = firebaseDb.ref('pays/' + bandId).orderByKey()
     ref.once('value')
     .then(snapshot => {dispatch(loadOrdersSuccess(snapshot))})

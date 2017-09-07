@@ -5,6 +5,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage } from 'react-intl'
 import { Paper } from 'material-ui'
 
+import Spinner from '../components/Spinner'
 import Order from '../components/Order'
 import LoginCard from '../components/LoginCard'
 
@@ -68,6 +69,7 @@ class History extends Component {
             </h2>
           </Col>
         </Row>
+        <Spinner top={ 200 } isLoading={ this.props.isLoading } />
         { isPrivileged ? <Summary totalAmount={ totalAmount } /> : <LoginCard /> }
         { list }
       </Grid>
@@ -101,6 +103,7 @@ function mapStateToProps(state) {
     isPrivileged: state.history.isPrivileged,
     orders: state.history.orders ? state.history.orders : [],
     totalAmount: state.history.totalAmount,
+    isLoading: state.history.isLoading,
     app: state.app,
   }
 }

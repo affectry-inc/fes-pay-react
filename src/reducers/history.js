@@ -4,10 +4,16 @@ const initState = {
   isPrivileged: false,
   orders: [],
   totalAmount: 0,
+  isLoading: false,
 }
 
 function history(state = initState, action){
   switch (action.type) {
+    case Types.DISP_LOADER:
+      return Object.assign({}, state, {
+        isLoading: true,
+      })
+
     case Types.ORDERS_RECEIVE_DATA:
       let orders = []
       if (action.orders){
@@ -27,6 +33,7 @@ function history(state = initState, action){
         isPrivileged: true,
         orders: [...orders],
         totalAmount: action.totalAmount ? action.totalAmount : 0,
+        isLoading: false,
       })
 
     case Types.ORDERS_RECEIVE_ERROR:
