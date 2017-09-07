@@ -58,6 +58,7 @@ class App extends Component {
           onCloseAlert={ actions.closeAlert }
           open={ alertOpen }
           message={ alertMessage }
+          intl={ intl }
         />
         <LoginDialog open={ loginOpen } />
       </div>

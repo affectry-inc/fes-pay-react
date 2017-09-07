@@ -1,5 +1,6 @@
 module.exports = {
   'app.accessViaQr': 'Access via QR code',
+  'alert.close': 'Close',
   'mainMenu.history': 'Purchase History',
   'mainMenu.settings': 'Settings',
   'mainMenu.about': 'About FesPay',
