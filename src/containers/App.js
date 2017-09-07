@@ -6,6 +6,7 @@ import { PropTypes } from 'prop-types'
 import Header from '../components/Header'
 import MainMenu from '../components/MainMenu'
 import Alert from '../components/Alert'
+import LoginDialog from '../components/LoginDialog'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import fespayTheme from '../fespayTheme';
 import * as AppActions from '../actions/app'
@@ -33,7 +34,7 @@ class App extends Component {
   closeMainMenu = () => this.setState({mainMenuOpen: false});
 
   render() {
-    const { actions, alertOpen, alertMessage, intl, app } = this.props
+    const { actions, alertOpen, alertMessage, loginOpen, intl, app } = this.props
 
     return (
       <div>
@@ -58,6 +59,7 @@ class App extends Component {
           open={ alertOpen }
           message={ alertMessage }
         />
+        <LoginDialog open={ loginOpen } />
       </div>
     )
   }
@@ -67,6 +69,7 @@ const mapStateToProps = (state) => {
   return {
     alertOpen: state.app.alertOpen,
     alertMessage: state.app.alertMessage,
+    loginOpen: state.app.loginOpen,
     intl: state.intl,
     app: state.app,
   }

@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl'
 import { Paper } from 'material-ui'
 
 import Order from '../components/Order'
-import LoginDialog from '../components/LoginDialog'
 
 import * as HistoryActions from '../actions/history'
 
@@ -43,7 +42,7 @@ class History extends Component {
   }
 
   render() {
-    const { isLoginDialogOpen, orders, totalAmount } = this.props
+    const { orders, totalAmount } = this.props
 
     let list = []
     orders.map(order => {
@@ -74,9 +73,6 @@ class History extends Component {
         </Row>
         <Summary totalAmount={ totalAmount } />
         { list }
-        <LoginDialog
-          open={ isLoginDialogOpen }
-        />
       </Grid>
     )
   }
@@ -105,7 +101,6 @@ class Summary extends Component {
 
 function mapStateToProps(state) {
   return {
-    isLoginDialogOpen: state.history.isLoginDialogOpen,
     orders: state.history.orders ? state.history.orders : [],
     totalAmount: state.history.totalAmount,
     app: state.app,

@@ -1,17 +1,11 @@
 
 const initState = {
-  isLoginDialogOpen: false,
   orders: [],
   totalAmount: 0,
 }
 
 function history(state = initState, action){
   switch (action.type) {
-    case 'NEED_TO_LOGIN':
-      return Object.assign({}, state, {
-        isLoginDialogOpen: true,
-      })
-
     case 'ORDERS_RECEIVE_DATA':
       let orders = []
       if (action.orders){
@@ -28,7 +22,6 @@ function history(state = initState, action){
         })
       }
       return Object.assign({}, state, {
-        isLoginDialogOpen: false,
         orders: [...orders],
         totalAmount: action.totalAmount ? action.totalAmount : 0,
       })

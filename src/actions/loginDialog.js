@@ -1,8 +1,6 @@
-import { browserHistory } from 'react-router'
-
 import FirebaseClient from '../utils/firebaseClient'
 import * as Types from '../types/loginDialog'
-import { OPEN_ALERT } from '../types/app'
+import { OPEN_ALERT, CLOSE_LOGIN } from '../types/app'
 
 import I18n from '../utils/i18n'
 
@@ -42,6 +40,7 @@ function sendPhoneNumber(phoneNumber, recaptchaVerifier) {
       err => {
         dispatch({
           type: Types.SIGNIN_ERROR,
+          message: err.message,
         })
       }
     )
@@ -56,10 +55,14 @@ function sendConfirmCode(confirmCode) {
         dispatch({
           type: Types.SEND_CONFIRM_CODE,
         })
+        dispatch({
+          type: CLOSE_LOGIN,
+        })
       },
       err => {
         dispatch({
           type: Types.SIGNIN_ERROR,
+          message: err.message,
         })
       }
     )
@@ -81,7 +84,9 @@ function goCancel() {
       type: OPEN_ALERT,
       alertMessage: I18n.t(getState().intl, 'loginDialog.noPrivilege')
     })
-    browserHistory.push('/')
+    dispatch({
+      type: CLOSE_LOGIN,
+    })
   }
 }
 

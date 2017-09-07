@@ -3,6 +3,7 @@ import * as Types from '../types/app'
 const initState = {
   alertOpen: false,
   alertMessage: '',
+  loginOpen: false,
   bandId: '',
   bandIds: [],
   uid: '',
@@ -23,6 +24,14 @@ const app = (state = initState, action) => {
     case Types.CLOSE_ALERT:
       return Object.assign({}, state, {
         alertOpen: false,
+      })
+    case Types.OPEN_LOGIN:
+      return Object.assign({}, state, {
+        loginOpen: true,
+      })
+    case Types.CLOSE_LOGIN:
+      return Object.assign({}, state, {
+        loginOpen: false,
       })
     case Types.SET_BAND_ID:
       return Object.assign({}, state, {

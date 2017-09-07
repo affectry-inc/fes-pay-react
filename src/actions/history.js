@@ -1,4 +1,5 @@
 import { firebaseDb } from '../firebase/'
+import { OPEN_LOGIN } from '../types/app'
 
 // Subscribe
 function loadOrders(bandId) {
@@ -34,9 +35,7 @@ function tryLoadOrders(bandId) {
     if (getState().app.uid) {
       dispatch(loadOrders(bandId))
     } else {
-      dispatch({
-        type: 'NEED_TO_LOGIN',
-      })
+      dispatch({ type: OPEN_LOGIN })
     }
   }
 }
