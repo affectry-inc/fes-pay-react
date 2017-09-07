@@ -4,8 +4,11 @@ import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage } from 'react-intl'
 import { Paper } from 'material-ui'
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 import Order from '../components/Order'
+import I18n from '../utils/i18n'
 
 import * as HistoryActions from '../actions/history'
 
@@ -27,7 +30,7 @@ class History extends Component {
 
   componentDidMount() {
     const { actions } = this.props
-    actions.tryLoadOrders(this.props.params.bandId)
+    actions.listenLogin(this.props.params.bandId)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,14 +38,11 @@ class History extends Component {
       const { actions } = this.props
       actions.loadOrders(nextProps.params.bandId)
     }
-    if (nextProps.app.uid !== this.props.app.uid) {
-      const { actions } = this.props
-      actions.loadOrders(nextProps.params.bandId)
-    }
   }
 
   render() {
-    const { orders, totalAmount } = this.props
+    const { isPrivileged, orders, totalAmount, intl } = this.props
+    const { actions } = this.props
 
     let list = []
     orders.map(order => {
@@ -59,6 +59,27 @@ class History extends Component {
       )
     })
 
+    let loginCard =
+      <Row center='xs'>
+        <Col xs={ 8 }>
+          <Card style={{ textAlign: 'center' }} >
+            <CardText>
+              <FormattedMessage
+                id='history.noPrivilege'
+                defaultMessage='You have no privilege to access this page.'
+              />
+            </CardText>
+            <CardActions>
+              <FlatButton
+                label={ I18n.t(intl, 'history.login') }
+                primary={ true }
+                onTouchTap={ actions.login }
+              />
+            </CardActions>
+          </Card>
+        </Col>
+      </Row>
+
     return (
       <Grid>
         <Row center='xs'>
@@ -72,6 +93,7 @@ class History extends Component {
           </Col>
         </Row>
         <Summary totalAmount={ totalAmount } />
+        { isPrivileged ? '' : loginCard }
         { list }
       </Grid>
     )
@@ -101,9 +123,11 @@ class Summary extends Component {
 
 function mapStateToProps(state) {
   return {
+    isPrivileged: state.history.isPrivileged,
     orders: state.history.orders ? state.history.orders : [],
     totalAmount: state.history.totalAmount,
     app: state.app,
+    intl: state.intl,
   }
 }
 

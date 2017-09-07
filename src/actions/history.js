@@ -1,4 +1,4 @@
-import { firebaseDb } from '../firebase/'
+import { firebaseDb, firebaseAuth } from '../firebase/'
 import { OPEN_LOGIN } from '../types/app'
 
 // Subscribe
@@ -24,23 +24,36 @@ function loadOrdersSuccess(snapshot){
 }
 
 function loadOrdersError(error){
-  return {
-    type: 'ORDERS_RECEIVE_ERROR',
-    message: error.message
-  }
-}
-
-function tryLoadOrders(bandId) {
-  return (dispatch, getState) => {
-    if (getState().app.uid) {
-      dispatch(loadOrders(bandId))
-    } else {
-      dispatch({ type: OPEN_LOGIN })
+  if (error.code === 'PERMISSION_DENIED') {
+    return {
+      type: 'NO_PRIVILEGE',
+    }
+  } else {
+    return {
+      type: 'ORDERS_RECEIVE_ERROR',
+      message: error.message,
     }
   }
 }
 
+function listenLogin(bandId) {
+  return dispatch => {
+    firebaseAuth.onAuthStateChanged(user => {
+      if (user) {
+        dispatch(loadOrders(bandId))
+      } else {
+        dispatch({ type: 'NO_PRIVILEGE' })
+      }
+    })
+  }
+}
+
+function login() {
+  return { type: OPEN_LOGIN }
+}
+
 module.exports = {
   loadOrders,
-  tryLoadOrders,
+  listenLogin,
+  login,
 }

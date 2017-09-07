@@ -1,5 +1,6 @@
 
 const initState = {
+  isPrivileged: false,
   orders: [],
   totalAmount: 0,
 }
@@ -22,11 +23,15 @@ function history(state = initState, action){
         })
       }
       return Object.assign({}, state, {
+        isPrivileged: true,
         orders: [...orders],
         totalAmount: action.totalAmount ? action.totalAmount : 0,
       })
 
     case 'ORDERS_RECEIVE_ERROR':
+    case 'NO_PRIVILEGE':
+      return Object.assign({}, state, initState)
+
     default:
       return state
   }

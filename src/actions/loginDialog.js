@@ -1,6 +1,6 @@
 import FirebaseClient from '../utils/firebaseClient'
 import * as Types from '../types/loginDialog'
-import { OPEN_ALERT, CLOSE_LOGIN } from '../types/app'
+import { CLOSE_LOGIN } from '../types/app'
 
 import I18n from '../utils/i18n'
 
@@ -79,10 +79,6 @@ function goCancel() {
   return (dispatch, getState) => {
     dispatch({
       type: Types.GO_CANCEL,
-    })
-    dispatch({
-      type: OPEN_ALERT,
-      alertMessage: I18n.t(getState().intl, 'loginDialog.noPrivilege')
     })
     dispatch({
       type: CLOSE_LOGIN,
