@@ -1,3 +1,4 @@
+import * as Types from '../types/history'
 
 const initState = {
   isPrivileged: false,
@@ -7,7 +8,7 @@ const initState = {
 
 function history(state = initState, action){
   switch (action.type) {
-    case 'ORDERS_RECEIVE_DATA':
+    case Types.ORDERS_RECEIVE_DATA:
       let orders = []
       if (action.orders){
         action.orders.forEach(order => {
@@ -28,8 +29,8 @@ function history(state = initState, action){
         totalAmount: action.totalAmount ? action.totalAmount : 0,
       })
 
-    case 'ORDERS_RECEIVE_ERROR':
-    case 'NO_PRIVILEGE':
+    case Types.ORDERS_RECEIVE_ERROR:
+    case Types.NO_PRIVILEGE:
       return Object.assign({}, state, initState)
 
     default:

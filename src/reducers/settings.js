@@ -1,4 +1,7 @@
+import * as Types from '../types/settings'
+
 const initState = {
+  isPrivileged: false,
   couponBalance: '',
   dispCardNo: '',
   dispPhotoUrl: '',
@@ -7,18 +10,22 @@ const initState = {
 
 function settings(state = initState, action){
    switch (action.type) {
-    case 'SETTINGS_RECEIVE_DATA':
+    case Types.SETTINGS_RECEIVE_DATA:
       return Object.assign({}, state, {
+        isPrivileged: true,
         dispCardNo: action.dispCardNo,
         dispPhotoUrl: action.dispPhotoUrl,
         dispPhoneNumber: action.dispPhoneNumber,
       })
-    case 'COUPON_RECEIVE_DATA':
+    case Types.COUPON_RECEIVE_DATA:
       return Object.assign({}, state, {
         couponBalance: action.couponBalance,
       })
-    case 'SETTINGS_RECEIVE_ERROR':
-    case 'COUPON_RECEIVE_ERROR':
+    case Types.SETTINGS_RECEIVE_ERROR:
+    case Types.COUPON_RECEIVE_ERROR:
+    case Types.NO_PRIVILEGE:
+      return Object.assign({}, state, initState)
+
     default:
       return state
   }

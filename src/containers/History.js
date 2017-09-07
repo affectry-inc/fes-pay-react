@@ -4,11 +4,9 @@ import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage } from 'react-intl'
 import { Paper } from 'material-ui'
-import { Card, CardActions, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
 
 import Order from '../components/Order'
-import I18n from '../utils/i18n'
+import LoginCard from '../components/LoginCard'
 
 import * as HistoryActions from '../actions/history'
 
@@ -41,8 +39,7 @@ class History extends Component {
   }
 
   render() {
-    const { isPrivileged, orders, totalAmount, intl } = this.props
-    const { actions } = this.props
+    const { isPrivileged, orders, totalAmount } = this.props
 
     let list = []
     orders.map(order => {
@@ -59,27 +56,6 @@ class History extends Component {
       )
     })
 
-    let loginCard =
-      <Row center='xs'>
-        <Col xs={ 8 }>
-          <Card style={{ textAlign: 'center' }} >
-            <CardText>
-              <FormattedMessage
-                id='history.noPrivilege'
-                defaultMessage='You have no privilege to access this page.'
-              />
-            </CardText>
-            <CardActions>
-              <FlatButton
-                label={ I18n.t(intl, 'history.login') }
-                primary={ true }
-                onTouchTap={ actions.login }
-              />
-            </CardActions>
-          </Card>
-        </Col>
-      </Row>
-
     return (
       <Grid>
         <Row center='xs'>
@@ -92,8 +68,7 @@ class History extends Component {
             </h2>
           </Col>
         </Row>
-        <Summary totalAmount={ totalAmount } />
-        { isPrivileged ? '' : loginCard }
+        { isPrivileged ? <Summary totalAmount={ totalAmount } /> : <LoginCard /> }
         { list }
       </Grid>
     )
@@ -127,7 +102,6 @@ function mapStateToProps(state) {
     orders: state.history.orders ? state.history.orders : [],
     totalAmount: state.history.totalAmount,
     app: state.app,
-    intl: state.intl,
   }
 }
 

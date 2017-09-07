@@ -6,11 +6,12 @@ import { FormattedMessage } from 'react-intl'
 import { FormattedHTMLMessage } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 
+import LoginCard from '../components/LoginCard'
+
 import * as SettingsActions from '../actions/settings'
 
 const styles = {
   setting: {
-    // border: '1px solid #cccccc',
     margin: '40px 30px'
   },
   title: {
@@ -29,7 +30,7 @@ class Settings extends Component {
 
   componentDidMount() {
     const { actions } = this.props
-    actions.loadSettings(this.props.params.bandId)
+    actions.listenLogin(this.props.params.bandId)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +41,8 @@ class Settings extends Component {
   }
 
   render() {
-    const { couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber } = this.props
+    const { isPrivileged, couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber } = this.props
+
     let couponBalanceEl
 
     if (couponBalance) {
@@ -68,18 +70,8 @@ class Settings extends Component {
         </Row>
     }
 
-    return (
-      <Grid>
-        <Row center='xs'>
-          <Col xs={ 12 }>
-            <h2>
-              <FormattedMessage
-                id='settings.settings'
-                defaultMessage='Settings'
-              />
-            </h2>
-          </Col>
-        </Row>
+    let settingPanels =
+      <div>
         { couponBalanceEl }
         <SettingPanel
           title={
@@ -111,6 +103,21 @@ class Settings extends Component {
           onEdit={ () => {console.log('hey')} }
           text={ dispPhoneNumber }
         />
+      </div>
+
+    return (
+      <Grid>
+        <Row center='xs'>
+          <Col xs={ 12 }>
+            <h2>
+              <FormattedMessage
+                id='settings.settings'
+                defaultMessage='Settings'
+              />
+            </h2>
+          </Col>
+        </Row>
+        { isPrivileged ? settingPanels : <LoginCard /> }
       </Grid>
     )
   }
@@ -156,6 +163,7 @@ class SettingPanel extends Component {
 
 function mapStateToProps(state) {
   return {
+    isPrivileged: state.history.isPrivileged,
     couponBalance: state.settings.couponBalance,
     dispCardNo: state.settings.dispCardNo,
     dispPhotoUrl: state.settings.dispPhotoUrl,

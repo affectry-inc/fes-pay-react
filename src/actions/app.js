@@ -13,6 +13,12 @@ const closeAlert = () => {
   }
 }
 
+const openLogin = () => {
+  return {
+    type: Types.OPEN_LOGIN
+  }
+}
+
 const changeLocale = (locale) => {
   const messages = locale === 'en' ? msgEn : msgJa
 
@@ -81,6 +87,7 @@ const changeBandId = (bandId) => {
 
 module.exports = {
   closeAlert,
+  openLogin,
   changeLocale,
   storeBandId,
   changeBandId,

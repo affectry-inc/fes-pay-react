@@ -1,5 +1,5 @@
 import { firebaseDb, firebaseAuth } from '../firebase/'
-import { OPEN_LOGIN } from '../types/app'
+import * as Types from '../types/history'
 
 // Subscribe
 function loadOrders(bandId) {
@@ -17,7 +17,7 @@ function loadOrdersSuccess(snapshot){
     orders.unshift({ key: order.key, ...order.val() })
   })
   return {
-    type: 'ORDERS_RECEIVE_DATA',
+    type: Types.ORDERS_RECEIVE_DATA,
     orders: orders,
     totalAmount: snapshot.child('summary/totalAmount').val()
   }
@@ -26,11 +26,11 @@ function loadOrdersSuccess(snapshot){
 function loadOrdersError(error){
   if (error.code === 'PERMISSION_DENIED') {
     return {
-      type: 'NO_PRIVILEGE',
+      type: Types.NO_PRIVILEGE,
     }
   } else {
     return {
-      type: 'ORDERS_RECEIVE_ERROR',
+      type: Types.ORDERS_RECEIVE_ERROR,
       message: error.message,
     }
   }
@@ -42,18 +42,13 @@ function listenLogin(bandId) {
       if (user) {
         dispatch(loadOrders(bandId))
       } else {
-        dispatch({ type: 'NO_PRIVILEGE' })
+        dispatch({ type: Types.NO_PRIVILEGE })
       }
     })
   }
 }
 
-function login() {
-  return { type: OPEN_LOGIN }
-}
-
 module.exports = {
   loadOrders,
   listenLogin,
-  login,
 }
