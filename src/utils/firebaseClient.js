@@ -256,17 +256,15 @@ const routeHome = (bandId, replace, callback) => {
         (user && snapshot.val().uid === user.uid && !snapshot.val().isActive && !snapshot.val().isReset) ||
         (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
         // route To SignUp
-      } else if (snapshot.val().isActive || snapshot.val().isReset) {
-        replace({pathname: '/history/' + bandId})
       } else {
-        replace({pathname: '/howto'})
+        replace({pathname: '/history/' + bandId})
       }
       callback()
     })
   })
   .catch(err => {
     console.log(err)
-    replace({pathname: '/howto'})
+    replace({pathname: '/history/' + bandId})
     callback()
   })
 }
