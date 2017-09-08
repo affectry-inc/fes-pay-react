@@ -243,7 +243,7 @@ const confirmSignIn = (bandId, verificationId, confirmCode, cbSuccess, cbError) 
   })
 }
 
-const routeHome = (bandId, toHistory, toHowTo, callback) => {
+const routeHome = (bandId, replace, callback) => {
   firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
     firebaseAuth.onAuthStateChanged((user) => {
       const now = (new Date()).getTime()
@@ -252,16 +252,16 @@ const routeHome = (bandId, toHistory, toHowTo, callback) => {
         (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
         // route To SignUp
       } else if (snapshot.val().isActive) {
-        toHistory()
+        replace({pathname: '/history/' + bandId})
       } else {
-        toHowTo()
+        replace({pathname: '/howto'})
       }
       callback()
     })
   })
   .catch(err => {
     console.log(err)
-    toHistory()
+    replace({pathname: '/howto'})
     callback()
   })
 }

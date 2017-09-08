@@ -14,15 +14,7 @@ import NotFound from './containers/NotFound'
 import FirebaseClient from './utils/firebaseClient'
 
 const routeHome = (nextState, replace, callback) => {
-  FirebaseClient.routeHome(nextState.params.bandId,
-    () => {
-      replace({pathname: '/history/' + nextState.params.bandId})
-    },
-    () => {
-      replace({pathname: '/howto'})
-    },
-    callback
-  )
+  FirebaseClient.routeHome(nextState.params.bandId, replace, callback)
 }
 
 const routes = (
