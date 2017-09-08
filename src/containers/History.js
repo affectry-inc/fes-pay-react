@@ -40,7 +40,7 @@ class History extends Component {
   }
 
   render() {
-    const { isPrivileged, orders, totalAmount } = this.props
+    const { isPrivileged, orders, totalAmount, isLoading } = this.props
 
     let list = []
     orders.map(order => {
@@ -69,8 +69,7 @@ class History extends Component {
             </h2>
           </Col>
         </Row>
-        <Spinner top={ 200 } isLoading={ this.props.isLoading } />
-        { isPrivileged ? <Summary totalAmount={ totalAmount } /> : <LoginCard /> }
+        { isLoading ? <Spinner top={ 200 } isLoading={ isLoading } /> : isPrivileged ? <Summary totalAmount={ totalAmount } /> : <LoginCard /> }
         { list }
       </Grid>
     )

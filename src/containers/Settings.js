@@ -42,7 +42,7 @@ class Settings extends Component {
   }
 
   render() {
-    const { isPrivileged, couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber } = this.props
+    const { isPrivileged, couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber, isLoading } = this.props
 
     let couponBalanceEl
 
@@ -118,8 +118,7 @@ class Settings extends Component {
             </h2>
           </Col>
         </Row>
-        <Spinner top={ 200 } isLoading={ this.props.isLoading } />
-        { isPrivileged ? settingPanels : <LoginCard /> }
+        { isLoading ? <Spinner top={ 200 } isLoading={ isLoading } /> : isPrivileged ? settingPanels : <LoginCard /> }
       </Grid>
     )
   }
