@@ -19,7 +19,7 @@ const activateBand = (bandId, uid, cbSuccess, cbError) => {
   })
 }
 
-const execSaveCardToken = (user, bandId, token, lastDigits, cbSuccess, cbError) => {
+const execSaveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) => {
   let anonymous_by = new Date()
   anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
 
@@ -27,7 +27,7 @@ const execSaveCardToken = (user, bandId, token, lastDigits, cbSuccess, cbError) 
   updates['/bands/' + bandId + '/cardToken'] = token
   updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
   updates['/bands/' + bandId + '/cardCustomerId'] = null
-  updates['/bands/' + bandId + '/uid'] = user.uid
+  updates['/bands/' + bandId + '/uid'] = uid
   updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
   updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
 
@@ -41,21 +41,19 @@ const execSaveCardToken = (user, bandId, token, lastDigits, cbSuccess, cbError) 
   })
 }
 
-const saveCardToken = (bandId, token, lastDigits, cbSuccess, cbError) => {
-  firebaseAuth.onAuthStateChanged(user => {
-    if (user) {
-      execSaveCardToken(user, bandId, token, lastDigits, cbSuccess, cbError)
-    } else {
-      firebaseAuth.signInAnonymously()
-      .then(anoUser => {
-        execSaveCardToken(anoUser, bandId, token, lastDigits, cbSuccess, cbError)
-      })
-      .catch(err => {
-        console.log(err)
-        cbError(err)
-      })
-    }
-  })
+const saveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) => {
+  if (uid) {
+    execSaveCardToken(uid, bandId, token, lastDigits, cbSuccess, cbError)
+  } else {
+    firebaseAuth.signInAnonymously()
+    .then(anoUser => {
+      execSaveCardToken(anoUser.uid, bandId, token, lastDigits, cbSuccess, cbError)
+    })
+    .catch(err => {
+      console.log(err)
+      cbError(err)
+    })
+  }
 }
 
 const skipCreditCard = (bandId, cbSuccess, cbError) => {
@@ -179,6 +177,18 @@ const signInWithPhoneNumber = (phoneNumber, recaptchaVerifier, cbSuccess, cbErro
   })
 }
 
+const confirmWithCredential = (verificationId, code, cbSuccess, cbError) => {
+  let credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code)
+  firebaseAuth.signInWithCredential(credential)
+  .then(user => {
+    cbSuccess(user)
+  })
+  .catch(err => {
+    console.log('Error signing in with credential', err)
+    cbError(err)
+  })
+}
+
 const confirmSignIn = (bandId, verificationId, confirmCode, cbSuccess, cbError) => {
   const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, confirmCode)
   firebase.auth().currentUser.linkWithCredential(credential)
@@ -210,22 +220,26 @@ const confirmSignIn = (bandId, verificationId, confirmCode, cbSuccess, cbError) 
         console.log('Error signing in with credential', err)
         cbError(err)
       })
+    } else if (err.code === 'auth/provider-already-linked') {
+      confirmWithCredential(verificationId, confirmCode,
+        user => {
+          activateBand(bandId, user.uid,
+            () => {
+              cbSuccess(user)
+            },
+            err => {
+              cbError(err)
+            }
+          )
+        },
+        err => {
+          cbError(err)
+        }
+      )
     } else {
       console.log('Error upgrading anonymous account', err)
       cbError(err)
     }
-  })
-}
-
-const confirmWithCredential = (verificationId, code, cbSuccess, cbError) => {
-  let credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code)
-  firebaseAuth.signInWithCredential(credential)
-  .then(user => {
-    cbSuccess(user)
-  })
-  .catch(err => {
-    console.log('Error signing in with credential', err)
-    cbError(err)
   })
 }
 
@@ -254,6 +268,7 @@ const routeHome = (bandId, toHistory, toHowTo, callback) => {
 
 const listenBandIds = (uid, onAdd) => {
   const bandIdsRef = firebaseDb.ref('users/' + uid)
+  bandIdsRef.off()
   bandIdsRef.on('value', function(snapshot) {
     let bandIds = []
     snapshot.forEach(function(childSnapshot){
@@ -271,8 +286,8 @@ module.exports = {
   checkReadyToRegister,
   createRecaptchaVerifier,
   signInWithPhoneNumber,
-  confirmSignIn,
   confirmWithCredential,
+  confirmSignIn,
   routeHome,
   listenBandIds,
 }

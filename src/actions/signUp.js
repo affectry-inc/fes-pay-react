@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 
 import * as Types from '../types/signUp'
-import { OPEN_ALERT, BAND_ID_ADDED } from '../types/app'
+import { OPEN_ALERT } from '../types/app'
 import I18n from '../utils/i18n'
 import AzureClient from '../utils/azureClient'
 import FirebaseClient from '../utils/firebaseClient'
@@ -13,7 +13,7 @@ const saveCreditCard = (bandId, card) => {
     StripeClient.createToken(card,
       token => {
         const lastDigits = card.cardNo.slice(-4)
-        FirebaseClient.saveCardToken(bandId, token, lastDigits,
+        FirebaseClient.saveCardToken(getState().app.uid, bandId, token, lastDigits,
           () => {
             dispatch({
               type: Types.SAVE_CREDIT_CARD,
@@ -153,14 +153,6 @@ const sendConfirmCode = (confirmCode, bandId) => {
         dispatch({
           type: Types.SEND_CONFIRM_CODE,
         })
-        FirebaseClient.listenBandIds(user.uid,
-          bandIds => {
-            dispatch({
-              type: BAND_ID_ADDED,
-              bandIds: bandIds,
-            })
-          }
-        )
       },
       err => {
         dispatch({

@@ -11,7 +11,7 @@ class MainMenu extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { aboutSubOpen: false }
+    this.state = { aboutSubOpen: true }
   }
 
   toggleAboutSub = () => this.setState({ aboutSubOpen: !this.state.aboutSubOpen })
@@ -24,12 +24,16 @@ class MainMenu extends Component {
   render() {
     const { mainMenuOpen, closeMainMenu, intl, app } = this.props
     let bandIdMenuItem, historyMenuItem, settingsMenuItem
+
+    let bandIds = Array.from(new Set([...app.bandIds]))
+    if (bandIds.indexOf(app.bandId) < 0) { bandIds.unshift(app.bandId) }
+
     if (app.bandId) {
-      if (app.bandIds.length === 1) {
+      if (bandIds.length <= 1) {
         bandIdMenuItem = <MenuItem primaryText={ 'Band ID: ' + app.bandId } />
       } else {
         let items = []
-        app.bandIds.map(id => {
+        bandIds.map(id => {
           return items.push(
             <MenuItem
               key={ id }
@@ -47,7 +51,8 @@ class MainMenu extends Component {
             </DropDownMenu>
           </div>
       }
-      if (app.uid && !app.isAnonymous) {
+
+      if (app.bandId && app.bandIds.indexOf(app.bandId) >= 0) {
         historyMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.history') }

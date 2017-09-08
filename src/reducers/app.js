@@ -10,9 +10,10 @@ const initState = {
   isAnonymous: false,
 }
 
-const addItem = (array, item) => {
-  return Array.from(new Set([...array, item]))
-}
+// reserve nice login!!
+// const addItem = (array, item) => {
+//   return Array.from(new Set([...array, item]))
+// }
 
 const app = (state = initState, action) => {
   switch (action.type) {
@@ -36,7 +37,9 @@ const app = (state = initState, action) => {
     case Types.SET_BAND_ID:
       return Object.assign({}, state, {
         bandId: action.bandId,
-        bandIds: addItem(state.bandIds, action.bandId),
+      })
+    case Types.SET_UID:
+      return Object.assign({}, state, {
         uid: action.uid,
         isAnonymous: action.isAnonymous,
       })

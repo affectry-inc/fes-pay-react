@@ -4,7 +4,6 @@ import { firebaseAuth } from '../firebase/'
 import * as Types from '../types/app'
 import msgJa from '../locales/ja'
 import msgEn from '../locales/en'
-import I18n from '../utils/i18n'
 import FirebaseClient from '../utils/firebaseClient'
 
 const closeAlert = () => {
@@ -44,17 +43,14 @@ const storeBandId = (paramBandId) => {
       bandId = cookies.get('bandId', { path: '/' })
     }
 
-    firebaseAuth.onAuthStateChanged((user) => {
-      if (user && !bandId) {
-        dispatch({
-          type: Types.OPEN_ALERT,
-          alertMessage: I18n.t(getState().intl, 'app.accessViaQr')
-        })
-      }
+    dispatch({
+      type: Types.SET_BAND_ID,
+      bandId: bandId,
+    })
 
+    firebaseAuth.onAuthStateChanged(user => {
       dispatch({
-        type: Types.SET_BAND_ID,
-        bandId: bandId,
+        type: Types.SET_UID,
         uid: user ? user.uid : '',
         isAnonymous: user ? user.isAnonymous : false,
       })
@@ -68,6 +64,11 @@ const storeBandId = (paramBandId) => {
             })
           }
         )
+      } else {
+        dispatch({
+          type: Types.BAND_ID_ADDED,
+          bandIds: [],
+        })
       }
     })
   }

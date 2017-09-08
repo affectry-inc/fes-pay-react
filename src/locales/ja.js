@@ -1,5 +1,4 @@
 module.exports = {
-  'app.accessViaQr': 'QRコードからアクセスしてください。',
   'alert.close': '閉じる',
   'mainMenu.history': '購入履歴',
   'mainMenu.settings': '登録情報',
