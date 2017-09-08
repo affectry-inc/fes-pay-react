@@ -1,5 +1,8 @@
 import { firebaseDb, firebaseAuth } from '../firebase/'
 import * as Types from '../types/settings'
+import { OPEN_ALERT } from '../types/app'
+import FirebaseClient from '../utils/firebaseClient'
+import I18n from '../utils/i18n'
 
 // Subscribe
 function loadSettings(bandId) {
@@ -28,6 +31,7 @@ function loadSettings(bandId) {
 function loadSettingsSuccess(snapshot) {
   return {
     type: Types.SETTINGS_RECEIVE_DATA,
+    isReset: snapshot.child('isReset').val(),
     dispCardNo: 'XXXX - XXXX - XXXX - ' + snapshot.child('cardLastDigits').val(),
     dispPhotoUrl: snapshot.child('photoUrl').val(),
     dispPhoneNumber: snapshot.child('phoneNumber').val(),
@@ -67,7 +71,49 @@ function listenLogin(bandId) {
   }
 }
 
+function resetSettings(bandId) {
+  return (dispatch, getState) => {
+    dispatch({ type: Types.DISP_LOADER })
+    FirebaseClient.resetSettings(bandId,
+      () => {
+        dispatch({
+          type: Types.RESET_SETTINGS_SUCCESS,
+        })
+        dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'settings.resetSuccessfully')
+        })
+      },
+      err => {
+        dispatch({
+          type: Types.RESET_SETTINGS_ERROR,
+          message: err.message,
+        })
+        dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'settings.resetFailed')
+        })
+      }
+    )
+  }
+}
+
+function openResetDialog() {
+  return {
+    type: Types.OPEN_RESET_DIALOG,
+  }
+}
+
+function closeResetDialog() {
+  return {
+    type: Types.CLOSE_RESET_DIALOG,
+  }
+}
+
 module.exports = {
   loadSettings,
   listenLogin,
+  resetSettings,
+  openResetDialog,
+  closeResetDialog,
 }

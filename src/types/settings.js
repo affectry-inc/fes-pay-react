@@ -1,6 +1,10 @@
 const prefix = 'SETTINGS/'
 
 export const DISP_LOADER = prefix + 'DISP_LOADER'
+export const OPEN_RESET_DIALOG = prefix + 'OPEN_RESET_DIALOG'
+export const CLOSE_RESET_DIALOG = prefix + 'CLOSE_RESET_DIALOG'
+export const RESET_SETTINGS_SUCCESS = prefix + 'RESET_SETTINGS_SUCCESS'
+export const RESET_SETTINGS_ERROR = prefix + 'RESET_SETTINGS_ERROR'
 export const SETTINGS_RECEIVE_DATA = prefix + 'SETTINGS_RECEIVE_DATA'
 export const SETTINGS_RECEIVE_ERROR = prefix + 'SETTINGS_RECEIVE_ERROR'
 export const COUPON_RECEIVE_DATA = prefix + 'COUPON_RECEIVE_DATA'

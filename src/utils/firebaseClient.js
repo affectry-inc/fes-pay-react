@@ -283,6 +283,28 @@ const listenBandIds = (uid, onAdd) => {
   })
 }
 
+const resetSettings = (bandId, cbSuccess, cbError) => {
+  let updates= {}
+  updates['/bands/' + bandId + '/anonymousBy'] = null
+  updates['/bands/' + bandId + '/anonymousByUnix'] = null
+  updates['/bands/' + bandId + '/isActive'] = null
+  updates['/bands/' + bandId + '/cardToken'] = null
+  updates['/bands/' + bandId + '/cardLastDigits'] = null
+  updates['/bands/' + bandId + '/cardCustomerId'] = null
+  updates['/bands/' + bandId + '/persons'] = null
+  updates['/bands/' + bandId + '/photoUrl'] = null
+  updates['/bands/' + bandId + '/isReset'] = true
+
+  firebaseDb.ref().update(updates)
+  .then(() => {
+    cbSuccess()
+  })
+  .catch(err => {
+    console.log(err)
+    cbError(err)
+  })
+}
+
 module.exports = {
   saveCardToken,
   skipCreditCard,
@@ -295,4 +317,5 @@ module.exports = {
   confirmSignIn,
   routeHome,
   listenBandIds,
+  resetSettings,
 }

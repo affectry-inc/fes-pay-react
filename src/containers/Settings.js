@@ -4,10 +4,13 @@ import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage } from 'react-intl'
 import { FormattedHTMLMessage } from 'react-intl'
+import Dialog from 'material-ui/Dialog'
+import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 
 import Spinner from '../components/Spinner'
 import LoginCard from '../components/LoginCard'
+import I18n from '../utils/i18n'
 
 import * as SettingsActions from '../actions/settings'
 
@@ -25,6 +28,12 @@ const styles = {
   img: {
     width: '40%',
   },
+  alignCenter: {
+    textAlign: 'center',
+  },
+  buttonStyle: {
+    margin: '0 0.5em'
+  },
 }
 
 class Settings extends Component {
@@ -41,8 +50,12 @@ class Settings extends Component {
     }
   }
 
+  resetSettings = (e) => {
+    this.props.actions.resetSettings(this.props.params.bandId)
+  }
+
   render() {
-    const { isPrivileged, couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber, isLoading } = this.props
+    const { actions, isPrivileged, couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber, isLoading, openResetDialog, isReset, intl } = this.props
 
     let couponBalanceEl
 
@@ -81,7 +94,7 @@ class Settings extends Component {
               defaultMessage='Credit Card'
             />
           }
-          onEdit={ () => {console.log('hey')} }
+          isReset={ isReset }
           text={ dispCardNo }
         />
         <SettingPanel
@@ -91,7 +104,7 @@ class Settings extends Component {
               defaultMessage='Face Photo'
             />
           }
-          onEdit={ () => {console.log('hey')} }
+          isReset={ isReset }
           imageUrl={ dispPhotoUrl }
         />
         <SettingPanel
@@ -101,9 +114,43 @@ class Settings extends Component {
               defaultMessage='Phone Number'
             />
           }
-          onEdit={ () => {console.log('hey')} }
           text={ dispPhoneNumber }
         />
+        <Row center='xs' style={ styles.setting }>
+          <Col xs={ 6 }>
+            <RaisedButton
+              label={ I18n.t(intl, 'settings.reset') }
+              primary={ true }
+              style={{ width: '100%' }}
+              onTouchTap={ actions.openResetDialog }
+              disabled={ isReset }
+            />
+          </Col>
+          <Dialog
+            actions={[
+              <RaisedButton
+                label={ I18n.t(intl, 'settings.reset') }
+                primary={ true }
+                style={ styles.buttonStyle }
+                onTouchTap={ this.resetSettings }
+              />,
+              <FlatButton
+                label={ I18n.t(intl, 'settings.cancel') }
+                style={ styles.buttonStyle }
+                onTouchTap={ actions.closeResetDialog }
+              />
+            ]}
+            modal={ true }
+            open={ openResetDialog }
+            contentStyle={ styles.alignCenter }
+            actionsContainerStyle={ styles.alignCenter }
+          >
+            <FormattedHTMLMessage
+              id='settings.sureToReset'
+              defaultMessage='Your QR code will be deactivated.<br/>Are you sure to reset?'
+            />
+          </Dialog>
+        </Row>
       </div>
 
     return (
@@ -126,34 +173,26 @@ class Settings extends Component {
 
 class SettingPanel extends Component {
   render() {
-    const { title, onEdit, text, imageUrl } = this.props;
-
-    const editLabel =
-      <FormattedMessage
-        id='settings.edit'
-        defaultMessage='Edit'
-      />
+    const { title, text, imageUrl, isReset } = this.props
 
     return (
       <Row style={ styles.setting }>
         <Col xs={ 12 }>
           <Row>
-            <Col xs={ 9 } style={ styles.title }>
+            <Col xs={ 12 } style={ styles.title }>
               { title }
-            </Col>
-            <Col xs={ 3 }>
-              <FlatButton label={ editLabel }
-                primary={ true }
-                style={{ minWidth: '0px' }}
-                labelStyle={{ padding: '0px' }}
-                onClick={ onEdit }
-              />
             </Col>
           </Row>
           <Row center='xs'>
             <Col xs={ 12 } style={ styles.content }>
-              { text && (<span>{text}</span>) }
-              { imageUrl && (<img src={ imageUrl } alt='' style={ styles.img }/>) }
+              { isReset &&
+                (<FormattedMessage
+                  id='settings.isReset'
+                  defaultMessage='-- Not registered --'
+                />)
+              }
+              { !isReset && text && (<span>{text}</span>) }
+              { !isReset && imageUrl && (<img src={ imageUrl } alt='' style={ styles.img }/>) }
             </Col>
           </Row>
         </Col>
@@ -169,7 +208,10 @@ function mapStateToProps(state) {
     dispCardNo: state.settings.dispCardNo,
     dispPhotoUrl: state.settings.dispPhotoUrl,
     dispPhoneNumber: state.settings.dispPhoneNumber,
-    isLoading: state.history.isLoading,
+    isLoading: state.settings.isLoading,
+    openResetDialog: state.settings.openResetDialog,
+    isReset: state.settings.isReset,
+    intl: state.intl,
   }
 }
 
