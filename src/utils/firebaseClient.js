@@ -253,10 +253,10 @@ const routeHome = (bandId, replace, callback) => {
     firebaseAuth.onAuthStateChanged((user) => {
       const now = (new Date()).getTime()
       if (!snapshot.exists() ||
-        (user && snapshot.val().uid === user.uid && !snapshot.val().isActive) ||
+        (user && snapshot.val().uid === user.uid && !snapshot.val().isActive && !snapshot.val().isReset) ||
         (snapshot.val().anonymousByUnix && snapshot.val().anonymousByUnix < now)) {
         // route To SignUp
-      } else if (snapshot.val().isActive) {
+      } else if (snapshot.val().isActive || snapshot.val().isReset) {
         replace({pathname: '/history/' + bandId})
       } else {
         replace({pathname: '/howto'})
