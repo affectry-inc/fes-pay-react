@@ -1,6 +1,10 @@
 import firebase from 'firebase'
 import { firebaseDb, firebaseAuth } from '../firebase/'
 
+const fullPhoneNumber = (countryCode, phoneNumber) => {
+  return '+' + countryCode + phoneNumber.replace(/^0/, '')
+}
+
 const activateBand = (bandId, uid, cbSuccess, cbError) => {
   let updates= {}
   updates['/bands/' + bandId + '/anonymousBy'] = null
@@ -125,6 +129,7 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, cbSuccess, cbError) =
   let updates= {}
   updates['/bands/' + bandId + '/phoneCountryCode'] = countryCode
   updates['/bands/' + bandId + '/phoneNumber'] = phoneNumber
+  updates['/bands/' + bandId + '/fullPhoneNumber'] = fullPhoneNumber(countryCode, phoneNumber)
 
   firebaseDb.ref().update(updates)
   .then(() => {
