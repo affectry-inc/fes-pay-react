@@ -50,7 +50,7 @@ class HowToUse extends Component {
           </Col>
         </Row>
         <Row center='xs'>
-          <Col xs={ 12 } sm={ 8 } md={ 6 }>
+          <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
             <InstructionPanel
               stepIcon={ <One color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title1'
@@ -58,7 +58,7 @@ class HowToUse extends Component {
               bodyImg={ comingSoon }
             />
           </Col>
-          <Col xs={ 12 } sm={ 8 } md={ 6 }>
+          <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
             <InstructionPanel
               stepIcon={ <Two color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title2'
@@ -66,7 +66,7 @@ class HowToUse extends Component {
               bodyImg={ comingSoon }
             />
           </Col>
-          <Col xs={ 12 } sm={ 8 } md={ 6 }>
+          <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
             <InstructionPanel
               stepIcon={ <Three color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title3'
@@ -74,7 +74,7 @@ class HowToUse extends Component {
               bodyImg={ comingSoon }
             />
           </Col>
-          <Col xs={ 12 } sm={ 8 } md={ 6 }>
+          <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
             <InstructionPanel
               stepIcon={ <Four color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title4'
