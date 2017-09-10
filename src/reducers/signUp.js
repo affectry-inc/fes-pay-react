@@ -39,7 +39,6 @@ const signUp = (state = initState, action) => {
         isLoadingPhone: false,
       })
     case Types.SEND_CONFIRM_CODE:
-      // TODO: redirect to complete view
       return Object.assign({}, state, {
         confirmCodeDialogOpen: false,
         isLoadingConfCode: false,
@@ -70,18 +69,16 @@ const signUp = (state = initState, action) => {
         confirmCodeDialogOpen: false,
       })
     case Types.SAVE_FACE_PHOTO_ERROR:
-      // TODO: prompt reinput
       return Object.assign({}, state, {
         isLoadingPhoto: false,
       })
     case Types.SAVE_PHONE_NUMBER_ERROR:
-      // TODO: prompt reinput
       return Object.assign({}, state, {
         isLoadingPhone: false,
       })
     case Types.SEND_CONFIRM_CODE_ERROR:
-      // TODO: prompt reinput or reset
       return Object.assign({}, state, {
+        stepIndex: 2,
         confirmCodeDialogOpen: false,
         isLoadingConfCode: false,
       })

@@ -153,8 +153,9 @@ const savePhoneNumber = (bandId, countryCode, phoneNumber, cbSuccess, cbError) =
   })
 }
 
-const checkReadyToRegister = (bandId, onResetCredit, onResetFacePhoto, onReady) => {
-  firebaseDb.ref('bands/' + bandId).once('value').then(function(snapshot) {
+const checkReadyToRegister = (bandId, onResetCredit, onResetFacePhoto, onReady, onError) => {
+  firebaseDb.ref('bands/' + bandId).once('value')
+  .then(snapshot => {
     if (!snapshot.exists()) {
       console.log('no band info')
       onResetCredit()
@@ -171,6 +172,10 @@ const checkReadyToRegister = (bandId, onResetCredit, onResetFacePhoto, onReady) 
     } else {
       onReady()
     }
+  })
+  .catch(err =>{
+    console.log(err)
+    onError(err)
   })
 }
 

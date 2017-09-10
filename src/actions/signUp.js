@@ -60,7 +60,7 @@ const skipCreditCard = (bandId) => {
 }
 
 const saveFacePhoto = (bandId, photoUrl) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: Types.DISP_PHOTO_LOADER })
     AzureClient.registerPerson(bandId, photoUrl,
       (personId, persistedFaceId) => {
@@ -73,21 +73,31 @@ const saveFacePhoto = (bandId, photoUrl) => {
           },
           err => {
             dispatch({
+              type: OPEN_ALERT,
+              alertMessage: I18n.t(getState().intl, 'signUp.savePhotoFailed')
+            })
+            dispatch({
               type: Types.SAVE_FACE_PHOTO_ERROR,
+              message: err.message,
             })
           }
         )
       },
       err => {
         dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.savePhotoFailed')
+        })
+        dispatch({
           type: Types.SAVE_FACE_PHOTO_ERROR,
+          message: err.message,
         })
       }
     )
   }
 }
 
-const savePhoneNumber = (dispatch, bandId, countryCode, phoneNumber, recaptchaVerifier) => {
+const savePhoneNumber = (dispatch, intl, bandId, countryCode, phoneNumber, recaptchaVerifier) => {
   const fullPhoneNumber = '+' + countryCode + phoneNumber.replace(/^0/,'')
   FirebaseClient.signInWithPhoneNumber(fullPhoneNumber, recaptchaVerifier,
     confirmationResult => {
@@ -101,14 +111,24 @@ const savePhoneNumber = (dispatch, bandId, countryCode, phoneNumber, recaptchaVe
         },
         err => {
           dispatch({
+            type: OPEN_ALERT,
+            alertMessage: I18n.t(intl, 'signUp.savePhoneFailed')
+          })
+          dispatch({
             type: Types.SAVE_PHONE_NUMBER_ERROR,
+            message: err.message,
           })
         }
       )
     },
     err => {
       dispatch({
+        type: OPEN_ALERT,
+        alertMessage: I18n.t(intl, 'signUp.savePhoneFailed')
+      })
+      dispatch({
         type: Types.SAVE_PHONE_NUMBER_ERROR,
+        message: err.message,
       })
     }
   )
@@ -137,7 +157,17 @@ const register = (bandId, countryCode, phoneNumber, recaptchaVerifier) => {
         })
       },
       () => {
-        savePhoneNumber(dispatch, bandId, countryCode, phoneNumber, recaptchaVerifier)
+        savePhoneNumber(dispatch, getState().intl, bandId, countryCode, phoneNumber, recaptchaVerifier)
+      },
+      err => {
+        dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.savePhoneFailed')
+        })
+        dispatch({
+          type: Types.SAVE_PHONE_NUMBER_ERROR,
+          message: err.message,
+        })
       }
     )
   }
@@ -156,7 +186,12 @@ const sendConfirmCode = (confirmCode, bandId) => {
       },
       err => {
         dispatch({
+          type: OPEN_ALERT,
+          alertMessage: I18n.t(getState().intl, 'signUp.confirmFailed')
+        })
+        dispatch({
           type: Types.SEND_CONFIRM_CODE_ERROR,
+          message: err.message,
         })
       }
     )
