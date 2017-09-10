@@ -24,6 +24,7 @@ module.exports = {
   'signUp.savePhotoFailed': 'Fail to save your face photo. Please try again.',
   'signUp.savePhoneFailed': 'Fail to save your phone number. Please try again.',
   'signUp.confirmFailed': 'Fail to confirm your phone number. Please try again.',
+  'signUp.signUpSuccess': 'Welcome!! You have signed up successfully.',
   'editCreditCard.invalidChars': 'Invalid characters included.',
   'editCreditCard.cardNo': 'Credit Card Number',
   'editCreditCard.expiration': 'Expiration Date',

@@ -24,6 +24,7 @@ module.exports = {
   'signUp.savePhotoFailed': '顔画像の保存に失敗しました。再度お試しください。',
   'signUp.savePhoneFailed': '電話番号の保存に失敗しました。再度お試しください',
   'signUp.confirmFailed': '電話番号の認証に失敗しました。再度お試しください。',
+  'signUp.signUpSuccess': 'FesPayの登録が完了しました。どうぞお買い物をお楽しみください。',
   'editCreditCard.invalidChars': '不正な文字が含まれています',
   'editCreditCard.cardNo': 'カード番号',
   'editCreditCard.expiration': '有効期限',
