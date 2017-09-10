@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './containers/App'
 import SignUp from './containers/SignUp'
+import ReRegister from './containers/ReRegister'
 import History from './containers/History'
 import Settings from './containers/Settings'
 import TermsOfUse from './containers/TermsOfUse'
@@ -21,7 +22,7 @@ const routes = (
   <Route path='/' component={ App } >
     <IndexRoute component={ HowToUse } />
     <Route path='/yeah/:bandId' component={ SignUp } onEnter={ routeHome } />
-    <Route path='/wow/:bandId' component={ SignUp } />
+    <Route path='/wow/:bandId' component={ ReRegister } />
     <Route path='/history/:bandId' component={ History } />
     <Route path='/settings/:bandId' component={ Settings } />
     <Route path='/terms' component={ TermsOfUse } />

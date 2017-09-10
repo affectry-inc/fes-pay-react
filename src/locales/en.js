@@ -9,6 +9,7 @@ module.exports = {
   'mainMenu.privacy': 'Privacy Policy',
   'mainMenu.aboutUs': 'About Us',
   'signUp.welcomeToFesPay': 'Welcome to FesPay!!',
+  'signUp.welcomeBackToFesPay': 'Welcome back to FesPay!!',
   'signUp.registerCreditCard': 'Credit Card',
   'signUp.noCardSaved': 'No credit card saved',
   'signUp.saveCardError': 'Failed to save your card.',

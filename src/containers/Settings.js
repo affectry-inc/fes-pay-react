@@ -107,7 +107,6 @@ class Settings extends Component {
         <Col xs={ 6 }>
           <RaisedButton
             label={ I18n.t(intl, 'settings.reset') }
-            secondary={ true }
             style={{ width: '100%' }}
             onTouchTap={ actions.openResetDialog }
             disabled={ isReset }

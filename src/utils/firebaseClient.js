@@ -10,6 +10,7 @@ const activateBand = (bandId, uid, cbSuccess, cbError) => {
   updates['/bands/' + bandId + '/anonymousBy'] = null
   updates['/bands/' + bandId + '/anonymousByUnix'] = null
   updates['/bands/' + bandId + '/isActive'] = true
+  updates['/bands/' + bandId + '/isReset'] = null
   updates['/bands/' + bandId + '/uid'] = uid
   updates['/users/' + uid + '/' + bandId] = true
 
@@ -23,7 +24,7 @@ const activateBand = (bandId, uid, cbSuccess, cbError) => {
   })
 }
 
-const execSaveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) => {
+const execSaveCardToken = (uid, bandId, token, lastDigits, isReset, cbSuccess, cbError) => {
   let anonymous_by = new Date()
   anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
 
@@ -32,8 +33,10 @@ const execSaveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) =
   updates['/bands/' + bandId + '/cardLastDigits'] = lastDigits
   updates['/bands/' + bandId + '/cardCustomerId'] = null
   updates['/bands/' + bandId + '/uid'] = uid
-  updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
-  updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
+  if (!isReset) {
+    updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+    updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
+  }
 
   firebaseDb.ref().update(updates)
   .then(() => {
@@ -47,11 +50,19 @@ const execSaveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) =
 
 const saveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) => {
   if (uid) {
-    execSaveCardToken(uid, bandId, token, lastDigits, cbSuccess, cbError)
+    firebaseDb.ref('bands/' + bandId).once('value')
+    .then(snapshot => {
+      let isReset = snapshot.child('isReset').val()
+      execSaveCardToken(uid, bandId, token, lastDigits, isReset, cbSuccess, cbError)
+    })
+    .catch(err => {
+      console.log(err)
+      cbError(err)
+    })
   } else {
     firebaseAuth.signInAnonymously()
     .then(anoUser => {
-      execSaveCardToken(anoUser.uid, bandId, token, lastDigits, cbSuccess, cbError)
+      execSaveCardToken(anoUser.uid, bandId, token, lastDigits, false, cbSuccess, cbError)
     })
     .catch(err => {
       console.log(err)
@@ -61,32 +72,33 @@ const saveCardToken = (uid, bandId, token, lastDigits, cbSuccess, cbError) => {
 }
 
 const skipCreditCard = (bandId, cbSuccess, cbError) => {
-  firebaseAuth.signInAnonymously()
-  .then(user => {
-    let anonymous_by = new Date()
-    anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
+  cbError()
+  // firebaseAuth.signInAnonymously()
+  // .then(user => {
+  //   let anonymous_by = new Date()
+  //   anonymous_by.setMinutes(anonymous_by.getMinutes() + 30)
 
-    let updates= {}
-    updates['/bands/' + bandId + '/cardToken'] = null
-    updates['/bands/' + bandId + '/cardLastDigits'] = null
-    updates['/bands/' + bandId + '/cardCustomerId'] = null
-    updates['/bands/' + bandId + '/uid'] = user.uid
-    updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
-    updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
+  //   let updates= {}
+  //   updates['/bands/' + bandId + '/cardToken'] = null
+  //   updates['/bands/' + bandId + '/cardLastDigits'] = null
+  //   updates['/bands/' + bandId + '/cardCustomerId'] = null
+  //   updates['/bands/' + bandId + '/uid'] = user.uid
+  //   updates['/bands/' + bandId + '/anonymousBy'] = anonymous_by
+  //   updates['/bands/' + bandId + '/anonymousByUnix'] = anonymous_by.getTime()
 
-    firebaseDb.ref().update(updates)
-    .then(() => {
-      cbSuccess()
-    })
-    .catch(err => {
-      console.log(err)
-      cbError(err)
-    })
-  })
-  .catch(err => {
-    console.log(err)
-    cbError(err)
-  })
+  //   firebaseDb.ref().update(updates)
+  //   .then(() => {
+  //     cbSuccess()
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //     cbError(err)
+  //   })
+  // })
+  // .catch(err => {
+  //   console.log(err)
+  //   cbError(err)
+  // })
 }
 
 const savePerson = (bandId, personId, persistedFaceId, photoUrl, cbSuccess, cbError) => {

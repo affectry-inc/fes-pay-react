@@ -9,6 +9,7 @@ module.exports = {
   'mainMenu.privacy': 'プライバシーポリシー',
   'mainMenu.aboutUs': '運営会社',
   'signUp.welcomeToFesPay': 'FesPayへようこそ！',
+  'signUp.welcomeBackToFesPay': 'お帰りなさい！！',
   'signUp.registerCreditCard': 'クレジットカード登録',
   'signUp.noCardSaved': 'クレジットカードを登録しない',
   'signUp.saveCardError': 'カード情報の保存に失敗しました。',

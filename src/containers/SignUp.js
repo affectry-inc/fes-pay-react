@@ -22,8 +22,9 @@ const styles = {
 class SignUp extends Component {
 
   render() {
-    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, isLoadingCard, isLoadingPhoto, isLoadingPhone, isLoadingConfCode, intl } = this.props
+    const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, isLoadingCard, isLoadingPhoto, isLoadingPhone, isLoadingConfCode, isReset, intl } = this.props
     const bandId = this.props.params.bandId
+    const welcomeMsgId = isReset ? 'signUp.welcomeBackToFesPay' : 'signUp.welcomeToFesPay'
 
     return (
       <Grid>
@@ -31,7 +32,7 @@ class SignUp extends Component {
           <Col xs={ 12 }>
             <h2>
               <FormattedMessage
-                id='signUp.welcomeToFesPay'
+                id={ welcomeMsgId }
                 defaultMessage='Welcome to FesPay!!'
               />
             </h2>
