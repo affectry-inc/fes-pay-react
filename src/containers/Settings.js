@@ -8,6 +8,7 @@ import { FormattedHTMLMessage } from 'react-intl'
 import Dialog from 'material-ui/Dialog'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import Spinner from '../components/Spinner'
 import LoginCard from '../components/LoginCard'
@@ -167,6 +168,14 @@ class Settings extends Component {
                 defaultMessage='Settings'
               />
             </h2>
+            { isReset &&
+              <div style={{ color: this.props.muiTheme.palette.accent1Color }}>
+                <FormattedHTMLMessage
+                  id='settings.deactivated'
+                  defaultMessage='Deactivated<br/>Please re-register to activate.'
+                />
+              </div>
+            }
           </Col>
         </Row>
         { isLoading ? <Spinner top={ 200 } isLoading={ isLoading } /> : isPrivileged ? settingPanels : <LoginCard /> }
@@ -262,4 +271,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Settings)
+)(muiThemeable()(Settings))

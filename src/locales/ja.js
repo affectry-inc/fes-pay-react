@@ -60,6 +60,7 @@ module.exports = {
   'order.amountCard': 'クレジットカード(末尾{ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'クーポン利用: &yen; { amountCoupon, number }',
   'settings.settings': '登録情報',
+  'settings.deactivated': '無効化されています。<br/>有効化するには再登録してください。',
   'settings.couponBalanceTitle': 'クーポンチャージ残高',
   'settings.couponBalanceVal': '&yen; { couponBalance, number }',
   'settings.creditCardTitle': 'クレジットカード',

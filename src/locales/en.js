@@ -60,6 +60,7 @@ module.exports = {
   'order.amountCard': 'Credit card ({ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'Coupon: &yen; { amountCoupon, number }',
   'settings.settings': 'Settingss',
+  'settings.deactivated': 'Deactivated<br/>Please re-register to activate.',
   'settings.couponBalanceTitle': 'Coupon Balance',
   'settings.couponBalanceVal': '&yen; { couponBalance, number }',
   'settings.creditCardTitle': 'Credit Card',
