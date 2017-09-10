@@ -66,6 +66,7 @@ module.exports = {
   'settings.phoneNumberTitle': '携帯電話番号',
   'settings.reset': 'リセット',
   'settings.cancel': 'キャンセル',
+  'settings.reRegister': '再登録',
   'settings.sureToReset': 'リセットするとQRコードで決済ができなくなります。<br/>リセットしますか？',
   'settings.resetSuccessfully': '登録情報がリセットされました。再度同じQRコードを使用する場合は、クレジットカード及び顔画像の登録を行ってください。',
   'settings.resetFailed': '登録情報のリセットに失敗しました。再試行してください。',

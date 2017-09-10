@@ -21,6 +21,7 @@ const routes = (
   <Route path='/' component={ App } >
     <IndexRoute component={ HowToUse } />
     <Route path='/yeah/:bandId' component={ SignUp } onEnter={ routeHome } />
+    <Route path='/wow/:bandId' component={ SignUp } />
     <Route path='/history/:bandId' component={ History } />
     <Route path='/settings/:bandId' component={ Settings } />
     <Route path='/terms' component={ TermsOfUse } />

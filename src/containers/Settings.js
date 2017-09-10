@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage } from 'react-intl'
 import { FormattedHTMLMessage } from 'react-intl'
@@ -54,6 +55,10 @@ class Settings extends Component {
     this.props.actions.resetSettings(this.props.params.bandId)
   }
 
+  reRegister = (e) => {
+    browserHistory.push('/wow/' + this.props.params.bandId)
+  }
+
   render() {
     const { actions, isPrivileged, couponBalance, dispCardNo, dispPhotoUrl, dispPhoneNumber, isLoading, openResetDialog, isReset, intl } = this.props
 
@@ -82,6 +87,38 @@ class Settings extends Component {
             </Row>
           </Col>
         </Row>
+    }
+
+    let resetOrReReg
+
+    if (isReset) {
+      resetOrReReg =
+        <Col xs={ 6 }>
+          <RaisedButton
+            label={ I18n.t(intl, 'settings.reRegister') }
+            primary={ true }
+            style={{ width: '100%' }}
+            onTouchTap={ this.reRegister }
+            disabled={ !isReset }
+          />
+        </Col>
+    } else {
+      resetOrReReg =
+        <Col xs={ 6 }>
+          <RaisedButton
+            label={ I18n.t(intl, 'settings.reset') }
+            secondary={ true }
+            style={{ width: '100%' }}
+            onTouchTap={ actions.openResetDialog }
+            disabled={ isReset }
+          />
+          <ResetDialog
+            openResetDialog={ openResetDialog }
+            onTouchReset={ this.resetSettings }
+            onTouchCancel={ actions.closeResetDialog }
+            intl={ intl }
+          />
+        </Col>
     }
 
     let settingPanels =
@@ -117,39 +154,7 @@ class Settings extends Component {
           text={ dispPhoneNumber }
         />
         <Row center='xs' style={ styles.setting }>
-          <Col xs={ 6 }>
-            <RaisedButton
-              label={ I18n.t(intl, 'settings.reset') }
-              primary={ true }
-              style={{ width: '100%' }}
-              onTouchTap={ actions.openResetDialog }
-              disabled={ isReset }
-            />
-          </Col>
-          <Dialog
-            actions={[
-              <RaisedButton
-                label={ I18n.t(intl, 'settings.reset') }
-                primary={ true }
-                style={ styles.buttonStyle }
-                onTouchTap={ this.resetSettings }
-              />,
-              <FlatButton
-                label={ I18n.t(intl, 'settings.cancel') }
-                style={ styles.buttonStyle }
-                onTouchTap={ actions.closeResetDialog }
-              />
-            ]}
-            modal={ true }
-            open={ openResetDialog }
-            contentStyle={ styles.alignCenter }
-            actionsContainerStyle={ styles.alignCenter }
-          >
-            <FormattedHTMLMessage
-              id='settings.sureToReset'
-              defaultMessage='Your QR code will be deactivated.<br/>Are you sure to reset?'
-            />
-          </Dialog>
+          { resetOrReReg }
         </Row>
       </div>
 
@@ -197,6 +202,40 @@ class SettingPanel extends Component {
           </Row>
         </Col>
       </Row>
+    )
+  }
+}
+
+class ResetDialog extends Component {
+  render() {
+    const { openResetDialog, onTouchReset, onTouchCancel, intl } = this.props
+
+    return (
+      <Dialog
+        actions={[
+          <RaisedButton
+            label={ I18n.t(intl, 'settings.reset') }
+            secondary={ true }
+            style={ styles.buttonStyle }
+            onTouchTap={ onTouchReset }
+          />,
+          <FlatButton
+            label={ I18n.t(intl, 'settings.cancel') }
+            style={ styles.buttonStyle }
+            onTouchTap={ onTouchCancel }
+          />
+        ]}
+        modal={ false }
+        open={ openResetDialog }
+        onRequestClose={ onTouchCancel }
+        contentStyle={ styles.alignCenter }
+        actionsContainerStyle={ styles.alignCenter }
+      >
+        <FormattedHTMLMessage
+          id='settings.sureToReset'
+          defaultMessage='Your QR code will be deactivated.<br/>Are you sure to reset?'
+        />
+      </Dialog>
     )
   }
 }

@@ -66,6 +66,7 @@ module.exports = {
   'settings.phoneNumberTitle': 'Phone Number',
   'settings.reset': 'Reset',
   'settings.cancel': 'Cancel',
+  'settings.reRegister': 'Re-register',
   'settings.sureToReset': 'Your QR code will be deactivated.<br/>Are you sure to reset?',
   'settings.resetSuccessfully': 'Your settings were reset successfully.',
   'settings.resetFailed': 'Failed to reset your settings. Please try again.',
