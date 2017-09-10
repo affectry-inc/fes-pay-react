@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router'
 import { updateIntl } from 'react-intl-redux'
 import Cookies from 'universal-cookie'
 import { firebaseAuth } from '../firebase/'
@@ -86,10 +87,21 @@ const changeBandId = (bandId) => {
   }
 }
 
+const logout = () => {
+  return dispatch => {
+    firebaseAuth.signOut()
+    browserHistory.push('/')
+    dispatch({
+      type: Types.LOGGED_OUT,
+    })
+  }
+}
+
 module.exports = {
   closeAlert,
   openLogin,
   changeLocale,
   storeBandId,
   changeBandId,
+  logout,
 }

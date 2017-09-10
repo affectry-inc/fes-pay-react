@@ -2,6 +2,8 @@ module.exports = {
   'alert.close': '閉じる',
   'mainMenu.history': '購入履歴',
   'mainMenu.settings': '登録情報',
+  'mainMenu.logout': 'ログアウト',
+  'mainMenu.sureToLogout': 'ログアウトしますか？',
   'mainMenu.about': 'FesPayについて',
   'mainMenu.howTo': 'FesPayの使い方',
   'mainMenu.terms': '利用規約',
@@ -94,4 +96,5 @@ module.exports = {
   'comAct.paymentVal': 'QRコードに事前登録済みのクレジットカード',
   'comAct.returnKey': '返品・交換について',
   'comAct.returnVal': '商品を購入した各店舗に直接お問い合わせください。返品の場合はクレジットカード決済のキャンセル処理が行われます。',
+  'simpleDialog.cancel': 'キャンセル',
 }

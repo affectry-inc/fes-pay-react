@@ -48,6 +48,7 @@ class App extends Component {
           mainMenuOpen={this.state.mainMenuOpen}
           closeMainMenu={this.closeMainMenu}
           changeBandId={actions.changeBandId}
+          onLogoutTapped={ actions.logout }
           intl={intl}
           app={app}
         />

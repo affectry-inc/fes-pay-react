@@ -2,6 +2,8 @@ module.exports = {
   'alert.close': 'Close',
   'mainMenu.history': 'Purchase History',
   'mainMenu.settings': 'Settings',
+  'mainMenu.logout': 'Log out',
+  'mainMenu.sureToLogout': 'Are you sure to logout?',
   'mainMenu.about': 'About FesPay',
   'mainMenu.howTo': 'How to Use',
   'mainMenu.terms': 'Terms of Use',
@@ -94,4 +96,5 @@ module.exports = {
   'comAct.paymentVal': 'Credit card linked with the QR code',
   'comAct.returnKey': 'Return & Change',
   'comAct.returnVal': 'Please contact the store directly. The credit card payment will be cancelled if returned.',
+  'simpleDialog.cancel': 'Cancel',
 }

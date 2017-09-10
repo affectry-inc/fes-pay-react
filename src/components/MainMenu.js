@@ -4,6 +4,7 @@ import { Drawer, MenuItem, DropDownMenu } from 'material-ui'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import I18n from '../utils/i18n'
+import SimpleDialog from '../components/SimpleDialog'
 
 import classnames from 'classnames'
 
@@ -11,19 +12,26 @@ class MainMenu extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { aboutSubOpen: true }
+    this.state = { aboutSubOpen: true, logoutDialogOpen: false }
   }
 
   toggleAboutSub = () => this.setState({ aboutSubOpen: !this.state.aboutSubOpen })
+
+  toggleLogoutDialog = () => this.setState({ logoutDialogOpen: !this.state.logoutDialogOpen })
 
   changeBandId = (event, index, value) => {
     this.props.changeBandId(value)
     this.props.closeMainMenu()
   }
 
+  logout = () => {
+    this.props.onLogoutTapped()
+    this.props.closeMainMenu()
+  }
+
   render() {
     const { mainMenuOpen, closeMainMenu, intl, app } = this.props
-    let bandIdMenuItem, historyMenuItem, settingsMenuItem
+    let bandIdMenuItem, historyMenuItem, settingsMenuItem, logoutMenuItem
 
     let bandIds = Array.from(new Set([...app.bandIds]))
     if (bandIds.indexOf(app.bandId) < 0) { bandIds.unshift(app.bandId) }
@@ -65,6 +73,25 @@ class MainMenu extends Component {
             onTouchTap={ closeMainMenu } />
       }
     }
+
+    if (app.uid) {
+      logoutMenuItem =
+        <div>
+          <MenuItem
+            primaryText={ I18n.t(intl, 'mainMenu.logout') }
+            onTouchTap={ this.toggleLogoutDialog }
+          />
+          <SimpleDialog
+            openDialog={ this.state.logoutDialogOpen }
+            msgIntlId='mainMenu.sureToLogout'
+            actionLabelIntlId='mainMenu.logout'
+            onTouchAction={ this.logout }
+            onTouchCancel={ this.toggleLogoutDialog }
+            intl={ intl }
+          />
+        </div>
+    }
+
     return (
       <Drawer
         docked={ false }
@@ -75,6 +102,7 @@ class MainMenu extends Component {
         { bandIdMenuItem }
         { historyMenuItem }
         { settingsMenuItem }
+        { logoutMenuItem }
         <MenuItem
           primaryText={ I18n.t(intl, 'mainMenu.about') }
           rightIcon={ this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon /> }

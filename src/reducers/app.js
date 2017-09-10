@@ -51,6 +51,7 @@ const app = (state = initState, action) => {
       return Object.assign({}, state, {
         bandId: action.bandId,
       })
+    case Types.LOGGED_OUT:
     default:
       return state
   }
