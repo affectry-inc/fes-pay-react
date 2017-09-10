@@ -109,6 +109,8 @@ const signUp = (state = initState, action) => {
       return Object.assign({}, state, {
         isLoadingConfCode: true,
       })
+    case Types.CLEAR:
+      return Object.assign({}, state, initState)
     default:
       return state
   }

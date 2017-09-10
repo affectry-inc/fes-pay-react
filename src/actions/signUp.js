@@ -181,6 +181,12 @@ const backToPhoneNumber = () => {
   }
 }
 
+const clear = () => {
+  return {
+    type: Types.CLEAR
+  }
+}
+
 module.exports = {
   saveCreditCard,
   skipCreditCard,
@@ -190,4 +196,5 @@ module.exports = {
   backToCreditCard,
   backToFacePhoto,
   backToPhoneNumber,
+  clear,
 }

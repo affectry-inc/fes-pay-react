@@ -21,6 +21,10 @@ const styles = {
 
 class SignUp extends Component {
 
+  componentDidMount() {
+   this.props.actions.clear()
+  }
+
   render() {
     const { stepIndex, dispCardNo, dispPhotoUrl, dispPhoneNumber, actions, confirmCodeDialogOpen, isLoadingCard, isLoadingPhoto, isLoadingPhone, isLoadingConfCode, isReset, intl } = this.props
     const bandId = this.props.params.bandId
