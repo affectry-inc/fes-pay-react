@@ -74,7 +74,7 @@ class MainMenu extends Component {
       }
     }
 
-    if (app.uid) {
+    if (false && app.uid) { // TODO: consider logoutability
       logoutMenuItem =
         <div>
           <MenuItem
