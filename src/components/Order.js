@@ -4,6 +4,8 @@ import { Row, Col } from 'react-flexbox-grid'
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { FormattedHTMLMessage } from 'react-intl'
 
+import TimeUtil from '../utils/timeUtils'
+
 const styles = {
   order: {
     margin: '10px 20px',
@@ -50,12 +52,13 @@ class Order extends Component {
     }
 
     if (isRefunded) {
+      const refundedAtStr = TimeUtil.gmtToJst(refundedAt)
       refundDetails =
         <div>
           <FormattedHTMLMessage
             id='order.refundDetails'
             defaultMessage={'Refunded at: { refundedAt }'}
-            values={{ refundedAt }}
+            values={{ refundedAt: refundedAtStr }}
           />
         </div>
     }
@@ -65,7 +68,7 @@ class Order extends Component {
         <Col xs={ 12 }>
           <Card>
             <CardHeader
-              title={ paidAt }
+              title={ TimeUtil.gmtToJst(paidAt) }
               subtitle={
                 <Row>
                   <Col xs={ 8 } style={ styles.tenantName }>
