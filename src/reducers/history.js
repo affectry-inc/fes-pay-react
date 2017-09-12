@@ -26,6 +26,8 @@ function history(state = initState, action){
             cardLastDigits: order.cardLastDigits,
             paidAt: order.paidAt,
             tenantName: order.tenantName,
+            isRefunded: order.isRefunded,
+            refundedAt: order.refundedAt,
           })
         })
       }

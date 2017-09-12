@@ -65,6 +65,7 @@ module.exports = {
   'order.details': '<Details>',
   'order.amountCard': 'Credit card ({ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'Coupon: &yen; { amountCoupon, number }',
+  'order.refundDetails': 'Refunded at: { refundedAt }',
   'settings.settings': 'Settingss',
   'settings.deactivated': 'Deactivated<br/>Please re-register to activate.',
   'settings.couponBalanceTitle': 'Coupon Balance',

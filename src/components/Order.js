@@ -20,14 +20,17 @@ const styles = {
     marginTop: '0.8em',
     paddingRight: '10px',
     textAlign: 'end'
-  }
+  },
+  strikeThrough: {
+    textDecoration: 'line-through'
+  },
 }
 
 class Order extends Component {
   render(){
-    const { paidAt, tenantName, amount, amountCard, amountCoupon, cardLastDigits } = this.props
+    const { paidAt, tenantName, amount, amountCard, amountCoupon, cardLastDigits, isRefunded, refundedAt } = this.props
 
-    let cardDetails, couponDetails
+    let cardDetails, couponDetails, refundDetails
     cardDetails =
       <FormattedHTMLMessage
         id='order.amountCard'
@@ -46,6 +49,17 @@ class Order extends Component {
         </div>
     }
 
+    if (isRefunded) {
+      refundDetails =
+        <div>
+          <FormattedHTMLMessage
+            id='order.refundDetails'
+            defaultMessage={'Refunded at: { refundedAt }'}
+            values={{ refundedAt }}
+          />
+        </div>
+    }
+
     return(
       <Row style={ styles.order }>
         <Col xs={ 12 }>
@@ -58,7 +72,9 @@ class Order extends Component {
                     <span>{ tenantName }</span>
                   </Col>
                   <Col xs={ 4 } style={ styles.amount }>
-                    <span>&yen; { amount.toLocaleString() }</span>
+                    <span style={ isRefunded && styles.strikeThrough }>
+                      &yen; { amount.toLocaleString() }
+                    </span>
                   </Col>
                 </Row>
               }
@@ -76,6 +92,7 @@ class Order extends Component {
               <div style={{ marginLeft: '10px' }}>
                 { cardDetails }
                 { couponDetails }
+                { refundDetails }
               </div>
             </CardText>
           </Card>
@@ -92,6 +109,8 @@ Order.propTypes = {
   amountCard: PropTypes.number.isRequired,
   amountCoupon: PropTypes.number,
   cardLastDigits: PropTypes.string.isRequired,
+  isRefunded: PropTypes.bool,
+  refundedAt: PropTypes.string,
 }
 
 export default Order

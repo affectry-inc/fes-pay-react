@@ -53,6 +53,8 @@ class History extends Component {
           amountCard={ order.amountCard }
           amountCoupon={ order.amountCoupon }
           cardLastDigits={ order.cardLastDigits }
+          isRefunded={ order.isRefunded }
+          refundedAt={ order.refundedAt }
         />
       )
     })
