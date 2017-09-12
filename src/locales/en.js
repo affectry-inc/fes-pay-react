@@ -12,7 +12,7 @@ module.exports = {
   'mainMenu.aboutUs': 'About Us',
   'signUp.welcomeToFesPay': 'Welcome to FesPay!!',
   'signUp.welcomeBackToFesPay': 'Welcome back to FesPay!!',
-  'signUp.registerCreditCard': 'Credit Card',
+  'signUp.registerCreditCard': 'Credit Card(VISA/Master/AMEX)',
   'signUp.noCardSaved': 'No credit card saved',
   'signUp.saveCardError': 'Failed to save your card.',
   'signUp.skipCardError': 'Failed to save.',
