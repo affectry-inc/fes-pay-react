@@ -1,5 +1,6 @@
 module.exports = {
   'alert.close': 'Close',
+  'mainMenu.qrCode': 'QR code: ',
   'mainMenu.history': 'Purchase History',
   'mainMenu.settings': 'Settings',
   'mainMenu.logout': 'Log out',

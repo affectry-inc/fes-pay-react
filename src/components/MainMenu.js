@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { Drawer, MenuItem, DropDownMenu } from 'material-ui'
+import { Drawer, Menu, MenuItem, DropDownMenu } from 'material-ui'
 // import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 // import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import I18n from '../utils/i18n'
 import SimpleDialog from '../components/SimpleDialog'
 
@@ -25,7 +26,7 @@ class MainMenu extends Component {
 
   toggleLogoutDialog = () => this.setState({ logoutDialogOpen: !this.state.logoutDialogOpen })
 
-  changeBandId = (event, index, value) => {
+  changeBandId = (event, value) => {
     this.props.changeBandId(value)
     this.props.closeMainMenu()
   }
@@ -44,7 +45,7 @@ class MainMenu extends Component {
 
     if (app.bandId) {
       if (bandIds.length <= 1) {
-        bandIdMenuItem = <MenuItem primaryText={ 'Band ID: ' + app.bandId } />
+        bandIdMenuItem = <MenuItem primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId } />
       } else {
         let items = []
         bandIds.map(id => {
@@ -58,12 +59,15 @@ class MainMenu extends Component {
           )
         })
         bandIdMenuItem =
-          <div>
-            <span>Band ID:</span>
-            <DropDownMenu value={ app.bandId } onChange={this.changeBandId}>
-              { items }
-            </DropDownMenu>
-          </div>
+          <MenuItem
+            primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId }
+            rightIcon={ <ArrowDropRight /> }
+            menuItems={
+              <Menu onChange={ this.changeBandId }>
+                { items }
+              </Menu>
+            }
+          />
       }
 
       if (app.bandId && app.bandIds.indexOf(app.bandId) >= 0) {
