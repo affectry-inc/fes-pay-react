@@ -9,7 +9,7 @@ module.exports = {
   'mainMenu.terms': '利用規約',
   'mainMenu.comAct': '特定商取引法に基づく表記',
   'mainMenu.privacy': 'プライバシーポリシー',
-  'mainMenu.aboutUs': '運営会社',
+  'mainMenu.aboutUs': '運営会社 ＜株式会社JEPCO＞',
   'signUp.welcomeToFesPay': 'FesPayへようこそ！',
   'signUp.welcomeBackToFesPay': 'お帰りなさい！！',
   'signUp.registerCreditCard': 'クレジットカード登録(VISA/Master/AMEX)',

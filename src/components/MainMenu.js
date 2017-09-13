@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { Drawer, MenuItem, DropDownMenu } from 'material-ui'
-import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+// import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
+// import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import I18n from '../utils/i18n'
 import SimpleDialog from '../components/SimpleDialog'
 
 import classnames from 'classnames'
+
+const styles = {
+  subMenu: {
+    paddingLeft: '20px'
+  },
+}
 
 class MainMenu extends Component {
 
@@ -105,34 +111,36 @@ class MainMenu extends Component {
         { logoutMenuItem }
         <MenuItem
           primaryText={ I18n.t(intl, 'mainMenu.about') }
-          rightIcon={ this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon /> }
-          onTouchTap={ this.toggleAboutSub } />
+          // rightIcon={ this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon /> }
+          // onTouchTap={ this.toggleAboutSub }
+        />
         <div className={ classnames('about-sub', {'expanded': this.state.aboutSubOpen}) }>
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.howTo') }
-            insetChildren={ true }
             containerElement={ <Link to="/howto" /> }
+            style={ styles.subMenu }
             onTouchTap={ closeMainMenu } />
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.terms') }
-            insetChildren={ true }
             containerElement={ <Link to="/terms" /> }
+            style={{ ...styles.subMenu, display: 'none' }}
             onTouchTap={ closeMainMenu } />
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.comAct') }
-            insetChildren={ true }
             containerElement={ <Link to="/com_act" /> }
+            style={ styles.subMenu }
             onTouchTap={ closeMainMenu } />
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.privacy') }
-            insetChildren={ true }
             containerElement={ <Link to="/privacy" /> }
+            style={{ ...styles.subMenu, display: 'none' }}
             onTouchTap={ closeMainMenu } />
-          <MenuItem
-            primaryText={ I18n.t(intl, 'mainMenu.aboutUs') }
-            insetChildren={ true }
-            containerElement={ <Link to="/about" /> }
-            onTouchTap={ closeMainMenu } />
+          <a href='http://jepco.org' target='_default' style={{ textDecoration: 'none' }}>
+            <MenuItem
+              primaryText={ I18n.t(intl, 'mainMenu.aboutUs') }
+              style={ styles.subMenu }
+              onTouchTap={ closeMainMenu } />
+          </a>
         </div>
       </Drawer>
     )

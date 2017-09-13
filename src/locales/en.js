@@ -9,7 +9,7 @@ module.exports = {
   'mainMenu.terms': 'Terms of Use',
   'mainMenu.comAct': 'Legal Notices',
   'mainMenu.privacy': 'Privacy Policy',
-  'mainMenu.aboutUs': 'About Us',
+  'mainMenu.aboutUs': 'About Us <JEPCO K.K.>',
   'signUp.welcomeToFesPay': 'Welcome to FesPay!!',
   'signUp.welcomeBackToFesPay': 'Welcome back to FesPay!!',
   'signUp.registerCreditCard': 'Credit Card(VISA/Master/AMEX)',
