@@ -38,6 +38,7 @@ module.exports = {
   'editFacePhoto.multiFaces': 'Multiple faces are detected. Please upload another photo.',
   'editFacePhoto.detectFailed': 'Face detection failed. Please upload another photo.',
   'editFacePhoto.notImage': 'Please select an image file.',
+  'editFacePhoto.tap': 'Tap to take a photo',
   'editFacePhoto.next': 'Next',
   'editFacePhoto.back': 'Back',
   'editPhoneNumber.invalidChars': 'Invalid characters included.',

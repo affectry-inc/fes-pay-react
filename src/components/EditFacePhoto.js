@@ -5,6 +5,7 @@ import { PropTypes } from 'prop-types'
 import { Row, Col } from 'react-flexbox-grid'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
+import { CardMedia, CardTitle } from 'material-ui/Card'
 import * as EditFacePhotoActions from '../actions/editFacePhoto'
 import I18n from '../utils/i18n'
 
@@ -97,13 +98,18 @@ class EditFacePhoto extends Component {
                   href=""
                   style={ isLoading ? styles.disabledAnchor : {} }
                   onClick={ this.clickImg }>
-                  <img
-                    id="AA"
-                    src={ photoUrl ? photoUrl : defaultPhoto }
-                    alt={ photoAlt }
-                    ref={ el => this.img = el }
-                    style={ styles.fullWidth }
-                  />
+                  <CardMedia
+                    overlay={
+                      (canGoNext || isLoading) ? null : <CardTitle title={ I18n.t(intl, 'editFacePhoto.tap') } />
+                    }
+                  >
+                    <img
+                      src={ photoUrl ? photoUrl : defaultPhoto }
+                      alt={ photoAlt }
+                      ref={ el => this.img = el }
+                      style={ styles.fullWidth }
+                    />
+                  </CardMedia>
                   { list }
                 </a>
                 <input
