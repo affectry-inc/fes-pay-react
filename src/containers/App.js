@@ -11,8 +11,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import fespayTheme from '../fespayTheme';
 import * as AppActions from '../actions/app'
 
-import classnames from 'classnames';
-
 class App extends Component {
 
   constructor(props) {
@@ -39,7 +37,6 @@ class App extends Component {
     return (
       <div>
         <Header
-          mainMenuOpen={this.state.mainMenuOpen}
           toggleMainMenu={this.toggleMainMenu}
           locale={intl.locale}
           changeLocale={actions.changeLocale}
@@ -52,7 +49,7 @@ class App extends Component {
           intl={intl}
           app={app}
         />
-        <div className={classnames('app-content', {'expanded': this.state.mainMenuOpen})}>
+        <div className='app-content'>
           {this.props.children}
         </div>
         <Alert

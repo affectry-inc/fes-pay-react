@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { AppBar, FlatButton } from 'material-ui'
 import { Link } from 'react-router';
 
-import classnames from 'classnames';
 import logo from '../img/logo_m_w_h_wh_tr.png'
 
 const styles = {
@@ -23,11 +22,11 @@ class Header extends Component {
   }
 
   render() {
-    const { mainMenuOpen, toggleMainMenu, locale } = this.props;
+    const { toggleMainMenu, locale } = this.props
     return (
       <header className="header">
         <AppBar
-          className={classnames('app-bar', {'expanded': mainMenuOpen})}
+          className='app-bar'
           title={
             <Link className='title' to='/'>
               <img src={logo} alt='Logo' style={styles.titleImage} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router'
 import { Drawer, Menu, MenuItem } from 'material-ui'
 // import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 // import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
@@ -13,6 +13,10 @@ const styles = {
   subMenu: {
     paddingLeft: '20px'
   },
+  menuList: {
+    paddingTop: '0px',
+    paddingBottom: '0px'
+  }
 }
 
 class MainMenu extends Component {
@@ -29,11 +33,19 @@ class MainMenu extends Component {
   changeBandId = (event, value) => {
     this.props.changeBandId(value)
     this.props.closeMainMenu()
+    browserHistory.push('/history/' + value)
   }
 
   logout = () => {
     this.props.onLogoutTapped()
     this.props.closeMainMenu()
+  }
+
+  push = (e, item, idx) => {
+    if (item.props.value) {
+      this.props.closeMainMenu()
+      browserHistory.push(item.props.value)
+    }
   }
 
   render() {
@@ -51,7 +63,6 @@ class MainMenu extends Component {
               key={ id }
               value={ id }
               primaryText={ id }
-              containerElement={ <Link to={ '/history/' + id } /> }
             />
           )
         })
@@ -60,7 +71,7 @@ class MainMenu extends Component {
             primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId }
             rightIcon={ <ArrowDropRight /> }
             menuItems={
-              <Menu onChange={ this.changeBandId }>
+              <Menu onChange={ this.changeBandId } listStyle={ styles.menuList }>
                 { items }
               </Menu>
             }
@@ -71,13 +82,13 @@ class MainMenu extends Component {
         historyMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.history') }
-            containerElement={ <Link to={'/history/' + app.bandId} /> }
-            onTouchTap={ closeMainMenu } />
+            value={ '/history/' + app.bandId }
+          />
         settingsMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.settings') }
-            containerElement={ <Link to={'/settings/' + app.bandId} /> }
-            onTouchTap={ closeMainMenu } />
+            value={ '/settings/' + app.bandId }
+          />
       }
     }
 
@@ -106,42 +117,46 @@ class MainMenu extends Component {
         open={ mainMenuOpen }
         onRequestChange={ closeMainMenu }
       >
-        { bandIdMenuItem }
-        { historyMenuItem }
-        { settingsMenuItem }
-        { logoutMenuItem }
-        <MenuItem
-          primaryText={ I18n.t(intl, 'mainMenu.about') }
-          // rightIcon={ this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon /> }
-          // onTouchTap={ this.toggleAboutSub }
-        />
+        <Menu onItemTouchTap={ this.push } listStyle={ styles.menuList }>
+          { bandIdMenuItem }
+          { historyMenuItem }
+          { settingsMenuItem }
+          { logoutMenuItem }
+          <MenuItem
+            primaryText={ I18n.t(intl, 'mainMenu.about') }
+            // rightIcon={ this.state.aboutSubOpen ? <ArrowUpIcon /> : <ArrowDownIcon /> }
+            // onTouchTap={ this.toggleAboutSub }
+          />
+        </Menu>
         <div className={ classnames('about-sub', {'expanded': this.state.aboutSubOpen}) }>
-          <MenuItem
-            primaryText={ I18n.t(intl, 'mainMenu.howTo') }
-            containerElement={ <Link to="/howto" /> }
-            style={ styles.subMenu }
-            onTouchTap={ closeMainMenu } />
-          <MenuItem
-            primaryText={ I18n.t(intl, 'mainMenu.terms') }
-            containerElement={ <Link to="/terms" /> }
-            style={{ ...styles.subMenu, display: 'none' }}
-            onTouchTap={ closeMainMenu } />
-          <MenuItem
-            primaryText={ I18n.t(intl, 'mainMenu.comAct') }
-            containerElement={ <Link to="/com_act" /> }
-            style={ styles.subMenu }
-            onTouchTap={ closeMainMenu } />
-          <MenuItem
-            primaryText={ I18n.t(intl, 'mainMenu.privacy') }
-            containerElement={ <Link to="/privacy" /> }
-            style={{ ...styles.subMenu, display: 'none' }}
-            onTouchTap={ closeMainMenu } />
-          <a href='http://jepco.org' target='_default' style={{ textDecoration: 'none' }}>
+          <Menu onItemTouchTap={ this.push } listStyle={ styles.menuList }>
             <MenuItem
-              primaryText={ I18n.t(intl, 'mainMenu.aboutUs') }
+              primaryText={ I18n.t(intl, 'mainMenu.howTo') }
+              value='/howto'
               style={ styles.subMenu }
-              onTouchTap={ closeMainMenu } />
-          </a>
+            />
+            <MenuItem
+              primaryText={ I18n.t(intl, 'mainMenu.terms') }
+              value='/terms'
+              style={{ ...styles.subMenu, display: 'none' }}
+            />
+            <MenuItem
+              primaryText={ I18n.t(intl, 'mainMenu.comAct') }
+              value='/com_act'
+              style={ styles.subMenu }
+            />
+            <MenuItem
+              primaryText={ I18n.t(intl, 'mainMenu.privacy') }
+              value='/privacy'
+              style={{ ...styles.subMenu, display: 'none' }}
+            />
+            <a href='http://jepco.org' target='_default' style={{ textDecoration: 'none' }}>
+              <MenuItem
+                primaryText={ I18n.t(intl, 'mainMenu.aboutUs') }
+                style={ styles.subMenu }
+                onClick={ closeMainMenu } />
+            </a>
+          </Menu>
         </div>
       </Drawer>
     )
