@@ -9,7 +9,10 @@ import Two from 'material-ui/svg-icons/image/looks-two'
 import Three from 'material-ui/svg-icons/image/looks-3'
 import Four from 'material-ui/svg-icons/image/looks-4'
 
-import comingSoon from '../img/coming_soon.jpg'
+import stepOneImage from '../img/step_1.png'
+import stepTwoImage from '../img/step_2.png'
+import stepThreeImage from '../img/step_3.png'
+import stepFourImage from '../img/step_4.png'
 
 const styles = {
   title: {
@@ -55,7 +58,7 @@ class HowToUse extends Component {
               stepIcon={ <One color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title1'
               bodyIntlId='howToUse.body1'
-              bodyImg={ comingSoon }
+              bodyImg={ stepOneImage }
             />
           </Col>
           <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
@@ -63,7 +66,7 @@ class HowToUse extends Component {
               stepIcon={ <Two color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title2'
               bodyIntlId='howToUse.body2'
-              bodyImg={ comingSoon }
+              bodyImg={ stepTwoImage }
             />
           </Col>
           <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
@@ -71,7 +74,7 @@ class HowToUse extends Component {
               stepIcon={ <Three color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title3'
               bodyIntlId='howToUse.body3'
-              bodyImg={ comingSoon }
+              bodyImg={ stepThreeImage }
             />
           </Col>
           <Col xs={ 12 } sm={ 8 } mdOffset={ 1 } md={ 6 }>
@@ -79,7 +82,7 @@ class HowToUse extends Component {
               stepIcon={ <Four color={ muiTheme.palette.primary1Color } /> }
               titleIntlId='howToUse.title4'
               bodyIntlId='howToUse.body4'
-              bodyImg={ comingSoon }
+              bodyImg={ stepFourImage }
             />
           </Col>
         </Row>
