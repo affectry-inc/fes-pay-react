@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { Drawer, Menu, MenuItem, DropDownMenu } from 'material-ui'
+import { Drawer, Menu, MenuItem } from 'material-ui'
 // import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 // import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
@@ -40,15 +40,12 @@ class MainMenu extends Component {
     const { mainMenuOpen, closeMainMenu, intl, app } = this.props
     let bandIdMenuItem, historyMenuItem, settingsMenuItem, logoutMenuItem
 
-    let bandIds = Array.from(new Set([...app.bandIds]))
-    if (bandIds.indexOf(app.bandId) < 0) { bandIds.unshift(app.bandId) }
-
     if (app.bandId) {
-      if (bandIds.length <= 1) {
+      if (app.bandIds.length < 1 || (app.bandIds.length === 1 && app.bandIds[0] === app.bandId)) {
         bandIdMenuItem = <MenuItem primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId } />
       } else {
         let items = []
-        bandIds.map(id => {
+        app.bandIds.map(id => {
           return items.push(
             <MenuItem
               key={ id }
@@ -70,7 +67,7 @@ class MainMenu extends Component {
           />
       }
 
-      if (app.bandId && app.bandIds.indexOf(app.bandId) >= 0) {
+      if (app.bandIds.indexOf(app.bandId) >= 0) {
         historyMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.history') }
