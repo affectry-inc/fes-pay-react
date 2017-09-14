@@ -317,6 +317,16 @@ const resetSettings = (bandId, cbSuccess, cbError) => {
   firebaseDb.ref().update(updates)
   .then(() => {
     cbSuccess()
+
+    firebaseDb.ref('bands/'+ bandId).once('value')
+    .then(snapshot => {
+      const uid = snapshot.child('uid').val()
+      firebaseDb.ref('users/' + uid + '/' + bandId).set({
+        cardLastDigits: '----',
+        photoUrl: null
+      })
+    })
+    .catch(err => {})
   })
   .catch(err => {
     console.log(err)
