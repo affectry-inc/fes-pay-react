@@ -49,7 +49,7 @@ const signUp = (state = initState, action) => {
       return Object.assign({}, state, {
         stepIndex: 0,
         dispCardNo: '',
-        isLoadingPhoto: false,
+        isLoadingPhone: false,
       })
     case Types.RESET_FACE_PHOTO:
       return Object.assign({}, state, {
