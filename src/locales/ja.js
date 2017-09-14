@@ -64,7 +64,7 @@ module.exports = {
   'history.total': '総額',
   'history.noPrivilege': 'このページにアクセスする権限がありません。',
   'history.login': 'ログイン',
-  'order.details': '<詳細>',
+  'order.details': '-- 詳細 --',
   'order.amountCard': 'クレジットカード (-{ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'クーポン利用: &yen; { amountCoupon, number }',
   'order.refundDetails': '返金日時: { refundedAt }',

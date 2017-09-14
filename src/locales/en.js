@@ -64,7 +64,7 @@ module.exports = {
   'history.total': 'Total',
   'history.noPrivilege': 'You have no privilege to access this page.',
   'history.login': 'Login',
-  'order.details': '<Details>',
+  'order.details': '-- Details --',
   'order.amountCard': 'Credit card ({ cardLastDigits }): &yen; { amountCard, number }',
   'order.amountCoupon': 'Coupon: &yen; { amountCoupon, number }',
   'order.refundDetails': 'Refunded at: { refundedAt }',
