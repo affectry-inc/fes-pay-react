@@ -82,7 +82,7 @@ module.exports = {
   'settings.resetSuccessfully': '登録情報がリセットされました。再度同じQRコードを使用する場合は、クレジットカード及び顔画像の登録を行ってください。',
   'settings.resetFailed': '登録情報のリセットに失敗しました。再試行してください。',
   'settings.isReset': '-- 登録されていません --',
-  'howToUse.signUpSuccess': 'FesPayの登録が完了しました！',
+  'howToUse.signUpSuccess': '登録が完了しました！',
   'howToUse.howToUse': 'FesPayの使い方',
   'howToUse.title1': '商品を選択',
   'howToUse.body1': '商品を選んでレジスタッフに「FesPayで支払う」と伝えます。',
