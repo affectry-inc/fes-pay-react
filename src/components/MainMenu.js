@@ -156,25 +156,32 @@ class MainMenu extends Component {
               style={ styles.subMenu }
             />
             <MenuItem
-              primaryText={ I18n.t(intl, 'mainMenu.terms') }
-              value='/terms'
-              style={{ ...styles.subMenu, display: 'none' }}
-            />
-            <MenuItem
               primaryText={ I18n.t(intl, 'mainMenu.comAct') }
               value='/com_act'
               style={ styles.subMenu }
             />
-            <MenuItem
-              primaryText={ I18n.t(intl, 'mainMenu.privacy') }
-              value='/privacy'
-              style={{ ...styles.subMenu, display: 'none' }}
-            />
+            <a href='http://lp.fespay.io/rules/person.html' target='_default' style={{ textDecoration: 'none' }}>
+              <MenuItem
+                primaryText={ I18n.t(intl, 'mainMenu.terms') }
+                value='/terms'
+                style={ styles.subMenu }
+                onClick={ closeMainMenu }
+              />
+            </a>
+            <a href='http://lp.fespay.io/rules/privacy.html' target='_default' style={{ textDecoration: 'none' }}>
+              <MenuItem
+                primaryText={ I18n.t(intl, 'mainMenu.privacy') }
+                value='/privacy'
+                style={ styles.subMenu }
+                onClick={ closeMainMenu }
+              />
+            </a>
             <a href='http://jepco.org' target='_default' style={{ textDecoration: 'none' }}>
               <MenuItem
                 primaryText={ I18n.t(intl, 'mainMenu.aboutUs') }
                 style={ styles.subMenu }
-                onClick={ closeMainMenu } />
+                onClick={ closeMainMenu }
+              />
             </a>
           </Menu>
         </div>
