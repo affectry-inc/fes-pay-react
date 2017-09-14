@@ -179,10 +179,6 @@ const sendConfirmCode = (confirmCode, bandId) => {
     const verificationId = window.confirmationResult.verificationId
     FirebaseClient.confirmSignIn(bandId, verificationId, confirmCode,
       user => {
-        dispatch({
-          type: OPEN_ALERT,
-          alertMessage: I18n.t(getState().intl, 'signUp.signUpSuccess')
-        })
         browserHistory.push('/')
         dispatch({
           type: Types.SEND_CONFIRM_CODE,

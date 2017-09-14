@@ -10,6 +10,7 @@ const initState = {
   isLoadingPhoto: false,
   isLoadingPhone: false,
   isLoadingConfCode: false,
+  isNew: false,
 }
 
 const signUp = (state = initState, action) => {
@@ -42,6 +43,7 @@ const signUp = (state = initState, action) => {
       return Object.assign({}, state, {
         confirmCodeDialogOpen: false,
         isLoadingConfCode: false,
+        isNew: true,
       })
     case Types.RESET_CREDIT_CARD:
       return Object.assign({}, state, {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
@@ -13,6 +14,8 @@ import stepOneImage from '../img/step_1.png'
 import stepTwoImage from '../img/step_2.png'
 import stepThreeImage from '../img/step_3.png'
 import stepFourImage from '../img/step_4.png'
+
+import * as SignUpActions from '../actions/signUp'
 
 const styles = {
   title: {
@@ -36,14 +39,30 @@ const styles = {
 }
 
 class HowToUse extends Component {
+
+  componentWillUnmount() {
+    if (this.props.isNew) {
+      this.props.actions.clear()
+    }
+  }
+
   render() {
 
-    const { muiTheme } = this.props
+    const { muiTheme, isNew } = this.props
 
     return (
       <Grid>
         <Row center='xs'>
           <Col xs={ 12 }>
+            {
+              isNew &&
+              <h1 style={{ margin: '3em 0', color: muiTheme.palette.primary1Color }}>
+                <FormattedMessage
+                  id='howToUse.signUpSuccess'
+                  defaultMessage='You are signed up successfully!'
+                />
+              </h1>
+            }
             <h2>
               <FormattedMessage
                 id='howToUse.howToUse'
@@ -136,11 +155,13 @@ class InstructionPanel extends Component {
 
 function mapStateToProps(state) {
   return {
+    isNew: state.signUp.isNew
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    actions: bindActionCreators(SignUpActions, dispatch)
   }
 }
 
