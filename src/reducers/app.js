@@ -5,7 +5,7 @@ const initState = {
   alertMessage: '',
   loginOpen: false,
   bandId: '',
-  bandIds: [],
+  bandIds: {},
   uid: '',
   isAnonymous: false,
 }

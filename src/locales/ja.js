@@ -1,6 +1,6 @@
 module.exports = {
   'alert.close': '閉じる',
-  'mainMenu.qrCode': 'QRコード: ',
+  'mainMenu.notRegistered': '未登録',
   'mainMenu.history': '購入履歴',
   'mainMenu.settings': '登録情報',
   'mainMenu.logout': 'ログアウト',

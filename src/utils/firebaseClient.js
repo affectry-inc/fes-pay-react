@@ -12,11 +12,19 @@ const activateBand = (bandId, uid, cbSuccess, cbError) => {
   updates['/bands/' + bandId + '/isActive'] = true
   updates['/bands/' + bandId + '/isReset'] = null
   updates['/bands/' + bandId + '/uid'] = uid
-  updates['/users/' + uid + '/' + bandId] = true
 
   firebaseDb.ref().update(updates)
   .then(() => {
     cbSuccess()
+
+    firebaseDb.ref('bands/'+ bandId).once('value')
+    .then(snapshot => {
+      firebaseDb.ref('users/' + uid + '/' + bandId).set({
+        cardLastDigits: snapshot.child('cardLastDigits').val(),
+        photoUrl: snapshot.child('photoUrl').val()
+      })
+    })
+    .catch(err => {})
   })
   .catch(err => {
     console.log(err)
@@ -290,11 +298,7 @@ const listenBandIds = (uid, onAdd) => {
   const bandIdsRef = firebaseDb.ref('users/' + uid)
   bandIdsRef.off()
   bandIdsRef.on('value', function(snapshot) {
-    let bandIds = []
-    snapshot.forEach(function(childSnapshot){
-      bandIds.push(childSnapshot.key)
-    })
-    onAdd(bandIds)
+    onAdd(snapshot.toJSON())
   })
 }
 

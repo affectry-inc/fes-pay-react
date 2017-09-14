@@ -4,6 +4,7 @@ import { Drawer, Menu, MenuItem } from 'material-ui'
 // import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 // import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
+import Avatar from 'material-ui/Avatar'
 import ListIcon from 'material-ui/svg-icons/action/list'
 import PersonIcon from 'material-ui/svg-icons/social/person-outline'
 import { QRIcon } from '../components/Icons'
@@ -56,33 +57,14 @@ class MainMenu extends Component {
     let bandIdMenuItem, historyMenuItem, settingsMenuItem, logoutMenuItem
 
     if (app.bandId) {
-      if (app.bandIds.length < 1 || (app.bandIds.length === 1 && app.bandIds[0] === app.bandId)) {
-        bandIdMenuItem = <MenuItem primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId } />
-      } else {
-        let items = []
-        app.bandIds.map(id => {
-          return items.push(
-            <MenuItem
-              key={ id }
-              value={ id }
-              primaryText={ id }
-            />
-          )
-        })
-        bandIdMenuItem =
-          <MenuItem
-            primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId }
-            leftIcon={ <QRIcon /> }
-            rightIcon={ <ArrowDropRight /> }
-            menuItems={
-              <Menu onChange={ this.changeBandId } listStyle={ styles.menuList }>
-                { items }
-              </Menu>
-            }
-          />
-      }
+      const bandIdList = app.bandIds ? Object.keys(app.bandIds) : []
 
-      if (app.bandIds.indexOf(app.bandId) >= 0) {
+      let leftIcon, menuText, value
+
+      if (bandIdList.indexOf(app.bandId) >= 0) {
+        leftIcon = <Avatar src={ app.bandIds[app.bandId].photoUrl } />
+        menuText = 'X-' + app.bandIds[app.bandId].cardLastDigits
+
         historyMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.history') }
@@ -95,7 +77,36 @@ class MainMenu extends Component {
             leftIcon={ <PersonIcon /> }
             value={ '/settings/' + app.bandId }
           />
+      } else {
+        leftIcon = <QRIcon />
+        menuText = I18n.t(intl, 'mainMenu.notRegistered')
+        value = '/yeah/' + app.bandId
       }
+
+      let items = []
+      bandIdList.map(id => {
+        return items.push(
+          <MenuItem
+            key={ id }
+            value={ id }
+            primaryText={ 'X-'  + app.bandIds[id].cardLastDigits }
+            leftIcon={ <Avatar src={ app.bandIds[id].photoUrl } />}
+          />
+        )
+      })
+
+      bandIdMenuItem =
+        <MenuItem
+          primaryText={ menuText }
+          leftIcon={ leftIcon }
+          value={ (items.length === 0) ? value : '' }
+          rightIcon={ (items.length > 0) ? <ArrowDropRight /> : null }
+          menuItems={ (items.length > 0) &&
+            <Menu onChange={ this.changeBandId } listStyle={ styles.menuList }>
+              { items }
+            </Menu>
+          }
+        />
     }
 
     if (false && app.uid) { // TODO: consider logoutability
