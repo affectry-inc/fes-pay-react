@@ -22,6 +22,9 @@ const styles = {
   buttonStyle: {
     margin: '0 0.5em'
   },
+  dialogBody: {
+    overflowY: 'auto'
+  },
   hintText: {
     width: '100%',
     textAlign: 'center',
@@ -183,6 +186,7 @@ class LoginDialog extends Component {
         modal={ true }
         open={ this.props.open }
         contentStyle={ styles.alignCenter }
+        bodyStyle={ styles.dialogBody }
         actionsContainerStyle={ styles.alignCenter }
       >
         <Spinner top={ 40 } isLoading={ this.props.isLoading } />
