@@ -84,15 +84,17 @@ class MainMenu extends Component {
       }
 
       let items = []
-      bandIdList.map(id => {
-        return items.push(
-          <MenuItem
-            key={ id }
-            value={ id }
-            primaryText={ 'X-'  + app.bandIds[id].cardLastDigits }
-            leftIcon={ <Avatar src={ app.bandIds[id].photoUrl } />}
-          />
-        )
+      bandIdList.forEach(id => {
+        if (id !== app.bandId) {
+          items.push(
+            <MenuItem
+              key={ id }
+              value={ id }
+              primaryText={ 'X-'  + app.bandIds[id].cardLastDigits }
+              leftIcon={ <Avatar src={ app.bandIds[id].photoUrl } />}
+            />
+          )
+        }
       })
 
       bandIdMenuItem =
@@ -100,6 +102,7 @@ class MainMenu extends Component {
           primaryText={ menuText }
           leftIcon={ leftIcon }
           value={ (items.length === 0) ? value : '' }
+          innerDivStyle={{ color: 'black' }}
           rightIcon={ (items.length > 0) ? <ArrowDropRight /> : null }
           menuItems={ (items.length > 0) &&
             <Menu onChange={ this.changeBandId } listStyle={ styles.menuList }>
