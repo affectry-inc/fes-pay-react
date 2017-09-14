@@ -18,17 +18,39 @@ const changeCardNo = (cardNo) => {
   }
 }
 
+const isExpired = (month, year) => {
+  if (month && year) {
+    const now = new Date()
+    if (year < now.getFullYear()) {
+      return true
+    } else if (year === now.getFullYear() && month < (now.getMonth() + 1)) {
+      return true
+    }
+  }
+  return false
+}
+
 const changeMonth = (month) => {
-  return {
-    type: Types.CHANGE_MONTH,
-    month: month,
+  return (dispatch, getState) => {
+    const expError = isExpired(month, getState().editCreditCard.year)
+
+    dispatch({
+      type: Types.CHANGE_MONTH,
+      month: month,
+      expErrorText: expError ? I18n.t(getState().intl, 'editCreditCard.expired') : ''
+    })
   }
 }
 
 const changeYear = (year) => {
-  return {
-    type: Types.CHANGE_YEAR,
-    year: year,
+  return (dispatch, getState) => {
+    const expError = isExpired(getState().editCreditCard.month, year)
+
+    dispatch({
+      type: Types.CHANGE_YEAR,
+      year: year,
+      expErrorText: expError ? I18n.t(getState().intl, 'editCreditCard.expired') : ''
+    })
   }
 }
 

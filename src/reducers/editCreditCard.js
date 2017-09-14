@@ -5,11 +5,12 @@ const initState = {
   cardNoErrorText: '',
   month: '',
   year: '',
+  expErrorText: '',
   securityCode: '',
 }
 
 const attachCard = (state) => {
-  const invalid = !state.cardNo || state.cardNo.length < 14 || state.cardNoErrorText || !state.month || !state.year || !state.securityCode
+  const invalid = !state.cardNo || state.cardNo.length < 14 || state.cardNoErrorText || !state.month || !state.year || state.expErrorText || !state.securityCode
 
   if (invalid) {
     delete state.card
@@ -37,11 +38,13 @@ const editCreditCard = (state = initState, action) => {
     case Types.CHANGE_MONTH:
       obj =  Object.assign({}, state, {
         month: action.month,
+        expErrorText: action.expErrorText,
       })
       return attachCard(obj)
     case Types.CHANGE_YEAR:
       obj =  Object.assign({}, state, {
         year: action.year,
+        expErrorText: action.expErrorText,
       })
       return attachCard(obj)
     case Types.CHANGE_SECURITY_CODE:

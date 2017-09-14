@@ -31,6 +31,7 @@ module.exports = {
   'editCreditCard.expiration': '有効期限',
   'editCreditCard.month': '月',
   'editCreditCard.year': '年',
+  'editCreditCard.expired': '有効期限を過ぎています',
   'editCreditCard.securityCode': 'セキュリティコード',
   'editCreditCard.next': '次へ',
   'editCreditCard.skip': 'スキップ',

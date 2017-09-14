@@ -31,6 +31,7 @@ module.exports = {
   'editCreditCard.expiration': 'Expiration Date',
   'editCreditCard.month': 'Month',
   'editCreditCard.year': 'Year',
+  'editCreditCard.expired': 'This card is Expired',
   'editCreditCard.securityCode': 'Security Code',
   'editCreditCard.next': 'Next',
   'editCreditCard.skip': 'Skip',

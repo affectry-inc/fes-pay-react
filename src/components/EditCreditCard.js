@@ -34,8 +34,10 @@ class EditCreditCard extends Component {
       this.months.push(<MenuItem key={ i } value={ month } primaryText={ month } />)
     }
 
-    for (let i = 2017; i <= 2027; i++){
-      this.years.push(<MenuItem key={ i } value={ i } primaryText={ i } />)
+    const year = (new Date()).getFullYear()
+    for (let i = 0; i <= 20; i++){
+      const y = year + i
+      this.years.push(<MenuItem key={ y } value={ y } primaryText={ y } />)
     }
   }
 
@@ -80,7 +82,7 @@ class EditCreditCard extends Component {
   }
 
   render() {
-    const { cardNo, cardNoErrorText, month, year, securityCode, card, intl, isLoading } = this.props
+    const { cardNo, cardNoErrorText, month, year, expErrorText, securityCode, card, intl, isLoading } = this.props
 
     return (
       <Row className='edit-credit-card' start='xs'>
@@ -105,6 +107,7 @@ class EditCreditCard extends Component {
                   floatingLabelText={ I18n.t(intl, 'editCreditCard.expiration') }
                   floatingLabelFixed={ true }
                   hintText={ I18n.t(intl, 'editCreditCard.month') }
+                  errorText={ expErrorText }
                   value={ month }
                   onChange={ this.changeMonth }
                   style={ styles.fullWidth }
@@ -118,6 +121,7 @@ class EditCreditCard extends Component {
                   floatingLabelText=' '
                   floatingLabelFixed={ true }
                   hintText={ I18n.t(intl, 'editCreditCard.year') }
+                  errorText={ expErrorText ? ' ' : '' }
                   value={ year }
                   onChange={ this.changeYear }
                   style={ styles.fullWidth }
@@ -171,6 +175,7 @@ function mapStateToProps(state) {
     cardNoErrorText: state.editCreditCard.cardNoErrorText,
     month: state.editCreditCard.month,
     year: state.editCreditCard.year,
+    expErrorText: state.editCreditCard.expErrorText,
     securityCode: state.editCreditCard.securityCode,
     card: state.editCreditCard.card,
     intl: state.intl,
