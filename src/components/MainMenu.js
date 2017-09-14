@@ -4,6 +4,9 @@ import { Drawer, Menu, MenuItem } from 'material-ui'
 // import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 // import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
+import ListIcon from 'material-ui/svg-icons/action/list'
+import PersonIcon from 'material-ui/svg-icons/social/person-outline'
+import { QRIcon } from '../components/Icons'
 import I18n from '../utils/i18n'
 import SimpleDialog from '../components/SimpleDialog'
 
@@ -69,6 +72,7 @@ class MainMenu extends Component {
         bandIdMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.qrCode') + app.bandId }
+            leftIcon={ <QRIcon /> }
             rightIcon={ <ArrowDropRight /> }
             menuItems={
               <Menu onChange={ this.changeBandId } listStyle={ styles.menuList }>
@@ -82,11 +86,13 @@ class MainMenu extends Component {
         historyMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.history') }
+            leftIcon={ <ListIcon /> }
             value={ '/history/' + app.bandId }
           />
         settingsMenuItem =
           <MenuItem
             primaryText={ I18n.t(intl, 'mainMenu.settings') }
+            leftIcon={ <PersonIcon /> }
             value={ '/settings/' + app.bandId }
           />
       }
