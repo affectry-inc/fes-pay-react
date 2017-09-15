@@ -28,6 +28,10 @@ const styles = {
 
 class EditFacePhoto extends Component {
 
+  componentWillUnmount() {
+    this.props.actions.clearAll()
+  }
+
   clickImg = (e) => {
     e.preventDefault()
 

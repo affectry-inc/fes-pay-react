@@ -43,7 +43,7 @@ module.exports = {
   'editFacePhoto.back': 'Back',
   'editPhoneNumber.invalidChars': 'Invalid characters included.',
   'editPhoneNumber.phoneNumber': 'Phone Number',
-  'editPhoneNumber.agree': 'I agree to the <a href="/terms" target="_blank">Terms of Use</a> and the <a href="/privacy" target="_blank">Privacy Policy</a>.',
+  'editPhoneNumber.agree': 'I agree to the <a href="http://lp.fespay.io/person.html" target="_blank">Terms of Use</a> and the <a href="http://lp.fespay.io/privacy.html" target="_blank">Privacy Policy</a>.',
   'editPhoneNumber.register': 'Register',
   'editPhoneNumber.back': 'Back',
   'confirmCodeDialog.send': 'Send',

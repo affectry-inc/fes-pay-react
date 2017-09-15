@@ -160,18 +160,16 @@ class MainMenu extends Component {
               value='/com_act'
               style={ styles.subMenu }
             />
-            <a href='http://lp.fespay.io/rules/person.html' target='_default' style={{ textDecoration: 'none' }}>
+            <a href='http://lp.fespay.io/person.html' target='_default' style={{ textDecoration: 'none' }}>
               <MenuItem
                 primaryText={ I18n.t(intl, 'mainMenu.terms') }
-                value='/terms'
                 style={ styles.subMenu }
                 onClick={ closeMainMenu }
               />
             </a>
-            <a href='http://lp.fespay.io/rules/privacy.html' target='_default' style={{ textDecoration: 'none' }}>
+            <a href='http://lp.fespay.io/privacy.html' target='_default' style={{ textDecoration: 'none' }}>
               <MenuItem
                 primaryText={ I18n.t(intl, 'mainMenu.privacy') }
-                value='/privacy'
                 style={ styles.subMenu }
                 onClick={ closeMainMenu }
               />

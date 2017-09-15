@@ -49,6 +49,7 @@ const signUp = (state = initState, action) => {
       return Object.assign({}, state, {
         stepIndex: 0,
         dispCardNo: '',
+        dispPhotoUrl: '',
         isLoadingPhone: false,
       })
     case Types.RESET_FACE_PHOTO:
@@ -60,6 +61,7 @@ const signUp = (state = initState, action) => {
     case Types.BACK_TO_CREDIT_CARD:
       return Object.assign({}, state, {
         stepIndex: 0,
+        dispPhotoUrl: '',
       })
     case Types.BACK_TO_FACE_PHOTO:
       return Object.assign({}, state, {

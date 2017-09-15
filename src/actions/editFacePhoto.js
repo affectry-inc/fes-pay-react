@@ -143,7 +143,14 @@ const alertNotImage = () => {
   }
 }
 
+const clearAll = () => {
+  return {
+    type: Types.CLEAR_ALL,
+  }
+}
+
 module.exports = {
   changePhoto,
   alertNotImage,
+  clearAll,
 }

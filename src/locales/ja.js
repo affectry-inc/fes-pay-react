@@ -43,7 +43,7 @@ module.exports = {
   'editFacePhoto.back': '戻る',
   'editPhoneNumber.invalidChars': '不正な文字が含まれています',
   'editPhoneNumber.phoneNumber': '電話番号',
-  'editPhoneNumber.agree': '本サービス<a href="/terms" target="_blank">利用規約</a>及び<a href="/privacy" target="_blank">プライバシーポリシー</a>に同意する',
+  'editPhoneNumber.agree': '本サービス<a href="http://lp.fespay.io/person.html" target="_blank">利用規約</a>及び<a href="http://lp.fespay.io/privacy.html" target="_blank">プライバシーポリシー</a>に同意する',
   'editPhoneNumber.register': '登録',
   'editPhoneNumber.back': '戻る',
   'confirmCodeDialog.send': '送信',

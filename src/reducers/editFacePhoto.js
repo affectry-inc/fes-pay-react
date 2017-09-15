@@ -30,6 +30,8 @@ const editFacePhoto = (state = initState, action) => {
         croppedPhotoUrl: action.croppedPhotoUrl,
         canGoNext: true,
       })
+    case Types.CLEAR_ALL:
+      return Object.assign({}, state, initState)
     default:
       return state
   }
